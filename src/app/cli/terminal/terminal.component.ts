@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TerminalFacade } from '../store/terminal/terminal.facade';
+import { SettingsUpdated } from '../store/terminal/terminal.actions';
 
 @Component({
   selector: 'app-terminal',
@@ -6,10 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./terminal.component.scss']
 })
 export class TerminalComponent implements OnInit {
-
-  constructor() { }
+  constructor(public terminalFacade: TerminalFacade) { }
 
   ngOnInit() {
   }
-
 }

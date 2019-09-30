@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { MatInputModule } from '@angular/material';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 
 @NgModule({
@@ -11,13 +12,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
+    MatInputModule,
+    TextFieldModule
   ],
   exports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
+    MatInputModule,
+    TextFieldModule
   ],
   providers: [
     // do not put providers in shared module because it can break lazy loading

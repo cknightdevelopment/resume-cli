@@ -1,0 +1,13 @@
+  <div>
+    <textarea #terminalInput
+      class="terminal-input"
+      matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      (keydown)="onKeydown($event)"
+      [formControl]="command"
+      [ngStyle]="styles"
+      spellcheck="false"
+    ></textarea>
+  </div>

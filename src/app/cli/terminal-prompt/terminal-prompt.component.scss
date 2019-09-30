@@ -1,0 +1,27 @@
+div {
+  position: relative;
+
+  &:after {
+    content: ">";
+    position: absolute;
+    top: 3px;
+    left: 0;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  textarea {
+    width: 100%;
+    border: none;
+    // border: 1px solid red;
+    resize: none;
+    overflow: hidden;
+    text-indent: 15px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+}
+
