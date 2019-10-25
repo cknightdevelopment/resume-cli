@@ -6,11 +6,12 @@ import { MatInputModule } from '@angular/material';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { TerminalFacade } from 'src/app/cli/store/terminal/terminal.facade';
 import { provideMockStore } from '@ngrx/store/testing';
-import { appState } from './factory/state';
+import { appState, cliState } from './factory/state';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StoreModule } from '@ngrx/store';
 import * as cli from 'src/app/cli/store';
-import * as app from 'src/app/reducers';
+import * as app from 'src/app/store';
+import { CommandFacade } from 'src/app/cli/store/command/command.facade';
 
 
 @NgModule({
@@ -25,13 +26,16 @@ import * as app from 'src/app/reducers';
       },
       initialState: appState()
     }),
-    StoreModule.forFeature('cli', cli.reducers)
+    StoreModule.forFeature('cli', cli.reducers, {
+      initialState: cliState()
+    })
   ],
   exports: [
     SharedModule
   ],
   providers: [
     TerminalFacade,
+    CommandFacade
   ]
 })
 export class TestModule { }

@@ -1,5 +1,5 @@
 import * as factory from 'src/test-helpers/factory/state';
-import { AppState } from 'src/app/reducers';
+import { AppState } from 'src/app/store';
 import { TestBed } from '@angular/core/testing';
 import { TerminalFacade } from './terminal.facade';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';

@@ -8,12 +8,15 @@ import { reducers } from './store';
 import { TerminalPromptComponent } from './terminal-prompt/terminal-prompt.component';
 import { SharedModule } from '../shared/shared.module';
 import { TerminalFacade } from './store/terminal/terminal.facade';
+import { RandomCommandComponent } from './commands/random-command/random-command.component';
+import { CommandFacade } from './store/command/command.facade';
 
 
 @NgModule({
   declarations: [
     TerminalComponent,
-    TerminalPromptComponent
+    TerminalPromptComponent,
+    RandomCommandComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +25,8 @@ import { TerminalFacade } from './store/terminal/terminal.facade';
     StoreModule.forFeature('cli', reducers)
   ],
   providers: [
-    TerminalFacade
+    TerminalFacade,
+    CommandFacade
   ]
 })
 export class CliModule { }

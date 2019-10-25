@@ -1,7 +1,7 @@
 import { CliState } from '..';
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { TerminalState } from './terminal.reducers';
-import { AppState } from 'src/app/reducers';
+import { AppState } from 'src/app/store';
 
 
 export const selectCli = createFeatureSelector<AppState, CliState>('cli');

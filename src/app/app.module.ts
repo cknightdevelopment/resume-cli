@@ -8,10 +8,12 @@ import { AppComponent } from './app.component';
 import { StoreModule, Action } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, metaReducers } from './reducers';
+import { reducers, metaReducers } from './store';
 import { environment } from 'src/environments/environment';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { ChrisEffects } from './store/chris/chris.effects';
+import { ChrisFacade } from './store/chris/chris.facade';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { SharedModule } from './shared/shared.module';
       }
     }),
     EffectsModule.forRoot([
+      ChrisEffects
     ]),
     StoreDevtoolsModule.instrument({
       predicate: (state: any, action: Action) => {
@@ -40,7 +43,9 @@ import { SharedModule } from './shared/shared.module';
     CoreModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    ChrisFacade
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 import * as factory from 'src/test-helpers/factory/state';
 import * as selectors from 'src/app/cli/store/terminal/terminal.selectors';
-import { AppState } from 'src/app/reducers';
+import { AppState } from 'src/app/store';
 
 describe('NGRX Selectors: Terminal', () => {
   let appState: AppState;

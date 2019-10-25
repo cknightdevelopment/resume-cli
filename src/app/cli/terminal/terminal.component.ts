@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TerminalFacade } from '../store/terminal/terminal.facade';
-import { SettingsUpdated } from '../store/terminal/terminal.actions';
+import { CommandFacade } from '../store/command/command.facade';
+import { CommandInitiated } from '../store/command/command.actions';
 
 @Component({
   selector: 'app-terminal',
@@ -8,8 +9,12 @@ import { SettingsUpdated } from '../store/terminal/terminal.actions';
   styleUrls: ['./terminal.component.scss']
 })
 export class TerminalComponent implements OnInit {
-  constructor(public terminalFacade: TerminalFacade) { }
+  constructor(public terminalFacade: TerminalFacade, private commandFacade: CommandFacade) { }
 
   ngOnInit() {
+  }
+
+  initiateCommand(text: string) {
+    this.commandFacade.dispatch(new CommandInitiated(text));
   }
 }

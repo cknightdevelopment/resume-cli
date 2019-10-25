@@ -1,6 +1,6 @@
 import * as factory from 'src/test-helpers/factory/state';
 import { reducer, intitalState, TerminalState } from 'src/app/cli/store/terminal/terminal.reducers';
-import { AppState } from 'src/app/reducers';
+import { AppState } from 'src/app/store';
 import { NoopAction } from 'src/test-helpers/noop-action';
 import { SettingsUpdated as SettingsUpdated, TerminalAction } from './terminal.actions';
 

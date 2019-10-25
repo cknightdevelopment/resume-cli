@@ -6,13 +6,16 @@ import {
   MetaReducer
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
-import { CliState } from '../cli/store';
+import * as fromCli from '../cli/store';
+import * as fromChris from './chris/chris.reducers';
 
 export interface AppState {
-  cli?: CliState;
+  chris: fromChris.ChrisState;
+  cli?: fromCli.CliState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
+  chris: fromChris.reducer
 };
 
 

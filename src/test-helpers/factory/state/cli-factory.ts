@@ -4,6 +4,7 @@ import { merge as _merge } from 'lodash';
 
 export function cliState(override?: Partial<CliState>): CliState {
   return _merge({
-    terminal: factory.terminalState()
-  }, override);
+    terminal: factory.terminalState(),
+    command: factory.commandState()
+  } as CliState, override);
 }

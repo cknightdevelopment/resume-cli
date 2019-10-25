@@ -1,6 +1,9 @@
 <div class="terminal" [ngStyle]="terminalFacade.ngStyles$ | async">
   <div>
-    <app-terminal-prompt [styles]="terminalFacade.ngStyles$ | async"></app-terminal-prompt>
+    <app-terminal-prompt
+      [styles]="terminalFacade.ngStyles$ | async"
+      (commandInitiated)="initiateCommand($event)"
+    ></app-terminal-prompt>
   </div>
 </div>
 

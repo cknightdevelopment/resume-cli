@@ -29,7 +29,7 @@ export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClic
   return event;
 }
 
-export function keydown(el: DebugElement | HTMLElement, name: KeyboardEventName, eventInit: KeyboardEventInit) {
+export function keyboard(el: DebugElement | HTMLElement, name: KeyboardEventName, eventInit: KeyboardEventInit) {
   const event = new KeyboardEvent(name, eventInit);
   const spies = {
     preventDefault: spyOn(event, 'preventDefault').and.callThrough()

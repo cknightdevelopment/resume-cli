@@ -9,5 +9,5 @@ export function terminalState(override?: Partial<TerminalState>): TerminalState 
       fontFamily: 'Arial',
       fontSize: '15px'
     }
-  }, override);
+  } as TerminalState, override);
 }

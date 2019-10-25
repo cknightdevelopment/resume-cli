@@ -4,6 +4,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'cli',
+    pathMatch: 'full'
+  },
+  {
     path: 'cli',
     loadChildren: () => import('./cli/cli.module').then(m => m.CliModule)
   }
