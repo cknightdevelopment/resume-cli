@@ -35,11 +35,11 @@ import { ChrisFacade } from './store/chris/chris.facade';
     EffectsModule.forRoot([
       ChrisEffects
     ]),
-    StoreDevtoolsModule.instrument({
-      predicate: (state: any, action: Action) => {
-        return !environment.production;
-      }
-    }),
+    // StoreDevtoolsModule.instrument({
+    //   predicate: (state: any, action: Action) => {
+    //     return !environment.production;
+    //   }
+    // }),
     CoreModule,
     SharedModule
   ],

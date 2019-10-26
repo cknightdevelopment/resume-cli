@@ -3,14 +3,21 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
+    "start:local": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --aot --prod=true",
     "test": "ng test",
     "test:coverage": "ng test --watch=false --code-coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --aot --prod=true"
   },
   "private": true,
+  "engines": {
+    "node": "10.14.2",
+    "npm": "6.11.3"
+  },
   "dependencies": {
     "@angular/animations": "~8.2.7",
     "@angular/cdk": "^8.2.1",
@@ -24,6 +31,7 @@
     "@angular/router": "~8.2.7",
     "@ngrx/effects": "^8.3.0",
     "@ngrx/store": "^8.3.0",
+    "express": "^4.17.1",
     "hammerjs": "^2.0.8",
     "jasmine-marbles": "^0.6.0",
     "lodash": "^4.17.15",
