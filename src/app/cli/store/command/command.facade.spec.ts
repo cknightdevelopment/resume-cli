@@ -5,6 +5,7 @@ import { CommandFacade } from './command.facade';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { CommandInitiated } from './command.actions';
 import { Store } from '@ngrx/store';
+import { cold } from 'jasmine-marbles';
 
 describe('NGRX Facade: Command', () => {
   let appState: AppState;
@@ -30,5 +31,21 @@ describe('NGRX Facade: Command', () => {
     const action = new CommandInitiated('chris test');
     facade.dispatch(action);
     expect(mockStore.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should get history sorted by initiated on descending', () => {
+    const history = [
+      { text: '2', initializedOn: new Date(2019, 0, 2) },
+      { text: '1', initializedOn: new Date(2019, 0, 1) },
+      { text: '3', initializedOn: new Date(2019, 0, 3) }
+    ];
+    mockStore.setState(factory.appState({
+      cli: factory.cliState({
+        command: factory.commandState({ history })
+      })
+    }));
+
+    const expected = cold('a', { a: [history[2], history[0], history[1]] });
+    expect(facade.history$).toBeObservable(expected);
   });
 });

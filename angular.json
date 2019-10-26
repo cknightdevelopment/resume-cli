@@ -107,7 +107,8 @@
               "includePaths": [
                 "src/styles"
               ]
-            }
+            },
+            "codeCoverageExclude": ["src/test-helpers/**/*"]
           }
         },
         "lint": {

@@ -35,7 +35,7 @@ export function makeEventEmittersReplayable(component: any) {
   for (const key in component) {
     if (component.hasOwnProperty(key)) {
       const element = component[key];
-      if (typeof element.emit === 'function') {
+      if (element && typeof element.emit === 'function') {
         toReplayEventEmitter(component, key);
       }
     }

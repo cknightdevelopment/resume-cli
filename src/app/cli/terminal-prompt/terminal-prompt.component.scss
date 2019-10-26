@@ -8,6 +8,7 @@ div {
     left: 0;
     font-weight: 600;
     font-size: 15px;
+    line-height: 1.5em;
   }
 
   textarea {
@@ -17,6 +18,7 @@ div {
     resize: none;
     overflow: hidden;
     text-indent: 15px;
+    line-height: 1.5em;
 
     &:focus {
       outline: none;

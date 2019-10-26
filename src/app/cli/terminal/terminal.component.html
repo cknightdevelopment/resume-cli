@@ -3,6 +3,7 @@
     <app-terminal-prompt
       [styles]="terminalFacade.ngStyles$ | async"
       (commandInitiated)="initiateCommand($event)"
+      [history]="commandFacade.history$ | async"
     ></app-terminal-prompt>
   </div>
 </div>

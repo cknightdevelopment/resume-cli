@@ -9,7 +9,7 @@ import { CommandInitiated } from '../store/command/command.actions';
   styleUrls: ['./terminal.component.scss']
 })
 export class TerminalComponent implements OnInit {
-  constructor(public terminalFacade: TerminalFacade, private commandFacade: CommandFacade) { }
+  constructor(public terminalFacade: TerminalFacade, public commandFacade: CommandFacade) { }
 
   ngOnInit() {
   }

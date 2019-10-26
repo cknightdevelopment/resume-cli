@@ -1,5 +1,7 @@
 {
   "files.exclude": {
-    "**/node_modules": true
+    "**/node_modules": true,
+    "coverage": true,
+    "e2e": true
   }
 }
