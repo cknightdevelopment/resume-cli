@@ -5,13 +5,12 @@
     "ng": "ng",
     "start": "node server.js",
     "start:local": "ng serve",
-    "build": "ng build",
-    "build:prod": "ng build --aot --prod=true",
+    "build": "ng build --aot --prod=true",
+    "build:local": "ng build",
     "test": "ng test",
     "test:coverage": "ng test --watch=false --code-coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ng build --aot --prod=true"
+    "e2e": "ng e2e"
   },
   "private": true,
   "engines": {
