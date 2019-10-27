@@ -2,10 +2,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
-// If an incoming request uses
-// a protocol other than HTTPS,
-// redirect that request to the
-// same url but with HTTPS
+// if an incoming request uses a protocol other than HTTPS, redirect that request to the same url but with HTTPS
 const forceSSL = function() {
   return function (req, res, next) {
     if (req.headers['x-forwarded-proto'] !== 'https') {
@@ -15,21 +12,21 @@ const forceSSL = function() {
   }
 }
 
-// Instruct the app
-// to use the forceSSL
-// middleware
-// app.use(forceSSL());
+const isProduction = process.env.NODE_ENV === 'production';
 
-// Run the app by serving the static files
-// in the dist directory
+// instruct the app to use the forceSSL middleware
+if(isProduction) {
+  app.use(forceSSL());
+}
+
+// run the app by serving the static files in the dist directory
 app.use(express.static(__dirname + '/dist/resume'));
 
-// For all GET requests, send back index.html
-// so that PathLocationStrategy can be used
+// for all GET requests, send back index.html so that PathLocationStrategy can be used
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/resume/index.html'));
 });
 
-// Start the app by listening on the default
-// Heroku port
-app.listen(process.env.PORT || 4200);
+// start the app by listening on the default Heroku port
+const defaultPort = isProduction ? 8080 : 4200;
+app.listen(process.env.PORT || defaultPort);

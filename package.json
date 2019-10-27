@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "start:local": "ng serve",
+    "start:local": "NODE_ENV=development node server.js",
+    "start:localdev": "ng serve",
     "build": "ng build --aot --prod=true",
     "build:local": "ng build",
     "test": "ng test",
