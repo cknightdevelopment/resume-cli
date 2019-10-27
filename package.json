@@ -11,7 +11,8 @@
     "test": "ng test",
     "test:coverage": "ng test --watch=false --code-coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deploy": "git push origin master && git push heroku master"
   },
   "private": true,
   "engines": {
