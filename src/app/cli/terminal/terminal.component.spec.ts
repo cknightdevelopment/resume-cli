@@ -6,6 +6,7 @@ import { TestModule } from 'src/test-helpers/test.modules';
 import { By } from '@angular/platform-browser';
 import { CommandFacade } from '../store/command/command.facade';
 import { CommandInitiated } from '../store/command/command.actions';
+import { TerminalCommandOutputComponent } from '../terminal-command-output/terminal-command-output.component';
 
 describe('TerminalComponent', () => {
   let component: TerminalComponent;
@@ -26,7 +27,8 @@ describe('TerminalComponent', () => {
       ],
       declarations: [
         TerminalComponent,
-        TerminalPromptComponent
+        TerminalPromptComponent,
+        TerminalCommandOutputComponent
       ]
     })
     .compileComponents();

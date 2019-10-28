@@ -32,7 +32,7 @@ describe('NGRX Reducers: Command', () => {
 
     expect(reducer(commandState, new CommandInitiated('chris test'))).toEqual({
       ...commandState,
-      initalizedCommand: command,
+      initializedCommand: command,
       history: [command]
     } as CommandState);
   });

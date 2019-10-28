@@ -35,11 +35,9 @@ import { ChrisFacade } from './store/chris/chris.facade';
     EffectsModule.forRoot([
       ChrisEffects
     ]),
-    // StoreDevtoolsModule.instrument({
-    //   predicate: (state: any, action: Action) => {
-    //     return !environment.production;
-    //   }
-    // }),
+    StoreDevtoolsModule.instrument({
+      predicate: canUseStoreDevTools
+    }),
     CoreModule,
     SharedModule
   ],
@@ -49,3 +47,8 @@ import { ChrisFacade } from './store/chris/chris.facade';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// AOT build requires this to be an exported function
+export function canUseStoreDevTools(state: any, action: Action) {
+  return !environment.production;
+}

@@ -1,4 +1,9 @@
 <div class="terminal" [ngStyle]="terminalFacade.ngStyles$ | async">
+  <app-terminal-command-output
+    *ngFor="let command of commands"
+    [command]="command"
+  >
+  </app-terminal-command-output>
   <div>
     <app-terminal-prompt
       [styles]="terminalFacade.ngStyles$ | async"

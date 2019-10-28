@@ -1,12 +1,20 @@
 import * as factory from 'src/test-helpers/factory/state';
 import * as selectors from 'src/app/cli/store/command/command.selectors';
 import { AppState } from 'src/app/store';
+import { InitializedCommand } from './command.reducers';
 
 describe('NGRX Selectors: Command', () => {
   let appState: AppState;
 
   beforeEach(() => {
     appState = factory.appState();
+  });
+
+  it('should get initialized command', () => {
+    const command = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+    appState.cli.command.initializedCommand = command;
+
+    expect(selectors.selectInitializedCommand(appState)).toEqual(command);
   });
 
   it('should select history sorted by initiated on descending', () => {

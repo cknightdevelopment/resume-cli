@@ -3,7 +3,7 @@ import { merge as _merge } from 'lodash';
 
 export function commandState(override?: Partial<CommandState>): CommandState {
   return _merge({
-    initalizedCommand: null,
+    initializedCommand: null,
     history: []
   } as CommandState, override);
 }

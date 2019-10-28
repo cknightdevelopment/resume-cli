@@ -1,7 +1,7 @@
 import { CommandAction, CommandActionTypes } from './command.actions';
 
 export interface CommandState {
-  initalizedCommand: InitializedCommand;
+  initializedCommand: InitializedCommand;
   history: InitializedCommand[];
 }
 
@@ -11,7 +11,7 @@ export interface InitializedCommand {
 }
 
 export const intitalState: CommandState = {
-  initalizedCommand: null,
+  initializedCommand: null,
   history: []
 };
 
@@ -25,7 +25,7 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
 
       return {
         ...state,
-        initalizedCommand: command,
+        initializedCommand: command,
         history: [...(state.history || []), command]
       };
     default: {
