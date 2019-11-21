@@ -5,5 +5,10 @@ export const CONSTANTS = {
     DOWN: 'ArrowDown',
     ENTER: 'Enter',
     BACKSPACE: 'Backspace'
+  },
+  CLI_NAME: 'chris',
+  COMMAND: {
+    PARAM_PREFIX: '--',
+    PARAM_KEY_VALUE_SEPARATOR: '='
   }
 };

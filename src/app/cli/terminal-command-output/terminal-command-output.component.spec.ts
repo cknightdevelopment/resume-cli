@@ -3,21 +3,73 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TerminalCommandOutputComponent } from './terminal-command-output.component';
 import { By } from '@angular/platform-browser';
 import { InitializedCommand } from '../store/command/command.reducers';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Input, Component, NgModule } from '@angular/core';
+import { CommandService } from 'src/app/core/command/command.service';
+import { CommandComponent } from '../commands/command.component';
+import { ParsedCommandInput, ParseStatus } from 'src/app/models/command/command.model';
+import { CommonModule } from '@angular/common';
+import { query } from '@angular/animations';
 
-fdescribe('TerminalCommandOutputComponent', () => {
+interface MockCommandInputParams {
+  test: number;
+}
+
+@Component({
+  template: `<div class="command-json">{{ params | json }}</div>`
+})
+class MockCommandComponent implements CommandComponent<MockCommandComponent> {
+  @Input() params: MockCommandComponent;
+
+  constructor() {}
+}
+
+class MockCommandService {
+  static paramsToReturn = { test: 123 } as MockCommandInputParams;
+
+  parseCommandInput(): ParsedCommandInput {
+    return {
+      status: ParseStatus.Parsed,
+      name: 'Mock' as any,
+      componentType: MockCommandComponent as any,
+      params: MockCommandService.paramsToReturn as any
+    };
+  }
+}
+
+@NgModule({
+  declarations: [MockCommandComponent],
+  entryComponents: [
+    MockCommandComponent,
+  ],
+  imports: [
+    CommonModule
+  ]
+})
+class MockModule {}
+
+
+describe('TerminalCommandOutputComponent', () => {
   let component: TerminalCommandOutputComponent;
   let fixture: ComponentFixture<TerminalCommandOutputComponent>;
 
   function getElements() {
     return {
-      initializedCommandText: fixture.debugElement.query(By.css('.initialized-command-text'))
+      initializedCommandText: fixture.debugElement.query(By.css('.initialized-command-text')),
+      mockCommandJsonElement: fixture.debugElement.query(By.css('.command-json'))
     };
   }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TerminalCommandOutputComponent ]
+      imports: [
+        MockModule
+      ],
+      declarations: [
+        TerminalCommandOutputComponent
+      ],
+      providers: [
+        { provide: CommandService, useClass: MockCommandService }
+      ],
     }).overrideComponent(TerminalCommandOutputComponent, {
       set: { changeDetection: ChangeDetectionStrategy.Default }
     }).compileComponents();
@@ -26,22 +78,35 @@ fdescribe('TerminalCommandOutputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TerminalCommandOutputComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show command text if a command is provided', () => {
-    let elements = getElements();
-    expect(elements.initializedCommandText).toBeFalsy();
+  describe('no command provided', () => {
+    it('should not show command text if a command is not provided', () => {
+      const elements = getElements();
+      expect(elements.initializedCommandText).toBeFalsy();
+    });
+  });
 
-    component.command = { text: 'test' } as InitializedCommand;
-    fixture.detectChanges();
+  describe('command provided', () => {
+    beforeEach(() => {
+      component.command = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+      fixture.detectChanges();
+    });
 
-    elements = getElements();
-    expect(elements.initializedCommandText).toBeTruthy();
-    expect(elements.initializedCommandText.nativeElement.innerText).toEqual('> test');
+    it('should show command text only if a command is provided', () => {
+      const elements = getElements();
+      expect(elements.initializedCommandText).toBeTruthy();
+      expect(elements.initializedCommandText.nativeElement.innerText).toEqual('> test');
+    });
+
+    it('should show command text only if a command is provided', () => {
+      const elements = getElements();
+      expect(elements.mockCommandJsonElement).toBeTruthy();
+      expect(JSON.parse(elements.mockCommandJsonElement.nativeElement.innerText)).toEqual(MockCommandService.paramsToReturn);
+    });
   });
 });

@@ -20,7 +20,7 @@ export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
 
   ngOnInit() {
     this.commandFacade.initializedCommand$.pipe(
-      filter(x => !!x),
+      filter(intializedCommand => !!intializedCommand),
       takeUntil(this.destroy$)
     ).subscribe(x => this.commands.push(x));
   }

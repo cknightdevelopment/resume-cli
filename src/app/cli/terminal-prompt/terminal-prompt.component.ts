@@ -55,7 +55,7 @@ export class TerminalPromptComponent implements OnInit {
   }
 
   private onEnter() {
-    this.historyOrdinal = null;
+    this.resetHistory();
     this.commandInitiated.emit(this.commandCtrl.value);
     this.commandCtrl.reset();
   }
@@ -68,7 +68,7 @@ export class TerminalPromptComponent implements OnInit {
     if (this.historyOrdinal < this.history.length - 1) {
       this.historyOrdinal = this.historyOrdinal == null ? 0 : this.historyOrdinal + 1;
     } else {
-      // should never be higher that this, but just in case
+      // shouldn't happen, but just in case
       this.historyOrdinal = this.history.length - 1;
     }
 
@@ -84,9 +84,13 @@ export class TerminalPromptComponent implements OnInit {
       this.historyOrdinal = this.historyOrdinal == null ? this.history.length - 1 : this.historyOrdinal - 1;
       this.commandCtrl.patchValue(this.history[this.historyOrdinal].text);
     } else {
-      this.historyOrdinal = null;
+      this.resetHistory();
       this.commandCtrl.patchValue(null);
     }
+  }
+
+  private resetHistory() {
+    this.historyOrdinal = null;
   }
 
   private triggerResize() {

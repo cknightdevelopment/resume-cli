@@ -29,6 +29,9 @@ import { TerminalCommandOutputComponent } from './terminal-command-output/termin
   providers: [
     TerminalFacade,
     CommandFacade
+  ],
+  entryComponents: [
+    RandomCommandComponent
   ]
 })
 export class CliModule { }
