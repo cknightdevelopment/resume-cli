@@ -1,79 +1,85 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CommandService } from './command.service';
-import { CONSTANTS } from 'src/app/models/constants';
-import { CommandNames, RandomCommandInputParams, ParsedCommandInput, ParseStatus } from 'src/app/models/command/command.model';
+import { CommandParserService } from './command-parser/command-parser.service';
+import { PreParsedCommand } from 'src/app/models/command/input/pre-parsed-command.model';
+import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
+import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cli.component';
+import { UnknownCliInputParams } from 'src/app/models/command/input/unknown-cli-input-params.model';
+import { ParseStatus } from 'src/app/models/command/parse-status.model';
+import { HelpComponent } from 'src/app/cli/commands/help/help.component';
+import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
+import { CommandNames } from 'src/app/models/command/command-names.model';
 import { RandomCommandComponent } from 'src/app/cli/commands/random-command/random-command.component';
-import { KeyValuePair } from 'src/app/models/key-value-pair.model';
+
+class MockCommandParserService {
+  getPreParsedCommandData(): PreParsedCommand { return null; }
+  getCommandInputData(): ParsedCommandInput { return null; }
+}
 
 describe('CommandService', () => {
   let commandSvc: CommandService;
-
-  function createCommandText(name: string, params?: KeyValuePair<string>) {
-    const paramsText = [];
-
-    for (const key in params) {
-      if (params.hasOwnProperty(key)) {
-        paramsText.push(`${CONSTANTS.COMMAND.PARAM_PREFIX}${key}${CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}${params[key]}`);
-      }
-    }
-
-    return `${CONSTANTS.CLI_NAME} ${name} ${paramsText.join(' ')}`;
-  }
+  let parserSvc: MockCommandParserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CommandService
+        CommandService,
+        { provide: CommandParserService, useClass: MockCommandParserService }
       ]
     });
+
     commandSvc = TestBed.get(CommandService);
+    parserSvc = TestBed.get(CommandParserService);
   });
 
   it('should be created', () => {
     expect(commandSvc).toBeTruthy();
   });
 
-  describe('parsing command input', () => {
-    describe('RandomCommandComponent', () => {
-      it('should return parsed data for random command component with parameters', () => {
-        const text = createCommandText(CommandNames.Random, { count: '123' });
-        const result = commandSvc.parseCommandInput(text);
+  it('should return null when preparsed data is empty', () => {
+    spyOn(parserSvc, 'getPreParsedCommandData').and.returnValue({ empty: true });
+    expect(commandSvc.parseCommandInput('test')).toBeNull();
+  });
 
-        expect(result).toEqual({
-          componentType: RandomCommandComponent,
-          name: CommandNames.Random,
-          status: ParseStatus.Parsed,
-          params: new RandomCommandInputParams({ count: '123' })
-        } as ParsedCommandInput);
-      });
-
-      it('should return parsed data for random command component without parameters', () => {
-        const text = createCommandText(CommandNames.Random);
-        const result = commandSvc.parseCommandInput(text);
-
-        expect(result).toEqual({
-          componentType: RandomCommandComponent,
-          name: CommandNames.Random,
-          status: ParseStatus.Parsed,
-          params: new RandomCommandInputParams({})
-        } as ParsedCommandInput);
-      });
+  it('should return unknown cli when preparsed data is unknown cli', () => {
+    spyOn(parserSvc, 'getPreParsedCommandData').and.returnValue({
+      unknownCli: true,
+      unknownCliName: 'test'
     });
 
-    it('should return null when provided value starting with cli name but no command', () => {
-      const result = commandSvc.parseCommandInput(CONSTANTS.CLI_NAME);
-      expect(result).toBeNull();
+    expect(commandSvc.parseCommandInput('test')).toEqual({
+      status: ParseStatus.UnknownCli,
+      componentType: UnknownCliComponent,
+      params: { cliName: 'test' } as UnknownCliInputParams
+    } as ParsedCommandInput);
+  });
+
+  it('should return help when preparsed data is no command', () => {
+    spyOn(parserSvc, 'getPreParsedCommandData').and.returnValue({
+      noCommand: true
     });
 
-    it('should return null when provided value not starting with cli name', () => {
-      const result = commandSvc.parseCommandInput('othername random');
-      expect(result).toBeNull();
-    });
+    expect(commandSvc.parseCommandInput('test')).toEqual({
+      name: CommandNames.Help,
+      status: ParseStatus.Parsed,
+      componentType: HelpComponent,
+      params: {} as HelpCommandInputParams
+    } as ParsedCommandInput);
+  });
 
-    it('should return null when provided a falsy value', () => {
-      const result = commandSvc.parseCommandInput(null);
-      expect(result).toBeNull();
+  it('should return result of getCommandInputData when pre parse checks all pass', () => {
+    const expectedResult = {
+      componentType: RandomCommandComponent,
+      name: CommandNames.Random,
+      params: {},
+      status: ParseStatus.Parsed
+    } as ParsedCommandInput;
+    spyOn(parserSvc, 'getPreParsedCommandData').and.returnValue({
+      name: 'test'
     });
+    spyOn(parserSvc, 'getCommandInputData').and.returnValue(expectedResult);
+
+    expect(commandSvc.parseCommandInput('test')).toEqual(expectedResult);
   });
 });

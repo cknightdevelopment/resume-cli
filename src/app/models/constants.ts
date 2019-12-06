@@ -10,5 +10,8 @@ export const CONSTANTS = {
   COMMAND: {
     PARAM_PREFIX: '--',
     PARAM_KEY_VALUE_SEPARATOR: '='
+  },
+  PARAM_REASONS: {
+    NOT_NON_NEGATIVE_INTEGER: 'not a non-negative integer'
   }
 };

@@ -12,10 +12,13 @@ import { StoreModule } from '@ngrx/store';
 import * as cli from 'src/app/cli/store';
 import * as app from 'src/app/store';
 import { CommandFacade } from 'src/app/cli/store/command/command.facade';
+import { TerminalOutputComponent } from 'src/app/cli/terminal-output/terminal-output.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    TerminalOutputComponent
+  ],
   imports: [
     SharedModule,
     StoreModule.forRoot(app.reducers, {
@@ -31,7 +34,8 @@ import { CommandFacade } from 'src/app/cli/store/command/command.facade';
     })
   ],
   exports: [
-    SharedModule
+    SharedModule,
+    TerminalOutputComponent
   ],
   providers: [
     TerminalFacade,

@@ -1,0 +1,19 @@
+@import "variables";
+
+.command-output-text {
+  &--success {
+    color: $text-success;
+  }
+
+  &--info {
+    color: $text-info;
+  }
+
+  &--warn {
+    color: $text-warn;
+  }
+
+  &--error {
+    color: $text-error;
+  }
+}

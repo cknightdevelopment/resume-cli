@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RandomCommandComponent } from './random-command.component';
+import { HelpComponent } from './help.component';
 import { TestModule } from 'src/test-helpers/test.modules';
 
-describe('RandomCommandComponent', () => {
-  let component: RandomCommandComponent;
-  let fixture: ComponentFixture<RandomCommandComponent>;
+describe('HelpComponent', () => {
+  let component: HelpComponent;
+  let fixture: ComponentFixture<HelpComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
-      declarations: [ RandomCommandComponent ]
+      declarations: [ HelpComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RandomCommandComponent);
+    fixture = TestBed.createComponent(HelpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

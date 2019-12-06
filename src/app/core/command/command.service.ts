@@ -1,75 +1,43 @@
 import { Injectable } from '@angular/core';
-import { ParsedCommandInput, CommandNames, RandomCommandInputParams, ParseStatus } from 'src/app/models/command/command.model';
-import { CONSTANTS } from 'src/app/models/constants';
-import { KeyValuePair } from 'src/app/models/key-value-pair.model';
-import { RandomCommandComponent } from 'src/app/cli/commands/random-command/random-command.component';
-
-interface PreParsedCommand {
-  name: string;
-  params: string[];
-}
+import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
+import { CommandParserService } from './command-parser/command-parser.service';
+import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cli.component';
+import { UnknownCliInputParams } from 'src/app/models/command/input/unknown-cli-input-params.model';
+import { ParseStatus } from 'src/app/models/command/parse-status.model';
+import { HelpComponent } from 'src/app/cli/commands/help/help.component';
+import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
+import { CommandNames } from 'src/app/models/command/command-names.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  deps: [
+    CommandParserService
+  ]
 })
 export class CommandService {
-  constructor() { }
+  constructor(private parserSvc: CommandParserService) { }
 
   parseCommandInput(command: string): ParsedCommandInput {
-    const preParsedCommand = this.getPreParsedCommandData(command);
+    const preParsedCommand = this.parserSvc.getPreParsedCommandData(command);
 
-    // todo: return some sort of unknown command data
-    if (!preParsedCommand) {
+    if (preParsedCommand.empty) {
       return null;
+    } else if (preParsedCommand.unknownCli) {
+      return {
+        status: ParseStatus.UnknownCli,
+        componentType: UnknownCliComponent,
+        params: { cliName: preParsedCommand.unknownCliName } as UnknownCliInputParams,
+      };
+    } else if (preParsedCommand.noCommand) {
+      // return help if no command provided
+      return {
+        name: CommandNames.Help,
+        status: ParseStatus.Parsed,
+        componentType: HelpComponent,
+        params: {} as HelpCommandInputParams,
+      };
     }
 
-    return this.getCommandInputData(preParsedCommand);
-  }
-
-  private getPreParsedCommandData(command: string) {
-    const commandParts = command && command.trim().split(' ');
-
-    // all commands must start with 'chris <commandName>'
-    if (!commandParts || commandParts[0] !== CONSTANTS.CLI_NAME || commandParts.length < 2) {
-      return null;
-    }
-
-    return { name: commandParts[1], params: commandParts.slice(2) } as PreParsedCommand;
-  }
-
-  private getCommandInputData(preParsedCommand: PreParsedCommand): ParsedCommandInput {
-    const kvp = this.getCommandInputParamsKvp(preParsedCommand.params);
-
-    switch (preParsedCommand.name) {
-      case CommandNames.Random:
-        return {
-          status: ParseStatus.Parsed,
-          name: CommandNames.Random,
-          componentType: RandomCommandComponent,
-          params: new RandomCommandInputParams(kvp)
-        };
-      default:
-        return {
-          status: ParseStatus.UnknownCommand
-        };
-    }
-  }
-
-  private getCommandInputParamsKvp(paramsData: string[]): KeyValuePair<string> {
-    const kvp = {} as KeyValuePair<string>;
-
-    (paramsData || [])
-      .filter(x => x.startsWith(CONSTANTS.COMMAND.PARAM_PREFIX))
-      .map(x => {
-        const indexOfEquals = x.indexOf(CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR);
-
-        const key = x.substring(CONSTANTS.COMMAND.PARAM_PREFIX.length, indexOfEquals >= 0 ? indexOfEquals : undefined);
-        const value = indexOfEquals >= 0 ? x.substring(indexOfEquals + 1) : null;
-
-        return { key, value };
-      })
-      .forEach(x => kvp[x.key] = x.value);
-
-    return kvp;
+    return this.parserSvc.getCommandInputData(preParsedCommand);
   }
 }

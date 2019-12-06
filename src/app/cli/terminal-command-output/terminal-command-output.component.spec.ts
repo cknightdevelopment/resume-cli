@@ -6,9 +6,10 @@ import { InitializedCommand } from '../store/command/command.reducers';
 import { ChangeDetectionStrategy, Input, Component, NgModule } from '@angular/core';
 import { CommandService } from 'src/app/core/command/command.service';
 import { CommandComponent } from '../commands/command.component';
-import { ParsedCommandInput, ParseStatus } from 'src/app/models/command/command.model';
+import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
 import { CommonModule } from '@angular/common';
 import { query } from '@angular/animations';
+import { ParseStatus } from 'src/app/models/command/parse-status.model';
 
 interface MockCommandInputParams {
   test: number;
@@ -87,7 +88,8 @@ describe('TerminalCommandOutputComponent', () => {
   describe('no command provided', () => {
     it('should not show command text if a command is not provided', () => {
       const elements = getElements();
-      expect(elements.initializedCommandText).toBeFalsy();
+      expect(elements.initializedCommandText).toBeTruthy();
+      expect(elements.initializedCommandText.nativeElement.innerText).toEqual('>');
     });
   });
 

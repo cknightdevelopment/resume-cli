@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { InitializedCommand } from '../store/command/command.reducers';
 import { CommandService } from 'src/app/core/command/command.service';
-import { ParsedCommandInput } from 'src/app/models/command/command.model';
+import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
 
 @Component({
   selector: 'app-terminal-command-output',
@@ -19,7 +19,9 @@ export class TerminalCommandOutputComponent implements OnInit {
     if (!this.command) return;
 
     const parsedCommandInput = this.commandSvc.parseCommandInput(this.command.text);
-    this.loadCommandComponent(parsedCommandInput);
+    if (parsedCommandInput) {
+      this.loadCommandComponent(parsedCommandInput);
+    }
   }
 
   private loadCommandComponent(parsedCommandInput: ParsedCommandInput) {

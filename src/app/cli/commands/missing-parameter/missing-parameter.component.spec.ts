@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RandomCommandComponent } from './random-command.component';
+import { MissingParameterComponent } from './missing-parameter.component';
 import { TestModule } from 'src/test-helpers/test.modules';
 
-describe('RandomCommandComponent', () => {
-  let component: RandomCommandComponent;
-  let fixture: ComponentFixture<RandomCommandComponent>;
+describe('MissingParameterComponent', () => {
+  let component: MissingParameterComponent;
+  let fixture: ComponentFixture<MissingParameterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
-      declarations: [ RandomCommandComponent ]
+      declarations: [ MissingParameterComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RandomCommandComponent);
+    fixture = TestBed.createComponent(MissingParameterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
