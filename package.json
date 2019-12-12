@@ -10,9 +10,11 @@
     "build:local": "ng build",
     "test": "ng test",
     "test:coverage": "ng test --watch=false --code-coverage",
+    "test:ci": "ng test --watch=false --browsers ChromeNoSandbox --progress false --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "git push heroku master"
+    "deploy": "git push heroku master",
+    "ci": "npm run lint && npm run test:ci && npm run build"
   },
   "private": true,
   "engines": {
