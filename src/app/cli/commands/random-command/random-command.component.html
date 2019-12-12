@@ -1,4 +1,4 @@
-<app-terminal-output [info]="true">
-  {{ params | json }}
+<app-terminal-output *ngFor="let fact of data?.facts">
+  {{ fact }}
 </app-terminal-output>
 

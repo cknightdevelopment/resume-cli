@@ -5,6 +5,7 @@ import { TestModule } from 'src/test-helpers/test.modules';
 import { CommandNames } from 'src/app/models/command/command-names.model';
 import { By } from '@angular/platform-browser';
 import { CONSTANTS } from 'src/app/models/constants';
+import { SELECTORS } from 'src/test-helpers/common-selectors';
 
 describe('UnknownParameterComponent', () => {
   let component: UnknownParameterComponent;
@@ -12,7 +13,7 @@ describe('UnknownParameterComponent', () => {
 
   function getElements() {
     return {
-      output: fixture.debugElement.query(By.css('app-terminal-output .command-output-text'))
+      output: fixture.debugElement.query(By.css(SELECTORS.TERMINAL_OUTPUT))
     };
   }
 

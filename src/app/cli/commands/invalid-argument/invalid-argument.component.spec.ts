@@ -5,6 +5,7 @@ import { TestModule } from 'src/test-helpers/test.modules';
 import { By } from '@angular/platform-browser';
 import { CONSTANTS } from 'src/app/models/constants';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { SELECTORS } from 'src/test-helpers/common-selectors';
 
 describe('InvalidParameterComponent', () => {
   let component: InvalidArgumentComponent;
@@ -12,7 +13,7 @@ describe('InvalidParameterComponent', () => {
 
   function getElements() {
     return {
-      output: fixture.debugElement.query(By.css('app-terminal-output .command-output-text'))
+      output: fixture.debugElement.query(By.css(SELECTORS.TERMINAL_OUTPUT))
     };
   }
 

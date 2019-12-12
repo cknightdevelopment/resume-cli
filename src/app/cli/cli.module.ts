@@ -19,6 +19,8 @@ import { InvalidParameterComponent } from './commands/invalid-parameter/invalid-
 import { UnknownCliComponent } from './commands/unknown-cli/unknown-cli.component';
 import { HelpComponent } from './commands/help/help.component';
 import { TerminalOutputComponent } from './terminal-output/terminal-output.component';
+import { EffectsModule } from '@ngrx/effects';
+import { CommandEffects } from './store/command/command.effects';
 
 const commandComponents = [
   RandomCommandComponent,
@@ -43,7 +45,10 @@ const commandComponents = [
     CommonModule,
     CliRoutingModule,
     SharedModule,
-    StoreModule.forFeature('cli', reducers)
+    StoreModule.forFeature('cli', reducers),
+    EffectsModule.forFeature([
+      CommandEffects
+    ]),
   ],
   providers: [
     TerminalFacade,

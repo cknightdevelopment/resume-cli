@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { throwIfAlreadyLoaded } from './module-import-checker';
 import { ChrisService } from './chris/chris.service';
 import { CommandService } from './command/command.service';
+import { CommandParserService } from './command/command-parser/command-parser.service';
 
 
 
@@ -13,7 +14,8 @@ import { CommandService } from './command/command.service';
   ],
   providers: [
     ChrisService,
-    CommandService
+    CommandService,
+    CommandParserService
   ]
 })
 export class CoreModule {

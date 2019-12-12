@@ -7,6 +7,7 @@ import { ChrisEffects } from './chris.effects';
 import { LoadStaticData, LoadStaticDataSuccess } from './chris.actions';
 import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { ChrisService } from 'src/app/core/chris/chris.service';
+import { ChrisDataModel } from 'src/app/models/chris/chris-data.model';
 
 class MockChrisService {
   facts = [
@@ -15,14 +16,16 @@ class MockChrisService {
     'Chris loves stand up comedy.' ,
   ];
 
-  getFacts(): Observable<string[]> {
-    return of(this.facts);
+  getData(): Observable<ChrisDataModel> {
+    return of({
+      facts: this.facts
+    });
   }
 }
 
 let actions$: Observable<Action>;
 
-describe('NGRX Effetcs: Chris', () => {
+describe('NGRX Effects: Chris', () => {
   let facade: ChrisEffects;
   let chrisSvc: MockChrisService;
 

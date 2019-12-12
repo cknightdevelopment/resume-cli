@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { CONSTANTS } from 'src/app/models/constants';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { CommandNames } from 'src/app/models/command/command-names.model';
+import { SELECTORS } from 'src/test-helpers/common-selectors';
 
 describe('UnknownCommandComponent', () => {
   let component: UnknownCommandComponent;
@@ -13,7 +14,7 @@ describe('UnknownCommandComponent', () => {
 
   function getElements() {
     return {
-      output: fixture.debugElement.query(By.css('app-terminal-output .command-output-text'))
+      output: fixture.debugElement.query(By.css(SELECTORS.TERMINAL_OUTPUT))
     };
   }
 

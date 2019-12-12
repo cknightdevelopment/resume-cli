@@ -10,6 +10,7 @@ import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.
 import { CommonModule } from '@angular/common';
 import { query } from '@angular/animations';
 import { ParseStatus } from 'src/app/models/command/parse-status.model';
+import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
 
 interface MockCommandInputParams {
   test: number;
@@ -24,15 +25,15 @@ class MockCommandComponent implements CommandComponent<MockCommandComponent> {
   constructor() {}
 }
 
-class MockCommandService {
+class MockCommandParserService {
   static paramsToReturn = { test: 123 } as MockCommandInputParams;
 
-  parseCommandInput(): ParsedCommandInput {
+  parseCommand(): ParsedCommandInput {
     return {
       status: ParseStatus.Parsed,
       name: 'Mock' as any,
       componentType: MockCommandComponent as any,
-      params: MockCommandService.paramsToReturn as any
+      params: MockCommandParserService.paramsToReturn as any
     };
   }
 }
@@ -69,7 +70,7 @@ describe('TerminalCommandOutputComponent', () => {
         TerminalCommandOutputComponent
       ],
       providers: [
-        { provide: CommandService, useClass: MockCommandService }
+        { provide: CommandParserService, useClass: MockCommandParserService }
       ],
     }).overrideComponent(TerminalCommandOutputComponent, {
       set: { changeDetection: ChangeDetectionStrategy.Default }
@@ -108,7 +109,7 @@ describe('TerminalCommandOutputComponent', () => {
     it('should show command text only if a command is provided', () => {
       const elements = getElements();
       expect(elements.mockCommandJsonElement).toBeTruthy();
-      expect(JSON.parse(elements.mockCommandJsonElement.nativeElement.innerText)).toEqual(MockCommandService.paramsToReturn);
+      expect(JSON.parse(elements.mockCommandJsonElement.nativeElement.innerText)).toEqual(MockCommandParserService.paramsToReturn);
     });
   });
 });

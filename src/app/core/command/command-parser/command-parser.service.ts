@@ -19,12 +19,40 @@ import { UnknownParameterComponent } from 'src/app/cli/commands/unknown-paramete
 import { isValidNumberString, isPositiveInteger, ciEquals } from 'src/app/util';
 import { InvalidParameterComponent } from 'src/app/cli/commands/invalid-parameter/invalid-parameter.component';
 import { InvalidParameterInputParams } from 'src/app/models/command/input/invalid-parameter-input-params.model';
+import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cli.component';
+import { UnknownCliInputParams } from 'src/app/models/command/input/unknown-cli-input-params.model';
+import { HelpComponent } from 'src/app/cli/commands/help/help.component';
+import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandParserService {
+  public parseCommand(command: string): ParsedCommandInput {
+    const preParsedCommand = this.getPreParsedCommandData(command);
+
+    if (preParsedCommand.empty) {
+      return null;
+    } else if (preParsedCommand.unknownCli) {
+      return {
+        status: ParseStatus.UnknownCli,
+        componentType: UnknownCliComponent,
+        params: { cliName: preParsedCommand.unknownCliName } as UnknownCliInputParams,
+      };
+    } else if (preParsedCommand.noCommand) {
+      // return help if no command provided
+      return {
+        name: CommandNames.Help,
+        status: ParseStatus.Parsed,
+        componentType: HelpComponent,
+        params: {} as HelpCommandInputParams,
+      };
+    }
+
+    return this.getCommandInputData(preParsedCommand);
+  }
+
   public getPreParsedCommandData(command: string): PreParsedCommand {
     const commandParts = command && command.trim().split(' ').filter(x => !!x);
 

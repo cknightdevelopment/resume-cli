@@ -7,6 +7,7 @@ import { CommandInitiated } from './command.actions';
 import { Store } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { InitializedCommand } from './command.reducers';
+import { RandomCommandExecuted } from 'src/app/models/command/executed/random-command-executed.model';
 
 describe('NGRX Facade: Command', () => {
   let appState: AppState;
@@ -35,7 +36,7 @@ describe('NGRX Facade: Command', () => {
   });
 
   it('should get initialized command', () => {
-    const initalizedCommand =  { text: 'test', initializedOn: new Date() } as InitializedCommand;
+    const initalizedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
     mockStore.setState(factory.appState({
       cli: factory.cliState({
         command: factory.commandState({ initializedCommand: initalizedCommand })
@@ -60,5 +61,21 @@ describe('NGRX Facade: Command', () => {
 
     const expected = cold('a', { a: [history[2], history[0], history[1]] });
     expect(facade.history$).toBeObservable(expected);
+  });
+
+  it('should get executed random data', () => {
+    const facts = ['Fact1', 'Fact2'];
+    mockStore.setState(factory.appState({
+      cli: factory.cliState({
+        command: factory.commandState({
+          executed: {
+            random: { facts }
+          }
+        })
+      })
+    }));
+
+    const expected = cold('a', { a: { facts } as RandomCommandExecuted });
+    expect(facade.commandData.random$).toBeObservable(expected);
   });
 });

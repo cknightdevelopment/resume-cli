@@ -1,43 +1,44 @@
 import { Injectable } from '@angular/core';
-import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
-import { CommandParserService } from './command-parser/command-parser.service';
-import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cli.component';
-import { UnknownCliInputParams } from 'src/app/models/command/input/unknown-cli-input-params.model';
-import { ParseStatus } from 'src/app/models/command/parse-status.model';
-import { HelpComponent } from 'src/app/cli/commands/help/help.component';
-import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
-import { CommandNames } from 'src/app/models/command/command-names.model';
+import { getRandomArrayIndex } from 'src/app/util';
 
 @Injectable({
-  providedIn: 'root',
-  deps: [
-    CommandParserService
-  ]
+  providedIn: 'root'
 })
 export class CommandService {
-  constructor(private parserSvc: CommandParserService) { }
+  constructor() { }
 
-  parseCommandInput(command: string): ParsedCommandInput {
-    const preParsedCommand = this.parserSvc.getPreParsedCommandData(command);
+  public getRandomFacts(count: number, allFacts: string[], usedFacts: string[]): string[] {
+    // create copies of the arrays
+    allFacts = allFacts.slice();
+    usedFacts = usedFacts.slice();
 
-    if (preParsedCommand.empty) {
-      return null;
-    } else if (preParsedCommand.unknownCli) {
-      return {
-        status: ParseStatus.UnknownCli,
-        componentType: UnknownCliComponent,
-        params: { cliName: preParsedCommand.unknownCliName } as UnknownCliInputParams,
-      };
-    } else if (preParsedCommand.noCommand) {
-      // return help if no command provided
-      return {
-        name: CommandNames.Help,
-        status: ParseStatus.Parsed,
-        componentType: HelpComponent,
-        params: {} as HelpCommandInputParams,
-      };
+    const result = [] as string[];
+    const unusedFacts = allFacts.filter(fact => !usedFacts.includes(fact));
+
+    let countNeeded = count;
+    let factsToLoop = unusedFacts;
+
+    // if count is more than the remaining unused facts
+    if (count >= unusedFacts.length) {
+      result.push(...unusedFacts);
+
+      // see how many more facts we are needing
+      countNeeded = count - unusedFacts.length;
+
+      // use the used facts (since we have already exhausted the unused list)
+      factsToLoop = usedFacts;
     }
 
-    return this.parserSvc.getCommandInputData(preParsedCommand);
+    for (let i = 0; i < countNeeded; i++) {
+      if (!factsToLoop || !factsToLoop.length) {
+        break;
+      }
+
+      const randomIndex = getRandomArrayIndex(factsToLoop);
+      const randomFact = factsToLoop.splice(randomIndex, 1)[0];
+      result.push(randomFact);
+    }
+
+    return result;
   }
 }

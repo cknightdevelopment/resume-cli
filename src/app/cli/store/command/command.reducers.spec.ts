@@ -2,8 +2,9 @@ import * as factory from 'src/test-helpers/factory/state';
 import { reducer, intitalState, InitializedCommand } from './command.reducers';
 import { AppState } from 'src/app/store';
 import { NoopAction } from 'src/test-helpers/noop-action';
-import { CommandInitiated } from './command.actions';
+import { CommandInitiated, RandomExecuted, RandomExecutedSuccess } from './command.actions';
 import { CommandState } from './command.reducers';
+import { RandomCommandExecuted } from 'src/app/models/command/executed/random-command-executed.model';
 
 describe('NGRX Reducers: Command', () => {
   let commandState: CommandState;
@@ -65,6 +66,37 @@ describe('NGRX Reducers: Command', () => {
       } as InitializedCommand;
 
       expect(reducer(commandState, new CommandInitiated('1')).history).toEqual([command]);
+    });
+  });
+
+  describe('random', () => {
+    it('should clear executed random state when random in executed', () => {
+      commandState.executed = { random: { facts: ['Fact1'] } };
+      expect(reducer(commandState, new RandomExecuted({ count: 3 })).executed.random).toBeNull();
+    });
+
+    it('should set executed random and used facts on successful random execution', () => {
+      const payload = { facts: ['a'] } as RandomCommandExecuted;
+      const returnedState = reducer(commandState, new RandomExecutedSuccess(payload));
+
+      expect(returnedState.usedFacts).toEqual(['a']);
+      expect(returnedState.executed.random).toEqual(payload);
+    });
+
+    it('should append used facts on successful random execution when payload does not include used facts', () => {
+      commandState.usedFacts = ['c', 'd'];
+      const payload = { facts: ['a', 'b'] } as RandomCommandExecuted;
+      const returnedState = reducer(commandState, new RandomExecutedSuccess(payload));
+
+      expect(returnedState.usedFacts).toEqual(['a', 'b', 'c', 'd']);
+    });
+
+    it('should set used facts to payload facts on successful random execution when payload includes used facts', () => {
+      commandState.usedFacts = ['a', 'c', 'd'];
+      const payload = { facts: ['a', 'b'] } as RandomCommandExecuted;
+      const returnedState = reducer(commandState, new RandomExecutedSuccess(payload));
+
+      expect(returnedState.usedFacts).toEqual(['a', 'b']);
     });
   });
 });

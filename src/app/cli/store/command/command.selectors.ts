@@ -22,3 +22,13 @@ export const selectHistory = createSelector(
     return b.initializedOn > a.initializedOn ? 1 : -1;
   })
 );
+
+export const selectUsedFacts = createSelector(
+  selectCommand,
+  command => command.usedFacts
+);
+
+export const selectRandomData = createSelector(
+  selectCommand,
+  command => command.executed && command.executed.random
+);

@@ -27,4 +27,20 @@ describe('NGRX Selectors: Command', () => {
 
     expect(selectors.selectHistory(appState)).toEqual([history[2], history[0], history[1]]);
   });
+
+  it('should select used facts', () => {
+    const facts = ['Fact1', 'Fact2', 'Fact3'];
+    appState.cli.command.usedFacts = facts;
+
+    expect(selectors.selectUsedFacts(appState)).toEqual(facts);
+  });
+
+  it('should select executed random data', () => {
+    const facts = ['Fact1', 'Fact2', 'Fact3'];
+    appState.cli.command.executed = {
+      random: { facts }
+    };
+
+    expect(selectors.selectRandomData(appState)).toEqual(appState.cli.command.executed.random);
+  });
 });

@@ -1,8 +1,13 @@
 import { CommandAction, CommandActionTypes } from './command.actions';
+import { RandomCommandExecuted } from 'src/app/models/command/executed/random-command-executed.model';
 
 export interface CommandState {
   initializedCommand: InitializedCommand;
   history: InitializedCommand[];
+  usedFacts: string[];
+  executed: {
+    random: RandomCommandExecuted
+  };
 }
 
 export interface InitializedCommand {
@@ -12,7 +17,9 @@ export interface InitializedCommand {
 
 export const intitalState: CommandState = {
   initializedCommand: null,
-  history: []
+  history: [],
+  usedFacts: [],
+  executed: null
 };
 
 export function reducer(state = intitalState, action: CommandAction): CommandState {
@@ -27,6 +34,26 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
         ...state,
         initializedCommand: command,
         history: [...(state.history || []), command]
+      };
+    case CommandActionTypes.RandomExecuted:
+      return {
+        ...state,
+        executed: {
+          ...state.executed,
+          random: null
+        }
+      };
+    case CommandActionTypes.RandomExecutedSuccess:
+      const containsUsedFacts = action.payload.facts.some(fact => state.usedFacts.includes(fact));
+      return {
+        ...state,
+        executed: {
+          random: action.payload
+        },
+        usedFacts: [
+          ...action.payload.facts,
+          ...(containsUsedFacts ? [] : state.usedFacts)
+        ]
       };
     default: {
       return state;

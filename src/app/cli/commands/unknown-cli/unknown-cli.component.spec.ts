@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UnknownCliComponent } from './unknown-cli.component';
 import { TestModule } from 'src/test-helpers/test.modules';
 import { By } from '@angular/platform-browser';
+import { SELECTORS } from 'src/test-helpers/common-selectors';
 
 describe('UnknownCliComponent', () => {
   let component: UnknownCliComponent;
@@ -10,7 +11,7 @@ describe('UnknownCliComponent', () => {
 
   function getElements() {
     return {
-      output: fixture.debugElement.query(By.css('app-terminal-output .command-output-text'))
+      output: fixture.debugElement.query(By.css(SELECTORS.TERMINAL_OUTPUT))
     };
   }
 

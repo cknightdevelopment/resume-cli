@@ -1,29 +1,17 @@
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { ChrisDataModel } from 'src/app/models/chris/chris-data.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChrisService {
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
-  getFacts(): Observable<string[]> {
-    return of([
-      'Chris does Crossfit.' ,
-      'Chris went to music school for bass guitar.' ,
-      'Chris loves stand up comedy.' ,
-    ]);
+  getData(): Observable<ChrisDataModel> {
+    return this.http.get<ChrisDataModel>(environment.dataFile);
   }
-
-  // getRandomFacts(facts: Fact[])  {
-  //   const result: Fact[] = [];
-
-  //   for (let i = 0; i < 3; i++) {
-  //     const idx = Math.floor(Math.random() * facts.length);
-  //     result.push(...facts.splice(idx, 1));
-  //   }
-
-  //   return result;
-  // }
 }
