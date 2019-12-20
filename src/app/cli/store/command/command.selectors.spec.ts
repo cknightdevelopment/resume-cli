@@ -2,6 +2,7 @@ import * as factory from 'src/test-helpers/factory/state';
 import * as selectors from 'src/app/cli/store/command/command.selectors';
 import { AppState } from 'src/app/store';
 import { InitializedCommand } from './command.reducers';
+import { educationModel } from 'src/test-helpers/factory/models';
 
 describe('NGRX Selectors: Command', () => {
   let appState: AppState;
@@ -41,6 +42,15 @@ describe('NGRX Selectors: Command', () => {
       random: { facts }
     };
 
-    expect(selectors.selectRandomData(appState)).toEqual(appState.cli.command.executed.random);
+    expect(selectors.selectRandomExecutionData(appState)).toEqual(appState.cli.command.executed.random);
+  });
+
+  it('should select executed education data', () => {
+    const edu = educationModel();
+    appState.cli.command.executed = {
+      education: edu
+    };
+
+    expect(selectors.selectEducationExecutionData(appState)).toEqual(appState.cli.command.executed.education);
   });
 });

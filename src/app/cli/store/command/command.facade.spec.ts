@@ -7,7 +7,8 @@ import { CommandInitiated } from './command.actions';
 import { Store } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { InitializedCommand } from './command.reducers';
-import { RandomCommandExecuted } from 'src/app/models/command/executed/random-command-executed.model';
+import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
+import { educationModel } from 'src/test-helpers/factory/models';
 
 describe('NGRX Facade: Command', () => {
   let appState: AppState;
@@ -63,6 +64,18 @@ describe('NGRX Facade: Command', () => {
     expect(facade.history$).toBeObservable(expected);
   });
 
+  it('should get used facts', () => {
+    const usedFacts = ['Fact1', 'Fact2', 'Fact3'] as string[];
+    mockStore.setState(factory.appState({
+      cli: factory.cliState({
+        command: factory.commandState({ usedFacts })
+      })
+    }));
+
+    const expected = cold('a', { a: usedFacts });
+    expect(facade.usedFacts$).toBeObservable(expected);
+  });
+
   it('should get executed random data', () => {
     const facts = ['Fact1', 'Fact2'];
     mockStore.setState(factory.appState({
@@ -75,7 +88,23 @@ describe('NGRX Facade: Command', () => {
       })
     }));
 
-    const expected = cold('a', { a: { facts } as RandomCommandExecuted });
+    const expected = cold('a', { a: { facts } as RandomCommandExecutedModel });
     expect(facade.commandData.random$).toBeObservable(expected);
+  });
+
+  it('should get executed education data', () => {
+    const edu = educationModel();
+    mockStore.setState(factory.appState({
+      cli: factory.cliState({
+        command: factory.commandState({
+          executed: {
+            education: edu
+          }
+        })
+      })
+    }));
+
+    const expected = cold('a', { a: edu });
+    expect(facade.commandData.education$).toBeObservable(expected);
   });
 });

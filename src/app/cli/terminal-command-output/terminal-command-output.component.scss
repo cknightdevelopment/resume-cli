@@ -1,0 +1,15 @@
+@import "variables";
+
+.initialized-command-text {
+  position: relative;
+
+  &--content {
+    margin-left: 18px;
+    line-height: $line-height;
+    margin-top: -1px;
+  }
+
+  .position-caret {
+    top: 1px;
+  }
+}

@@ -1,4 +1,4 @@
-  <div>
+  <div class="terminal-prompt-container">
     <textarea #terminalInput
       class="terminal-input"
       matInput
@@ -10,4 +10,8 @@
       [ngStyle]="styles"
       spellcheck="false"
     ></textarea>
+    <div class="position-caret">
+      <div class="position-caret--stem"></div>
+      <div class="position-caret--arrow"></div>
+    </div>
   </div>

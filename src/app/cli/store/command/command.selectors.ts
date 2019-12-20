@@ -28,7 +28,12 @@ export const selectUsedFacts = createSelector(
   command => command.usedFacts
 );
 
-export const selectRandomData = createSelector(
+export const selectRandomExecutionData = createSelector(
   selectCommand,
   command => command.executed && command.executed.random
+);
+
+export const selectEducationExecutionData = createSelector(
+  selectCommand,
+  command => command.executed && command.executed.education
 );

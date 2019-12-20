@@ -8,6 +8,7 @@ import { LoadStaticData, LoadStaticDataSuccess } from './chris.actions';
 import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { ChrisService } from 'src/app/core/chris/chris.service';
 import { ChrisDataModel } from 'src/app/models/chris/chris-data.model';
+import { educationModel } from 'src/test-helpers/factory/models';
 
 class MockChrisService {
   facts = [
@@ -15,10 +16,12 @@ class MockChrisService {
     'Chris went to music school for bass guitar.' ,
     'Chris loves stand up comedy.' ,
   ];
+  edu = educationModel();
 
   getData(): Observable<ChrisDataModel> {
     return of({
-      facts: this.facts
+      facts: this.facts,
+      education: this.edu
     });
   }
 }
@@ -51,7 +54,7 @@ describe('NGRX Effects: Chris', () => {
 
   it('should load static data', () => {
     actions$ = cold('a', { a: new LoadStaticData() });
-    const expected = cold('a', { a: new LoadStaticDataSuccess({ facts: chrisSvc.facts }) });
+    const expected = cold('a', { a: new LoadStaticDataSuccess({ facts: chrisSvc.facts, education: chrisSvc.edu }) });
 
     expect(facade.loadStaticData$).toBeObservable(expected);
   });

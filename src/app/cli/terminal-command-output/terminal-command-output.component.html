@@ -1,4 +1,8 @@
 <div class="initialized-command-text">
-  > {{command?.text}}
+  <div class="initialized-command-text--content">{{command?.text || '&nbsp;'}}</div>
+  <div class="position-caret">
+    <div class="position-caret--stem"></div>
+    <div class="position-caret--arrow"></div>
+  </div>
 </div>
 <ng-container #commandOutput></ng-container>

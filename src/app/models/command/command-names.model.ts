@@ -1,4 +1,5 @@
 export enum CommandNames {
   Random = 'random',
-  Help = 'help'
+  Help = 'help',
+  Education = 'education'
 }

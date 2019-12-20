@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+// tslint:disable-next-line: max-line-length
+import { Component, OnInit, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { CONSTANTS } from 'src/app/models/constants';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
@@ -10,7 +11,8 @@ import { InitializedCommand } from '../store/command/command.reducers';
   selector: 'app-terminal-prompt',
   templateUrl: './terminal-prompt.component.html',
   styleUrls: ['./terminal-prompt.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class TerminalPromptComponent implements OnInit {
   @ViewChild('terminalInput', { static: true }) terminalInput: ElementRef;
@@ -55,7 +57,7 @@ export class TerminalPromptComponent implements OnInit {
   }
 
   private onEnter() {
-    this.resetHistory();
+    this.resetHistoryPosition();
     this.commandInitiated.emit(this.commandCtrl.value);
     this.commandCtrl.reset();
   }
@@ -84,12 +86,12 @@ export class TerminalPromptComponent implements OnInit {
       this.historyOrdinal = this.historyOrdinal == null ? this.history.length - 1 : this.historyOrdinal - 1;
       this.commandCtrl.patchValue(this.history[this.historyOrdinal].text);
     } else {
-      this.resetHistory();
+      this.resetHistoryPosition();
       this.commandCtrl.patchValue(null);
     }
   }
 
-  private resetHistory() {
+  private resetHistoryPosition() {
     this.historyOrdinal = null;
   }
 

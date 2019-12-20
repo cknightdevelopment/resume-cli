@@ -4,11 +4,9 @@ import { TerminalCommandOutputComponent } from './terminal-command-output.compon
 import { By } from '@angular/platform-browser';
 import { InitializedCommand } from '../store/command/command.reducers';
 import { ChangeDetectionStrategy, Input, Component, NgModule } from '@angular/core';
-import { CommandService } from 'src/app/core/command/command.service';
 import { CommandComponent } from '../commands/command.component';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
 import { CommonModule } from '@angular/common';
-import { query } from '@angular/animations';
 import { ParseStatus } from 'src/app/models/command/parse-status.model';
 import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
 
@@ -56,7 +54,7 @@ describe('TerminalCommandOutputComponent', () => {
 
   function getElements() {
     return {
-      initializedCommandText: fixture.debugElement.query(By.css('.initialized-command-text')),
+      initializedCommandText: fixture.debugElement.query(By.css('.initialized-command-text--content')),
       mockCommandJsonElement: fixture.debugElement.query(By.css('.command-json'))
     };
   }
@@ -90,7 +88,7 @@ describe('TerminalCommandOutputComponent', () => {
     it('should not show command text if a command is not provided', () => {
       const elements = getElements();
       expect(elements.initializedCommandText).toBeTruthy();
-      expect(elements.initializedCommandText.nativeElement.innerText).toEqual('>');
+      expect(elements.initializedCommandText.nativeElement.innerText).toEqual('');
     });
   });
 
@@ -103,7 +101,7 @@ describe('TerminalCommandOutputComponent', () => {
     it('should show command text only if a command is provided', () => {
       const elements = getElements();
       expect(elements.initializedCommandText).toBeTruthy();
-      expect(elements.initializedCommandText.nativeElement.innerText).toEqual('> test');
+      expect(elements.initializedCommandText.nativeElement.innerText).toEqual('test');
     });
 
     it('should show command text only if a command is provided', () => {

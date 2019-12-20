@@ -1,0 +1,51 @@
+$size-list: (5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100);
+
+
+@each $size in $size-list {
+  /*
+  margin
+  */
+  .mt#{nth($size, 1)} {
+    margin-top: #{nth($size, 1)}px;
+  }
+
+  .mr#{nth($size, 1)} {
+    margin-right: #{nth($size, 1)}px;
+  }
+
+  .mb#{nth($size, 1)} {
+    margin-bottom: #{nth($size, 1)}px;
+  }
+
+  .ml#{nth($size, 1)} {
+    margin-left: #{nth($size, 1)}px;
+  }
+
+  .ma#{nth($size, 1)} {
+    margin: #{nth($size, 1)}px;
+  }
+
+
+  /*
+  padding
+  */
+  .pt#{nth($size, 1)} {
+    padding-top: #{nth($size, 1)}px;
+  }
+
+  .pr#{nth($size, 1)} {
+    padding-right: #{nth($size, 1)}px;
+  }
+
+  .pb#{nth($size, 1)} {
+    padding-bottom: #{nth($size, 1)}px;
+  }
+
+  .pl#{nth($size, 1)} {
+    padding-left: #{nth($size, 1)}px;
+  }
+
+  .pa#{nth($size, 1)} {
+    padding: #{nth($size, 1)}px;
+  }
+}

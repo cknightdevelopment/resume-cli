@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { InitializedCommand } from '../store/command/command.reducers';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
 import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
@@ -7,7 +7,8 @@ import { CommandParserService } from 'src/app/core/command/command-parser/comman
   selector: 'app-terminal-command-output',
   templateUrl: './terminal-command-output.component.html',
   styleUrls: ['./terminal-command-output.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class TerminalCommandOutputComponent implements OnInit {
   @Input() command: InitializedCommand;

@@ -1,19 +1,11 @@
 @import "variables";
 
-div {
+.terminal-prompt-container {
   position: relative;
-
-  &:after {
-    content: ">";
-    position: absolute;
-    top: 3px;
-    left: 0;
-    font-size: 15px;
-    line-height: $line-height;
-  }
 
   textarea {
     width: 100%;
+    margin-top: -3px;
     border: none;
     resize: none;
     overflow: hidden;
@@ -24,6 +16,4 @@ div {
       outline: none;
     }
   }
-
 }
-

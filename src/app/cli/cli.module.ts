@@ -21,6 +21,7 @@ import { HelpComponent } from './commands/help/help.component';
 import { TerminalOutputComponent } from './terminal-output/terminal-output.component';
 import { EffectsModule } from '@ngrx/effects';
 import { CommandEffects } from './store/command/command.effects';
+import { EducationComponent } from './commands/education/education.component';
 
 const commandComponents = [
   RandomCommandComponent,
@@ -30,7 +31,8 @@ const commandComponents = [
   InvalidParameterComponent,
   UnknownParameterComponent,
   UnknownCliComponent,
-  HelpComponent
+  HelpComponent,
+  EducationComponent
 ];
 
 @NgModule({

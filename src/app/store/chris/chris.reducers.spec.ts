@@ -1,8 +1,8 @@
 import * as factory from 'src/test-helpers/factory/state';
-import { AppState } from 'src/app/store';
 import { NoopAction } from 'src/test-helpers/noop-action';
 import { ChrisState, reducer, intitalState } from './chris.reducers';
 import { LoadStaticDataSuccess } from './chris.actions';
+import { educationModel } from 'src/test-helpers/factory/models';
 
 
 describe('NGRX Reducers: Chris', () => {
@@ -11,9 +11,10 @@ describe('NGRX Reducers: Chris', () => {
   });
 
   it('should perform full data reset of static data', () => {
-    const data = factory.chrisState({ facts: ['test fact'] });
+    const data = factory.chrisState({ facts: ['test fact'], education: educationModel() });
     expect(reducer(intitalState, new LoadStaticDataSuccess(data))).toEqual(jasmine.objectContaining<ChrisState>({
-      facts: data.facts
+      facts: data.facts,
+      education: data.education
     }));
   });
 });

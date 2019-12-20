@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { TerminalFacade } from '../store/terminal/terminal.facade';
 import { CommandFacade } from '../store/command/command.facade';
 import { CommandInitiated } from '../store/command/command.actions';
@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-terminal',
   templateUrl: './terminal.component.html',
-  styleUrls: ['./terminal.component.scss']
+  styleUrls: ['./terminal.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
   commands: InitializedCommand[] = [];

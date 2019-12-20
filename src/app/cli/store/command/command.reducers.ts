@@ -1,12 +1,14 @@
 import { CommandAction, CommandActionTypes } from './command.actions';
-import { RandomCommandExecuted } from 'src/app/models/command/executed/random-command-executed.model';
+import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
+import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
 
 export interface CommandState {
   initializedCommand: InitializedCommand;
   history: InitializedCommand[];
   usedFacts: string[];
   executed: {
-    random: RandomCommandExecuted
+    random?: RandomCommandExecutedModel,
+    education?: EducationExecutedModel
   };
 }
 
@@ -30,16 +32,17 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
         initializedOn: new Date()
       } as InitializedCommand;
 
+      const newCommandHistory = command.text ? [command] : [];
+
       return {
         ...state,
         initializedCommand: command,
-        history: [...(state.history || []), command]
+        history: [...(state.history || []), ...newCommandHistory ]
       };
     case CommandActionTypes.RandomExecuted:
       return {
         ...state,
         executed: {
-          ...state.executed,
           random: null
         }
       };
@@ -54,6 +57,20 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
           ...action.payload.facts,
           ...(containsUsedFacts ? [] : state.usedFacts)
         ]
+      };
+    case CommandActionTypes.EducationExecuted:
+      return {
+        ...state,
+        executed: {
+          education: null
+        }
+      };
+    case CommandActionTypes.EducationExecutedSuccess:
+      return {
+        ...state,
+        executed: {
+          education: action.payload
+        }
       };
     default: {
       return state;

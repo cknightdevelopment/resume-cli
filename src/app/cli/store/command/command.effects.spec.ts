@@ -4,12 +4,11 @@ import { TestBed } from '@angular/core/testing';
 import { Action, Store } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { CommandEffects } from './command.effects';
-import { TestModule } from 'src/test-helpers/test.modules';
-import { RandomExecuted, RandomExecutedSuccess } from './command.actions';
+import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess } from './command.actions';
 import { CommandService } from 'src/app/core/command/command.service';
-import { AppState } from 'src/app/store';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import * as factory from 'src/test-helpers/factory/state';
+import * as factory from 'src/test-helpers/factory/models';
+import { CommandFacade } from './command.facade';
+import { ChrisFacade } from 'src/app/store/chris/chris.facade';
 
 class MockCommandService {
   facts = ['Fact1', 'Fact2'];
@@ -19,26 +18,43 @@ class MockCommandService {
   }
 }
 
+class MockCommandFacade {
+  usedFacts$ = of(['Fact3']);
+}
+
+class MockChrisFacade {
+  data = {
+    education: factory.educationModel(),
+    facts: ['Fact1', 'Fact2', 'Fact3']
+  };
+
+  facts$ = of(this.data.facts);
+  education$ = of(this.data.education);
+}
+
 let actions$: Observable<Action>;
 
 describe('NGRX Effects: Command', () => {
   let effects: CommandEffects;
   let mockCommandSvc: MockCommandService;
-  let mockStore: MockStore<AppState>;
+  let mockCommandFacade: MockCommandFacade;
+  let mockChrisFacade: MockChrisFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CommandEffects,
         provideMockActions(() => actions$),
-        provideMockStore({ initialState: factory.appState() }),
-        { provide: CommandService, useClass: MockCommandService }
+        { provide: CommandService, useClass: MockCommandService },
+        { provide: CommandFacade, useClass: MockCommandFacade },
+        { provide: ChrisFacade, useClass: MockChrisFacade }
       ],
     });
 
     effects = TestBed.get(CommandEffects);
     mockCommandSvc = TestBed.get(CommandService);
-    mockStore = TestBed.get(Store);
+    mockCommandFacade = TestBed.get(CommandFacade);
+    mockChrisFacade = TestBed.get(ChrisFacade);
   });
 
   it('should be created', () => {
@@ -47,16 +63,6 @@ describe('NGRX Effects: Command', () => {
 
   describe('random$', () => {
     beforeEach(() => {
-      mockStore.setState(factory.appState({
-        chris: factory.chrisState({
-          facts: ['Fact1', 'Fact2', 'Fact3']
-        }),
-        cli: factory.cliState({
-          command: factory.commandState({
-            usedFacts: ['Fact3']
-          })
-        })
-      }));
       spyOn(mockCommandSvc, 'getRandomFacts').and.callThrough();
     });
 
@@ -74,6 +80,15 @@ describe('NGRX Effects: Command', () => {
 
       expect(effects.random$).toBeObservable(expected);
       expect(mockCommandSvc.getRandomFacts).toHaveBeenCalledWith(1, ['Fact1', 'Fact2', 'Fact3'], ['Fact3']);
+    });
+  });
+
+  describe('education$', () => {
+    it('should get education data from facade', () => {
+      actions$ = cold('a', { a: new EducationExecuted({}) });
+      const expected = cold('a', { a: new EducationExecutedSuccess(mockChrisFacade.data.education) });
+
+      expect(effects.education$).toBeObservable(expected);
     });
   });
 });

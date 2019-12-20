@@ -1,5 +1,56 @@
+@import "variables";
+
 .terminal {
   min-height: 150px;
   overflow: auto;
   padding: 10px;
+
+  a, a:visited, a:active {
+    color: inherit;
+  }
+
+  app-terminal-command-output {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .command-output-text {
+    &--success {
+      color: $text-success;
+    }
+
+    &--info {
+      color: $text-info;
+    }
+
+    &--warn {
+      color: $text-warn;
+    }
+
+    &--error {
+      color: $text-error;
+    }
+  }
+
+  .position-caret {
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: -10px;
+
+    &--stem {
+      width: 15px;
+      height: 16px;
+      background-color: gold;
+      color: black;
+    }
+
+    &--arrow {
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 8px solid gold;
+    }
+  }
 }

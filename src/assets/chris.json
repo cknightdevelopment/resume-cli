@@ -7,6 +7,27 @@
     "His favorite movie is Good Will Hunting.",
     "His favorite TV show is Seinfeld.",
     "You could pay him $1,000 to go to Disneyland for a day... and he would still decline.",
-    "His wife is a professional musician and tours around the world. Check her music out at aubreylogan.com"
-  ]
+    "His wife is a professional musician and tours around the world. Check her music out at aubreylogan.com",
+    "During high school he played basketball against Lebron James... and got destroyed, obviously.",
+    "He has three older brothers.",
+    "His favorite book is 'Boys In the Boat' by Daniel James Brown."
+  ],
+  "education": {
+    "college": {
+      "name": "Berklee College of Music",
+      "url": "https://www.berklee.edu",
+      "logo": "assets/images/berklee.png",
+      "location": "Boston, MA",
+      "start": "August 2006",
+      "end": "May 2009",
+      "degree": "Music Business & Management",
+      "highlights": [
+        "Summa Cum Laude",
+        "Dean’s List every semester"
+      ],
+      "other": [
+        "Worked as a tour guide at the college for two years"
+      ]
+    }
+  }
 }

@@ -1,4 +1,6 @@
-<app-terminal-output *ngFor="let fact of data?.facts">
-  {{ fact }}
+<app-terminal-output>
+  <ul>
+    <li *ngFor="let fact of data?.facts">{{fact}}</li>
+  </ul>
 </app-terminal-output>
 

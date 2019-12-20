@@ -7,6 +7,7 @@ import { CommandFacade } from '../../store/command/command.facade';
 import { RandomExecuted } from '../../store/command/command.actions';
 import { SELECTORS } from 'src/test-helpers/common-selectors';
 import { MockCommandFacade } from 'src/test-helpers/mock/command-facade.mock';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 describe('RandomCommandComponent', () => {
   let component: RandomCommandComponent;
@@ -16,7 +17,7 @@ describe('RandomCommandComponent', () => {
 
   function getElements() {
     return {
-      output: fixture.debugElement.queryAll(By.css(SELECTORS.TERMINAL_OUTPUT))
+      items: fixture.debugElement.queryAll(By.css(`${SELECTORS.TERMINAL_OUTPUT} ul li`))
     };
   }
 
@@ -26,9 +27,11 @@ describe('RandomCommandComponent', () => {
       providers: [
         { provide: CommandFacade, useClass: MockCommandFacade }
       ],
-      declarations: [ RandomCommandComponent ]
+      declarations: [RandomCommandComponent]
+    }).overrideComponent(RandomCommandComponent, {
+      set: { changeDetection: ChangeDetectionStrategy.Default }
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -58,9 +61,9 @@ describe('RandomCommandComponent', () => {
     fixture.detectChanges();
 
     const elements = getElements();
-    expect(elements.output.length).toEqual(3);
-    expect(elements.output[0].nativeElement.innerText).toEqual('Fact1');
-    expect(elements.output[1].nativeElement.innerText).toEqual('Fact2');
-    expect(elements.output[2].nativeElement.innerText).toEqual('Fact3');
+    expect(elements.items.length).toEqual(3);
+    expect(elements.items[0].nativeElement.innerText).toEqual('Fact1');
+    expect(elements.items[1].nativeElement.innerText).toEqual('Fact2');
+    expect(elements.items[2].nativeElement.innerText).toEqual('Fact3');
   });
 });

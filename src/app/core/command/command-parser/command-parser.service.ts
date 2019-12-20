@@ -23,6 +23,8 @@ import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cl
 import { UnknownCliInputParams } from 'src/app/models/command/input/unknown-cli-input-params.model';
 import { HelpComponent } from 'src/app/cli/commands/help/help.component';
 import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
+import { EducationComponent } from 'src/app/cli/commands/education/education.component';
+import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
 
 
 @Injectable({
@@ -78,6 +80,9 @@ export class CommandParserService {
     switch (preParsedCommand.name) {
       case CommandNames.Random:
         parseFunc = () => this.parseCommandInput(this.parseRandom(inputParams.valid), CommandNames.Random, RandomCommandComponent);
+        break;
+      case CommandNames.Education:
+        parseFunc = () => this.parseCommandInput(this.parseEducation(inputParams.valid), CommandNames.Education, EducationComponent);
         break;
       default:
         return {
@@ -161,7 +166,7 @@ export class CommandParserService {
   ****/
 
   private parseRandom(kvp: KeyValuePair<string>): ParsedParams<RandomCommandInputParams> {
-    const result = {} as RandomCommandInputParams;
+    const params = {} as RandomCommandInputParams;
 
     for (const key in kvp) {
       if (kvp.hasOwnProperty(key)) {
@@ -179,7 +184,7 @@ export class CommandParserService {
                 }
               };
             } else {
-              result.count = countParseResult.value;
+              params.count = countParseResult.value;
             }
             break;
           default:
@@ -188,7 +193,22 @@ export class CommandParserService {
       }
     }
 
-    return { params: result };
+    return { params };
+  }
+
+  private parseEducation(kvp: KeyValuePair<string>): ParsedParams<EducationInputParams> {
+    const params = {} as EducationInputParams;
+
+    for (const key in kvp) {
+      if (kvp.hasOwnProperty(key)) {
+        switch (key.toLowerCase()) {
+          default:
+            return { unknown: key };
+        }
+      }
+    }
+
+    return { params };
   }
 
   private parseUnknownCommand(commandText: string): ParsedParams<UnknownCommandInputParams> {

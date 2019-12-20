@@ -6,6 +6,7 @@ import { InvalidArgumentInputParams } from './invalid-argument-input-params.mode
 import { InvalidParameterInputParams } from './invalid-parameter-input-params.model';
 import { UnknownCliInputParams } from './unknown-cli-input-params.model';
 import { HelpCommandInputParams } from './help-command-input-params.model';
+import { EducationInputParams } from './education-input-params.model';
 
 export type CommandInputParams = RandomCommandInputParams
   | UnknownCommandInputParams
@@ -14,4 +15,5 @@ export type CommandInputParams = RandomCommandInputParams
   | InvalidParameterInputParams
   | InvalidArgumentInputParams
   | UnknownCliInputParams
-  | HelpCommandInputParams;
+  | HelpCommandInputParams
+  | EducationInputParams;

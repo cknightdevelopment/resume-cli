@@ -1,10 +1,10 @@
 import * as factory from 'src/test-helpers/factory/state';
 import { reducer, intitalState, InitializedCommand } from './command.reducers';
-import { AppState } from 'src/app/store';
 import { NoopAction } from 'src/test-helpers/noop-action';
-import { CommandInitiated, RandomExecuted, RandomExecutedSuccess } from './command.actions';
+import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess } from './command.actions';
 import { CommandState } from './command.reducers';
-import { RandomCommandExecuted } from 'src/app/models/command/executed/random-command-executed.model';
+import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
+import { educationModel } from 'src/test-helpers/factory/models';
 
 describe('NGRX Reducers: Command', () => {
   let commandState: CommandState;
@@ -57,6 +57,13 @@ describe('NGRX Reducers: Command', () => {
       expect(reducer(commandState, new CommandInitiated('2')).history).toEqual([...prevHistory, command]);
     });
 
+    it('should not add to history array when command text is empty', () => {
+      const prevHistory = [{ text: '1', initializedOn: new Date() }];
+      commandState.history = prevHistory;
+
+      expect(reducer(commandState, new CommandInitiated('')).history).toEqual(prevHistory);
+    });
+
     it('should handle when history is falsy', () => {
       commandState.history = null;
 
@@ -76,7 +83,7 @@ describe('NGRX Reducers: Command', () => {
     });
 
     it('should set executed random and used facts on successful random execution', () => {
-      const payload = { facts: ['a'] } as RandomCommandExecuted;
+      const payload = { facts: ['a'] } as RandomCommandExecutedModel;
       const returnedState = reducer(commandState, new RandomExecutedSuccess(payload));
 
       expect(returnedState.usedFacts).toEqual(['a']);
@@ -85,7 +92,7 @@ describe('NGRX Reducers: Command', () => {
 
     it('should append used facts on successful random execution when payload does not include used facts', () => {
       commandState.usedFacts = ['c', 'd'];
-      const payload = { facts: ['a', 'b'] } as RandomCommandExecuted;
+      const payload = { facts: ['a', 'b'] } as RandomCommandExecutedModel;
       const returnedState = reducer(commandState, new RandomExecutedSuccess(payload));
 
       expect(returnedState.usedFacts).toEqual(['a', 'b', 'c', 'd']);
@@ -93,10 +100,24 @@ describe('NGRX Reducers: Command', () => {
 
     it('should set used facts to payload facts on successful random execution when payload includes used facts', () => {
       commandState.usedFacts = ['a', 'c', 'd'];
-      const payload = { facts: ['a', 'b'] } as RandomCommandExecuted;
+      const payload = { facts: ['a', 'b'] } as RandomCommandExecutedModel;
       const returnedState = reducer(commandState, new RandomExecutedSuccess(payload));
 
       expect(returnedState.usedFacts).toEqual(['a', 'b']);
+    });
+  });
+
+  describe('education', () => {
+    it('should clear executed education state when education in executed', () => {
+      commandState.executed = { education: educationModel() };
+      expect(reducer(commandState, new EducationExecuted({})).executed.education).toBeNull();
+    });
+
+    it('should set executed education and used facts on successful education execution', () => {
+      const payload = educationModel();
+      const returnedState = reducer(commandState, new EducationExecutedSuccess(payload));
+
+      expect(returnedState.executed.education).toEqual(payload);
     });
   });
 });

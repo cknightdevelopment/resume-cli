@@ -21,6 +21,8 @@ import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cl
 import { UnknownCliInputParams } from 'src/app/models/command/input/unknown-cli-input-params.model';
 import { HelpComponent } from 'src/app/cli/commands/help/help.component';
 import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
+import { EducationComponent } from 'src/app/cli/commands/education/education.component';
+import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
 
 describe('CommandParserService', () => {
   let parserSvc: CommandParserService;
@@ -209,6 +211,30 @@ describe('CommandParserService', () => {
             value: 'abc',
             reason: CONSTANTS.PARAM_REASONS.NOT_NON_NEGATIVE_INTEGER
           } as InvalidArgumentInputParams
+        } as ParsedCommandInput);
+      });
+
+      it('should return unknown parameter when unrecognized param is provided', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Random, params: [createParameterText('BADPARAM')] });
+        expect(result).toEqual({
+          status: ParseStatus.UnknownParameter,
+          componentType: UnknownParameterComponent,
+          params: {
+            paramName: 'BADPARAM',
+            command: CommandNames.Random
+          } as UnknownParameterInputParams
+        } as ParsedCommandInput);
+      });
+    });
+
+    describe('EducationCommandComponent', () => {
+      it('should return education with no param data', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Education });
+        expect(result).toEqual({
+          status: ParseStatus.Parsed,
+          name: CommandNames.Education,
+          componentType: EducationComponent,
+          params: { } as EducationInputParams
         } as ParsedCommandInput);
       });
 

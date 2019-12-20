@@ -17,6 +17,6 @@ export class ChrisEffects {
   @Effect() loadStaticData$ = this.actions$.pipe(
     ofType(ChrisActionTypes.LoadStaticData),
     mergeMap(() => this.chrisDataSvc.getData()),
-    map(data => new LoadStaticDataSuccess({ facts: data.facts }))
+    map(data => new LoadStaticDataSuccess({ facts: data.facts, education: data.education }))
   );
 }

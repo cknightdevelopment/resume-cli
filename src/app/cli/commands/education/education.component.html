@@ -1,0 +1,22 @@
+<app-terminal-output *ngIf="college">
+  <div class="college">
+    <img [src]="college.logo" [alt]="college.name" width="150px" />
+    <div class="mt10">
+      <div class="college--top-level">
+        <a class="college--link" [href]="college.url" target="_blank">{{college.name}}</a>
+        <span class="college--location">{{college.location}}</span>
+        <span class="college--dates">{{college.start}} - {{college.end}}</span>
+      </div>
+      <ul class="college--highlights">
+        <li>{{college.degree}}</li>
+        <li *ngFor="let highlight of college.highlights">{{highlight}}</li>
+      </ul>
+    </div>
+    <div *ngIf="college.other" class="college--other">
+      Other stuff you probably don't care about...
+      <ul>
+        <li *ngFor="let item of college.other">{{item}}</li>
+      </ul>
+    </div>
+  </div>
+</app-terminal-output>
