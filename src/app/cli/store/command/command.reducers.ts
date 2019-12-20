@@ -1,6 +1,7 @@
 import { CommandAction, CommandActionTypes } from './command.actions';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
+import { ciEquals } from 'src/app/util';
 
 export interface CommandState {
   initializedCommand: InitializedCommand;
@@ -27,17 +28,24 @@ export const intitalState: CommandState = {
 export function reducer(state = intitalState, action: CommandAction): CommandState {
   switch (action.type) {
     case CommandActionTypes.CommandInitiated:
-      const command = {
+      const newCommand = {
         text: action.payload,
         initializedOn: new Date()
       } as InitializedCommand;
 
-      const newCommandHistory = command.text ? [command] : [];
+      let newCommandForHistory = newCommand.text ? [newCommand] : [];
+
+      if (newCommand.text && state.history && state.history.length) {
+        const isImmediateRepeat = ciEquals(state.history[state.history.length - 1].text, newCommand.text);
+        if (isImmediateRepeat) {
+          newCommandForHistory = [];
+        }
+      }
 
       return {
         ...state,
-        initializedCommand: command,
-        history: [...(state.history || []), ...newCommandHistory ]
+        initializedCommand: newCommand,
+        history: [...(state.history || []), ...newCommandForHistory ]
       };
     case CommandActionTypes.RandomExecuted:
       return {

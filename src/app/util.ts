@@ -29,6 +29,28 @@ export function getRandomArrayIndex(array: any[]): any {
     : null;
 }
 
+/**
+ * Update the index of an array item
+ * @param array Array to use for reordering
+ * @param fromIndex Index the item is currently at
+ * @param toIndex Index to the item to
+ */
+export function updateItemIndex(array: any[], fromIndex: number, toIndex: number): void {
+  if (!array || !Array.isArray(array)) {
+    return;
+  }
+
+  if (fromIndex >= array.length || fromIndex < 0) {
+    throw new Error('fromIndex is not a valid index.');
+  }
+
+  if (toIndex >= array.length || toIndex < 0) {
+    throw new Error('toIndex is not a valid index.');
+  }
+
+  array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
+}
+
 function getRandomInteger(min: number, max: number): number {
   min = Math.ceil(min);
   max = Math.floor(max);

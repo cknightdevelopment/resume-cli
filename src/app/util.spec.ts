@@ -1,4 +1,4 @@
-import { isValidNumberString, isPositiveInteger, ciEquals, ciIncludes, getRandomArrayIndex } from './util';
+import { isValidNumberString, isPositiveInteger, ciEquals, ciIncludes, getRandomArrayIndex, updateItemIndex } from './util';
 
 describe('util', () => {
   describe('isValidNumberString', () => {
@@ -107,6 +107,49 @@ describe('util', () => {
     it('should return null when falsy or no items', () => {
       expect(getRandomArrayIndex([])).toBeNull();
       expect(getRandomArrayIndex(null)).toBeNull();
+    });
+  });
+
+  describe('updateItemIndex', () => {
+    let array: number[];
+
+    beforeEach(() => {
+      array = [0, 1, 2];
+    });
+
+    it('should move array item backwards in the array', () => {
+      updateItemIndex(array, 0, 1);
+      expect(array).toEqual([1, 0, 2]);
+    });
+
+    it('should move array item forwards in the array', () => {
+      updateItemIndex(array, 2, 0);
+      expect(array).toEqual([2, 0, 1]);
+    });
+
+    it('should not change array when same indexes are passed in', () => {
+      updateItemIndex(array, 1, 1);
+      expect(array).toEqual([0, 1, 2]);
+    });
+
+    it('should not throw error and not affect passed in data when null', () => {
+      const badArray = null;
+      updateItemIndex(badArray, 0, 1);
+      expect(badArray).toEqual(null);
+    });
+
+    it('should not throw error and not affect passed in data when not an array', () => {
+      const myString = '123';
+      updateItemIndex(myString as any, 0, 1);
+      expect(myString).toEqual('123');
+    });
+
+    it('should throw error when toIndex is invalid', () => {
+      expect(() => updateItemIndex(array, 0, 100)).toThrow(new Error('toIndex is not a valid index.'));
+    });
+
+    it('should throw error when fromIndex is invalid', () => {
+      expect(() => updateItemIndex(array, -1, 1)).toThrow(new Error('fromIndex is not a valid index.'));
     });
   });
 });
