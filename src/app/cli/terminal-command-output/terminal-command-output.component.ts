@@ -1,3 +1,4 @@
+// tslint:disable-next-line: max-line-length
 import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { InitializedCommand } from '../store/command/command.reducers';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
