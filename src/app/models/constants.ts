@@ -13,5 +13,8 @@ export const CONSTANTS = {
   },
   PARAM_REASONS: {
     NOT_NON_NEGATIVE_INTEGER: 'not a non-negative integer'
+  },
+  STORAGE_KEYS: {
+    HISTORY: 'chris:history'
   }
 };

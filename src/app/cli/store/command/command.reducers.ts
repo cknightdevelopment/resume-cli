@@ -27,6 +27,11 @@ export const intitalState: CommandState = {
 
 export function reducer(state = intitalState, action: CommandAction): CommandState {
   switch (action.type) {
+    case CommandActionTypes.CommandEffectsInit:
+      return {
+        ...state,
+        history: action.payload
+      };
     case CommandActionTypes.CommandInitiated:
       const newCommand = {
         text: action.payload,

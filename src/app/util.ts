@@ -51,6 +51,14 @@ export function updateItemIndex(array: any[], fromIndex: number, toIndex: number
   array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
 }
 
+/**
+ * Determines if the value is a valid Date object
+ * @param value Object to test
+ */
+export function isValidDate(value: Date) {
+  return value instanceof Date && !isNaN(value.getTime());
+}
+
 function getRandomInteger(min: number, max: number): number {
   min = Math.ceil(min);
   max = Math.floor(max);

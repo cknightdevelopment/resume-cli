@@ -1,19 +1,41 @@
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess } from './command.actions';
-import { withLatestFrom, map } from 'rxjs/operators';
+// tslint:disable-next-line: max-line-length
+import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated } from './command.actions';
+import { withLatestFrom, map, tap } from 'rxjs/operators';
 import { CommandService } from 'src/app/core/command/command.service';
 import { CommandFacade } from './command.facade';
 import { ChrisFacade } from 'src/app/store/chris/chris.facade';
+import { Action } from '@ngrx/store';
+import { CONSTANTS } from 'src/app/models/constants';
+import { InitializedCommandStorage } from 'src/app/models/command/initialized-command-storage.model';
+import { InitializedCommand } from './command.reducers';
+import { isValidDate } from 'src/app/util';
 
 @Injectable()
-export class CommandEffects {
+export class CommandEffects implements OnInitEffects {
   constructor(
     private actions$: Actions,
     private chrisFacade: ChrisFacade,
     private commandFacade: CommandFacade,
     private commandSvc: CommandService
   ) { }
+
+  @Effect({ dispatch: false }) commandInitiated$ = this.actions$.pipe(
+    ofType<CommandInitiated>(CommandActionTypes.CommandInitiated),
+    withLatestFrom(this.commandFacade.history$),
+    tap(([action, history]) => {
+      // whenever history changes, update the local storage
+      const storageHistory = history
+        .filter(item => !!item && !!item.text && isValidDate(item.initializedOn))
+        .map(item => ({
+          text: item.text,
+          initializedOnEpoch: item.initializedOn.getTime()
+        } as InitializedCommandStorage));
+
+      localStorage.setItem(CONSTANTS.STORAGE_KEYS.HISTORY, JSON.stringify(storageHistory));
+    })
+  );
 
   @Effect() random$ = this.actions$.pipe(
     ofType<RandomExecuted>(CommandActionTypes.RandomExecuted),
@@ -23,7 +45,7 @@ export class CommandEffects {
       const count = (action.payload && action.payload.count) || 1;
       const result = this.commandSvc.getRandomFacts(count, allFacts, usedFacts);
 
-      return new RandomExecutedSuccess({ facts: result  });
+      return new RandomExecutedSuccess({ facts: result });
     })
   );
 
@@ -34,4 +56,26 @@ export class CommandEffects {
       return new EducationExecutedSuccess({ college: education.college });
     })
   );
+
+  ngrxOnInitEffects(): Action {
+    let history = [] as InitializedCommand[];
+
+    try {
+      const raw = localStorage.getItem(CONSTANTS.STORAGE_KEYS.HISTORY);
+      const parseResult = JSON.parse(raw) as InitializedCommandStorage[];
+
+      if (Array.isArray(parseResult)) {
+        history = parseResult
+          .filter(item => !!item)
+          .map(item => ({
+            text: item.text,
+            initializedOn: new Date(item.initializedOnEpoch)
+          }))
+          .filter(x => !!x.text && isValidDate(x.initializedOn));
+      }
+    } catch (error) {
+    }
+
+    return new CommandEffectsInit(history);
+  }
 }

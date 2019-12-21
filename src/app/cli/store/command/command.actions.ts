@@ -3,21 +3,32 @@ import { RandomCommandInputParams } from 'src/app/models/command/input/random-co
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
+import { InitializedCommand } from './command.reducers';
 
 export enum CommandActionTypes {
+  CommandEffectsInit = '[Command] Effects Init',
   CommandInitiated = '[Command] Command Initiated',
+  CommandExecutedFail = '[Command] Executed Fail',
 
   RandomExecuted = '[Command] Random Executed',
   RandomExecutedSuccess = '[Command] Random Executed Success',
-  RandomExecutedFail = '[Command] Random Executed Fail',
 
   EducationExecuted = '[Command] Education Executed',
   EducationExecutedSuccess = '[Command] Education Executed Success',
-  EducationExecutedFail = '[Command] Education Executed Fail',
+}
+
+export class CommandEffectsInit implements Action {
+  readonly type = CommandActionTypes.CommandEffectsInit;
+  constructor(public payload: InitializedCommand[]) {}
 }
 
 export class CommandInitiated implements Action {
   readonly type = CommandActionTypes.CommandInitiated;
+  constructor(public payload: string) {}
+}
+
+export class CommandExecutedFail implements Action {
+  readonly type = CommandActionTypes.CommandExecutedFail;
   constructor(public payload: string) {}
 }
 
@@ -31,11 +42,6 @@ export class RandomExecutedSuccess implements Action {
   constructor(public payload: RandomCommandExecutedModel) {}
 }
 
-export class RandomExecutedFail implements Action {
-  readonly type = CommandActionTypes.RandomExecutedFail;
-  constructor(public payload: string) {}
-}
-
 export class EducationExecuted implements Action {
   readonly type = CommandActionTypes.EducationExecuted;
   constructor(public payload: EducationInputParams) {}
@@ -46,15 +52,10 @@ export class EducationExecutedSuccess implements Action {
   constructor(public payload: EducationExecutedModel) {}
 }
 
-export class EducationExecutedFail implements Action {
-  readonly type = CommandActionTypes.EducationExecutedFail;
-  constructor(public payload: string) {}
-}
-
 export type CommandAction = CommandInitiated
+  | CommandExecutedFail
   | RandomExecuted
   | RandomExecutedSuccess
-  | RandomExecutedFail
   | EducationExecuted
   | EducationExecutedSuccess
-  | EducationExecutedFail;
+  | CommandEffectsInit;

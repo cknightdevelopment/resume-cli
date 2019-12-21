@@ -1,13 +1,15 @@
 import * as factory from 'src/test-helpers/factory/state';
 import { reducer, intitalState, InitializedCommand } from './command.reducers';
 import { NoopAction } from 'src/test-helpers/noop-action';
-import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess } from './command.actions';
+// tslint:disable-next-line: max-line-length
+import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit } from './command.actions';
 import { CommandState } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { educationModel } from 'src/test-helpers/factory/models';
 
 describe('NGRX Reducers: Command', () => {
   let commandState: CommandState;
+  const baseDate = new Date(2019, 0, 1);
 
   beforeEach(() => {
     commandState = factory.commandState();
@@ -22,27 +24,39 @@ describe('NGRX Reducers: Command', () => {
     expect(reducer(undefined, new NoopAction() as any)).toEqual(intitalState);
   });
 
-  it('should update command state when command is initialized', () => {
-    const baseDate = new Date(2019, 0, 1);
-    jasmine.clock().mockDate(baseDate);
-
-    const command = {
-      text: 'chris test',
-      initializedOn: new Date()
-    } as InitializedCommand;
-
-    expect(reducer(commandState, new CommandInitiated('chris test'))).toEqual({
-      ...commandState,
-      initializedCommand: command,
-      history: [command]
-    } as CommandState);
-  });
-
-  describe('history', () => {
-    const baseDate = new Date(2019, 0, 1);
-
+  describe('effects init', () => {
     beforeEach(() => {
       jasmine.clock().mockDate(baseDate);
+    });
+
+    it('should set history', () => {
+      const history = [
+        { text: '1', initializedOn: new Date() },
+        { text: '2', initializedOn: new Date() }
+      ] as InitializedCommand[];
+
+      expect(reducer(commandState, new CommandEffectsInit(history)).history).toEqual(history);
+    });
+  });
+
+  describe('command initiated', () => {
+    beforeEach(() => {
+      jasmine.clock().mockDate(baseDate);
+    });
+
+    it('should update command state when command is initialized', () => {
+      jasmine.clock().mockDate(baseDate);
+
+      const command = {
+        text: 'chris test',
+        initializedOn: new Date()
+      } as InitializedCommand;
+
+      expect(reducer(commandState, new CommandInitiated('chris test'))).toEqual({
+        ...commandState,
+        initializedCommand: command,
+        history: [command]
+      } as CommandState);
     });
 
     it('should add to history array when command is initiated', () => {

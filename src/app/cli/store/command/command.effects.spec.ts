@@ -1,14 +1,17 @@
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable, of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { CommandEffects } from './command.effects';
-import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess } from './command.actions';
+import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated } from './command.actions';
 import { CommandService } from 'src/app/core/command/command.service';
 import * as factory from 'src/test-helpers/factory/models';
 import { CommandFacade } from './command.facade';
 import { ChrisFacade } from 'src/app/store/chris/chris.facade';
+import { CONSTANTS } from 'src/app/models/constants';
+import { InitializedCommand } from './command.reducers';
+import { InitializedCommandStorage } from 'src/app/models/command/initialized-command-storage.model';
 
 class MockCommandService {
   facts = ['Fact1', 'Fact2'];
@@ -19,7 +22,17 @@ class MockCommandService {
 }
 
 class MockCommandFacade {
-  usedFacts$ = of(['Fact3']);
+  date = new Date(2019, 0, 1);
+
+  data = {
+    usedFacts: ['Fact3'],
+    history: [
+      { text: 'test', initializedOn: this.date }
+    ] as InitializedCommand[]
+  };
+
+  usedFacts$ = of(this.data.usedFacts);
+  history$ = of(this.data.history);
 }
 
 class MockChrisFacade {
@@ -59,6 +72,88 @@ describe('NGRX Effects: Command', () => {
 
   it('should be created', () => {
     expect(effects).toBeTruthy();
+  });
+
+  describe('ngrxOnInitEffects', () => {
+    it('should get command history from local storage', () => {
+      const date = new Date(2019, 0, 1);
+      const storageHistory = [
+        { text: 'test', initializedOnEpoch: date.getTime() }
+      ] as InitializedCommandStorage[];
+      spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(storageHistory));
+
+      const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
+
+      expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY);
+      expect(actionResult).toEqual(new CommandEffectsInit([
+        { text: 'test', initializedOn: date }
+      ]));
+    });
+
+    it('should not error when JSON data for local storage entry is malformed', () => {
+      const badStorageHistory = '!@#$%^&*() BAD JSON DATA !@#$%^&*()';
+      spyOn(localStorage, 'getItem').and.returnValue(badStorageHistory);
+
+      const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
+
+      expect(actionResult).toEqual(new CommandEffectsInit([]));
+    });
+
+    it('should not error when JSON data for local storage entry is not an array', () => {
+      const nonArrayStorageHistory = { a: 'not an array' };
+      spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(nonArrayStorageHistory));
+
+      const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
+
+      expect(actionResult).toEqual(new CommandEffectsInit([]));
+    });
+
+    it('should filter out storage history items that are falsy, have falsy command text, or invalid dates', () => {
+      const date = new Date(2019, 0, 1);
+      const storageHistory = [
+        { text: 'test', initializedOnEpoch: date.getTime() },
+        { text: '', initializedOnEpoch: date.getTime() }, // empty command text
+        { text: 'test', initializedOnEpoch: { a: 'BAD EPOCH' } }, // bad date epoch
+        null
+      ] as InitializedCommandStorage[];
+      spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(storageHistory));
+
+      const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
+
+      expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY);
+      expect(actionResult).toEqual(new CommandEffectsInit([
+        { text: 'test', initializedOn: date }
+      ]));
+    });
+  });
+
+  describe('commandInitiated$', () => {
+    beforeEach(() => {
+      spyOn(localStorage, 'setItem');
+    });
+
+    it('should set local storage command history with valid history items', () => {
+      actions$ = cold('a', { a: new CommandInitiated('test') });
+
+      effects.commandInitiated$.subscribe(x => {
+        expect(localStorage.setItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY, JSON.stringify([
+          { text: 'test', initializedOnEpoch: mockCommandFacade.date.getTime() }
+        ] as InitializedCommandStorage[]));
+      });
+    });
+
+    it('should filter out command history items that are falsy, have invalid command text, or invalid initialized on date', () => {
+      actions$ = cold('a', { a: new CommandInitiated('test') });
+      mockCommandFacade.data.history.push({ text: 'test2', initializedOn: null });
+      mockCommandFacade.data.history.push({ text: '', initializedOn: mockCommandFacade.date });
+      mockCommandFacade.data.history.push(null);
+
+      effects.commandInitiated$.subscribe(x => {
+        expect(localStorage.setItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY, JSON.stringify([
+          { text: 'test', initializedOnEpoch: mockCommandFacade.date.getTime() }
+        ] as InitializedCommandStorage[]));
+      });
+    });
   });
 
   describe('random$', () => {

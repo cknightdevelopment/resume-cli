@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { TerminalFacade } from '../store/terminal/terminal.facade';
 import { CommandFacade } from '../store/command/command.facade';
 import { CommandInitiated } from '../store/command/command.actions';
-import { takeUntil, filter, distinctUntilChanged, tap } from 'rxjs/operators';
+import { takeUntil, filter, distinctUntilChanged } from 'rxjs/operators';
 import { InitializedCommand } from '../store/command/command.reducers';
 import { UnsubscribeOnDestroy } from 'src/app/unsubscribe-on-destroy';
 import { Observable } from 'rxjs';

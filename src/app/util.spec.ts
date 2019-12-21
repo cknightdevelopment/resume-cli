@@ -1,4 +1,4 @@
-import { isValidNumberString, isPositiveInteger, ciEquals, ciIncludes, getRandomArrayIndex, updateItemIndex } from './util';
+import { isValidNumberString, isPositiveInteger, ciEquals, ciIncludes, getRandomArrayIndex, updateItemIndex, isValidDate } from './util';
 
 describe('util', () => {
   describe('isValidNumberString', () => {
@@ -150,6 +150,22 @@ describe('util', () => {
 
     it('should throw error when fromIndex is invalid', () => {
       expect(() => updateItemIndex(array, -1, 1)).toThrow(new Error('fromIndex is not a valid index.'));
+    });
+  });
+
+  describe('isValidDate', () => {
+    it('should return true for valid dates', () => {
+      expect(isValidDate(new Date())).toBeTruthy();
+      expect(isValidDate(new Date(new Date().getTime()))).toBeTruthy();
+      expect(isValidDate(new Date(2019, 0, 1))).toBeTruthy();
+    });
+
+    it('should return false for invalid dates', () => {
+      expect(isValidDate(new Date('BAD DATE INPUT'))).toBeFalsy();
+      expect(isValidDate(null)).toBeFalsy();
+      expect(isValidDate({} as any)).toBeFalsy();
+      expect(isValidDate('' as any)).toBeFalsy();
+      expect(isValidDate('01/01/2019' as any)).toBeFalsy();
     });
   });
 });
