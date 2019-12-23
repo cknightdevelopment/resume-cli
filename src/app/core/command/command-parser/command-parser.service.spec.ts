@@ -23,6 +23,8 @@ import { HelpComponent } from 'src/app/cli/commands/help/help.component';
 import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
 import { EducationComponent } from 'src/app/cli/commands/education/education.component';
 import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
+import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
+import { SkillsInputParams } from 'src/app/models/command/input/skills-input-params.model';
 
 describe('CommandParserService', () => {
   let parserSvc: CommandParserService;
@@ -239,13 +241,37 @@ describe('CommandParserService', () => {
       });
 
       it('should return unknown parameter when unrecognized param is provided', () => {
-        const result = parserSvc.getCommandInputData({ name: CommandNames.Random, params: [createParameterText('BADPARAM')] });
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Education, params: [createParameterText('BADPARAM')] });
         expect(result).toEqual({
           status: ParseStatus.UnknownParameter,
           componentType: UnknownParameterComponent,
           params: {
             paramName: 'BADPARAM',
-            command: CommandNames.Random
+            command: CommandNames.Education
+          } as UnknownParameterInputParams
+        } as ParsedCommandInput);
+      });
+    });
+
+    describe('SkillsCommandComponent', () => {
+      it('should return skills with no param data', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Skills });
+        expect(result).toEqual({
+          status: ParseStatus.Parsed,
+          name: CommandNames.Skills,
+          componentType: SkillsComponent,
+          params: { } as SkillsInputParams
+        } as ParsedCommandInput);
+      });
+
+      it('should return unknown parameter when unrecognized param is provided', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Skills, params: [createParameterText('BADPARAM')] });
+        expect(result).toEqual({
+          status: ParseStatus.UnknownParameter,
+          componentType: UnknownParameterComponent,
+          params: {
+            paramName: 'BADPARAM',
+            command: CommandNames.Skills
           } as UnknownParameterInputParams
         } as ParsedCommandInput);
       });

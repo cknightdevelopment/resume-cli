@@ -7,6 +7,7 @@ import { LoadStaticData } from './chris.actions';
 import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { educationModel } from 'src/test-helpers/factory/models';
+import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Facade: Chris', () => {
   let appState: AppState;
@@ -56,5 +57,18 @@ describe('NGRX Facade: Chris', () => {
     const expected = cold('a', { a: edu });
 
     expect(facade.education$).toBeObservable(expected);
+  });
+
+  it('should get skills from store', () => {
+    const skillSets = [skillSetModel()];
+    mockStore.setState(factory.appState({
+      chris: factory.chrisState({
+        skills: skillSets
+      })
+    }));
+
+    const expected = cold('a', { a: skillSets });
+
+    expect(facade.skills$).toBeObservable(expected);
   });
 });

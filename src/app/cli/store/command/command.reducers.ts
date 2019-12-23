@@ -2,6 +2,7 @@ import { CommandAction, CommandActionTypes } from './command.actions';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
 import { ciEquals } from 'src/app/util';
+import { SkillsExecutedModel } from 'src/app/models/command/executed/skills-executed.model';
 
 export interface CommandState {
   initializedCommand: InitializedCommand;
@@ -9,7 +10,8 @@ export interface CommandState {
   usedFacts: string[];
   executed: {
     random?: RandomCommandExecutedModel,
-    education?: EducationExecutedModel
+    education?: EducationExecutedModel,
+    skills?: SkillsExecutedModel,
   };
 }
 
@@ -83,6 +85,20 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
         ...state,
         executed: {
           education: action.payload
+        }
+      };
+      case CommandActionTypes.SkillsExecuted:
+      return {
+        ...state,
+        executed: {
+          skills: null
+        }
+      };
+    case CommandActionTypes.SkillsExecutedSuccess:
+      return {
+        ...state,
+        executed: {
+          skills: action.payload
         }
       };
     default: {

@@ -1,6 +1,7 @@
 export interface ChrisDataModel {
   facts: string[];
   education: EducationModel;
+  skills: SkillSetModel[];
 }
 
 export interface EducationModel {
@@ -17,4 +18,15 @@ export interface CollegeModel {
   degree: string;
   highlights: string[];
   other: string[];
+}
+
+export interface SkillSetModel {
+  title: string;
+  maxRating: number;
+  ratings: SkillRatingModel[];
+}
+
+export interface SkillRatingModel {
+  name: string;
+  rating: number;
 }

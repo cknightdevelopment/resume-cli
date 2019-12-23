@@ -2,10 +2,11 @@ import * as factory from 'src/test-helpers/factory/state';
 import { reducer, intitalState, InitializedCommand } from './command.reducers';
 import { NoopAction } from 'src/test-helpers/noop-action';
 // tslint:disable-next-line: max-line-length
-import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit } from './command.actions';
+import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, SkillsExecuted, SkillsExecutedSuccess } from './command.actions';
 import { CommandState } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { educationModel } from 'src/test-helpers/factory/models';
+import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Reducers: Command', () => {
   let commandState: CommandState;
@@ -110,7 +111,7 @@ describe('NGRX Reducers: Command', () => {
   });
 
   describe('random', () => {
-    it('should clear executed random state when random in executed', () => {
+    it('should clear executed random state when random is executed', () => {
       commandState.executed = { random: { facts: ['Fact1'] } };
       expect(reducer(commandState, new RandomExecuted({ count: 3 })).executed.random).toBeNull();
     });
@@ -141,16 +142,30 @@ describe('NGRX Reducers: Command', () => {
   });
 
   describe('education', () => {
-    it('should clear executed education state when education in executed', () => {
+    it('should clear executed education state when education is executed', () => {
       commandState.executed = { education: educationModel() };
       expect(reducer(commandState, new EducationExecuted({})).executed.education).toBeNull();
     });
 
-    it('should set executed education and used facts on successful education execution', () => {
+    it('should set executed education on successful education execution', () => {
       const payload = educationModel();
       const returnedState = reducer(commandState, new EducationExecutedSuccess(payload));
 
       expect(returnedState.executed.education).toEqual(payload);
+    });
+  });
+
+  describe('skills', () => {
+    it('should clear executed skills state when skills is executed', () => {
+      commandState.executed = { skills: { skills: [skillSetModel()] } };
+      expect(reducer(commandState, new SkillsExecuted({})).executed.skills).toBeNull();
+    });
+
+    it('should set executed skills on successful skills execution', () => {
+      const skillSets = [skillSetModel()];
+      const returnedState = reducer(commandState, new SkillsExecutedSuccess({ skills: skillSets }));
+
+      expect(returnedState.executed.skills).toEqual({ skills: skillSets });
     });
   });
 });

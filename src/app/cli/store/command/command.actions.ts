@@ -4,6 +4,8 @@ import { RandomCommandExecutedModel } from 'src/app/models/command/executed/rand
 import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
 import { InitializedCommand } from './command.reducers';
+import { SkillsInputParams } from 'src/app/models/command/input/skills-input-params.model';
+import { SkillsExecutedModel } from 'src/app/models/command/executed/skills-executed.model';
 
 export enum CommandActionTypes {
   CommandEffectsInit = '[Command] Effects Init',
@@ -15,6 +17,9 @@ export enum CommandActionTypes {
 
   EducationExecuted = '[Command] Education Executed',
   EducationExecutedSuccess = '[Command] Education Executed Success',
+
+  SkillsExecuted = '[Command] Skills Executed',
+  SkillsExecutedSuccess = '[Command] Skills Executed Success',
 }
 
 export class CommandEffectsInit implements Action {
@@ -52,10 +57,22 @@ export class EducationExecutedSuccess implements Action {
   constructor(public payload: EducationExecutedModel) {}
 }
 
+export class SkillsExecuted implements Action {
+  readonly type = CommandActionTypes.SkillsExecuted;
+  constructor(public payload: SkillsInputParams) {}
+}
+
+export class SkillsExecutedSuccess implements Action {
+  readonly type = CommandActionTypes.SkillsExecutedSuccess;
+  constructor(public payload: SkillsExecutedModel) {}
+}
+
 export type CommandAction = CommandInitiated
+  | CommandEffectsInit
   | CommandExecutedFail
   | RandomExecuted
   | RandomExecutedSuccess
   | EducationExecuted
   | EducationExecutedSuccess
-  | CommandEffectsInit;
+  | SkillsExecuted
+  | SkillsExecutedSuccess;

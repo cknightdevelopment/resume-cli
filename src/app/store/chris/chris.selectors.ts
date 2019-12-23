@@ -14,3 +14,8 @@ export const selectEducation = createSelector(
   selectChris,
   (state: ChrisState) => state.education
 );
+
+export const selectSkills = createSelector(
+  selectChris,
+  (state: ChrisState) => state.skills
+);

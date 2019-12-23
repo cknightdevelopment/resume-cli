@@ -1,0 +1,62 @@
+.skill-data-container {
+  display: flex;
+  flex-wrap: wrap;
+
+  .skill-set-container {
+    flex: 1 0 275px;
+
+    .skill-set-title {
+      margin: 5px 0;
+    }
+
+    .skill-container {
+      display: flex;
+      background-color: black;
+      padding: 5px 0;
+      align-items: center;
+      line-height: 15px;
+
+      .skill-name {
+        color: white;
+        margin-right: 20px;
+        flex: 0 0 100px;
+      }
+
+      .skill-rating-item {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid limegreen;
+        overflow: hidden;
+        position: relative;
+
+        &::before {
+          content: '';
+          height: 12px;
+          display: block;
+          position: absolute;
+        }
+
+        + .skill-rating-item {
+          margin-left: 5px;
+        }
+
+        &--full, &--half {
+          background-color: limegreen;
+        }
+
+        &--half::before {
+          width: 50%;
+          background-color: black;
+          right: 0;
+        }
+
+        &--empty::before {
+          width: 100%;
+          background-color: black;
+        }
+      }
+    }
+  }
+
+}

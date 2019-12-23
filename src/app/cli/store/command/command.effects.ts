@@ -1,7 +1,7 @@
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line: max-line-length
-import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated } from './command.actions';
+import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecutedSuccess } from './command.actions';
 import { withLatestFrom, map, tap } from 'rxjs/operators';
 import { CommandService } from 'src/app/core/command/command.service';
 import { CommandFacade } from './command.facade';
@@ -54,6 +54,14 @@ export class CommandEffects implements OnInitEffects {
     withLatestFrom(this.chrisFacade.education$),
     map(([action, education]) => {
       return new EducationExecutedSuccess({ college: education.college });
+    })
+  );
+
+  @Effect() skills$ = this.actions$.pipe(
+    ofType<EducationExecuted>(CommandActionTypes.SkillsExecuted),
+    withLatestFrom(this.chrisFacade.skills$),
+    map(([action, skills]) => {
+      return new SkillsExecutedSuccess({ skills });
     })
   );
 

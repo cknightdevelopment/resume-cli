@@ -1,0 +1,15 @@
+<app-terminal-output>
+  <div class="skill-data-container">
+    <div class="skill-set-container" *ngFor="let set of data?.skills">
+      <h4 class="skill-set-title">{{set.title}}</h4>
+      <div class="skill-container" *ngFor="let skill of set.ratings">
+        <span class="skill-name">{{skill.name}}</span>
+        <div *ngFor="let appendix of buildRatingItemClassAppendixes(skill.rating, set.maxRating)"
+          class="skill-rating-item"
+          [ngClass]="'skill-rating-item--' + appendix"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</app-terminal-output>

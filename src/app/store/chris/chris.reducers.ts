@@ -1,14 +1,16 @@
 import { ChrisAction, ChrisActionTypes } from './chris.actions';
-import { EducationModel } from 'src/app/models/chris/chris-data.model';
+import { EducationModel, SkillSetModel } from 'src/app/models/chris/chris-data.model';
 
 export interface ChrisState {
   facts: string[];
   education: EducationModel;
+  skills: SkillSetModel[];
 }
 
 export const intitalState: ChrisState = {
   facts: [],
-  education: null
+  education: null,
+  skills: []
 };
 
 export function reducer(state = intitalState, action: ChrisAction): ChrisState {

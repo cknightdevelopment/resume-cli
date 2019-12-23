@@ -7,6 +7,7 @@ import { InvalidParameterInputParams } from './invalid-parameter-input-params.mo
 import { UnknownCliInputParams } from './unknown-cli-input-params.model';
 import { HelpCommandInputParams } from './help-command-input-params.model';
 import { EducationInputParams } from './education-input-params.model';
+import { SkillsInputParams } from './skills-input-params.model';
 
 export type CommandInputParams = RandomCommandInputParams
   | UnknownCommandInputParams
@@ -16,4 +17,5 @@ export type CommandInputParams = RandomCommandInputParams
   | InvalidArgumentInputParams
   | UnknownCliInputParams
   | HelpCommandInputParams
-  | EducationInputParams;
+  | EducationInputParams
+  | SkillsInputParams;

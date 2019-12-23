@@ -9,19 +9,22 @@ import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { ChrisService } from 'src/app/core/chris/chris.service';
 import { ChrisDataModel } from 'src/app/models/chris/chris-data.model';
 import { educationModel } from 'src/test-helpers/factory/models';
+import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 class MockChrisService {
   facts = [
-    'Chris does Crossfit.' ,
-    'Chris went to music school for bass guitar.' ,
-    'Chris loves stand up comedy.' ,
+    'Chris does Crossfit.',
+    'Chris went to music school for bass guitar.',
+    'Chris loves stand up comedy.',
   ];
   edu = educationModel();
+  skills = [skillSetModel()];
 
   getData(): Observable<ChrisDataModel> {
     return of({
       facts: this.facts,
-      education: this.edu
+      education: this.edu,
+      skills: this.skills
     });
   }
 }
@@ -54,7 +57,13 @@ describe('NGRX Effects: Chris', () => {
 
   it('should load static data', () => {
     actions$ = cold('a', { a: new LoadStaticData() });
-    const expected = cold('a', { a: new LoadStaticDataSuccess({ facts: chrisSvc.facts, education: chrisSvc.edu }) });
+    const expected = cold('a', {
+      a: new LoadStaticDataSuccess({
+        facts: chrisSvc.facts,
+        education: chrisSvc.edu,
+        skills: chrisSvc.skills
+      })
+    });
 
     expect(facade.loadStaticData$).toBeObservable(expected);
   });

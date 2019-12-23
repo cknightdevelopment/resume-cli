@@ -29,5 +29,44 @@
         "Worked as a tour guide at the college for two years"
       ]
     }
-  }
+  },
+  "skills": [
+    {
+      "title": "Languages",
+      "maxRating": 5,
+      "ratings": [
+        { "name": "JavaScript", "rating": 5 },
+        { "name": "TypeScript", "rating": 5 },
+        { "name": "HTML", "rating": 4.5 },
+        { "name": "CSS", "rating": 4.5 },
+        { "name": "C#", "rating": 4.5 },
+        { "name": "SQL", "rating": 3.5 }
+      ]
+    },
+    {
+      "title": "Frameworks & Libraries",
+      "maxRating": 5,
+      "ratings": [
+        { "name": "Angular", "rating": 5 },
+        { "name": "AngularJS", "rating": 4 },
+        { "name": "ASP.NET MVC", "rating": 4.5 },
+        { "name": ".NET Core", "rating": 4 }
+      ]
+    },
+    {
+      "title": "Other Technical Skills",
+      "maxRating": 5,
+      "ratings": [
+        { "name": "Git", "rating": 5 },
+        { "name": "CI", "rating": 3.5 }
+      ]
+    },
+    {
+      "title": "Non-Technical Skills",
+      "maxRating": 5,
+      "ratings": [
+        { "name": "Cooperation", "rating": 5 }
+      ]
+    }
+  ]
 }

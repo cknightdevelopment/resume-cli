@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { CommandEffects } from './command.effects';
 // tslint:disable-next-line: max-line-length
-import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated } from './command.actions';
+import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecuted, SkillsExecutedSuccess } from './command.actions';
 import { CommandService } from 'src/app/core/command/command.service';
 import * as factory from 'src/test-helpers/factory/models';
 import { CommandFacade } from './command.facade';
@@ -39,11 +39,13 @@ class MockCommandFacade {
 class MockChrisFacade {
   data = {
     education: factory.educationModel(),
-    facts: ['Fact1', 'Fact2', 'Fact3']
+    facts: ['Fact1', 'Fact2', 'Fact3'],
+    skills: [factory.skillSetModel()]
   };
 
   facts$ = of(this.data.facts);
   education$ = of(this.data.education);
+  skills$ = of(this.data.skills);
 }
 
 let actions$: Observable<Action>;
@@ -185,6 +187,15 @@ describe('NGRX Effects: Command', () => {
       const expected = cold('a', { a: new EducationExecutedSuccess(mockChrisFacade.data.education) });
 
       expect(effects.education$).toBeObservable(expected);
+    });
+  });
+
+  describe('skills$', () => {
+    it('should get skills data from facade', () => {
+      actions$ = cold('a', { a: new SkillsExecuted({}) });
+      const expected = cold('a', { a: new SkillsExecutedSuccess({ skills: mockChrisFacade.data.skills }) });
+
+      expect(effects.skills$).toBeObservable(expected);
     });
   });
 });

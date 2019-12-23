@@ -25,6 +25,8 @@ import { HelpComponent } from 'src/app/cli/commands/help/help.component';
 import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
 import { EducationComponent } from 'src/app/cli/commands/education/education.component';
 import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
+import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
+import { SkillsInputParams } from 'src/app/models/command/input/skills-input-params.model';
 
 
 @Injectable({
@@ -83,6 +85,9 @@ export class CommandParserService {
         break;
       case CommandNames.Education:
         parseFunc = () => this.parseCommandInput(this.parseEducation(inputParams.valid), CommandNames.Education, EducationComponent);
+        break;
+      case CommandNames.Skills:
+        parseFunc = () => this.parseCommandInput(this.parseSkills(inputParams.valid), CommandNames.Skills, SkillsComponent);
         break;
       default:
         return {
@@ -198,6 +203,21 @@ export class CommandParserService {
 
   private parseEducation(kvp: KeyValuePair<string>): ParsedParams<EducationInputParams> {
     const params = {} as EducationInputParams;
+
+    for (const key in kvp) {
+      if (kvp.hasOwnProperty(key)) {
+        switch (key.toLowerCase()) {
+          default:
+            return { unknown: key };
+        }
+      }
+    }
+
+    return { params };
+  }
+
+  private parseSkills(kvp: KeyValuePair<string>): ParsedParams<SkillsInputParams> {
+    const params = {} as SkillsInputParams;
 
     for (const key in kvp) {
       if (kvp.hasOwnProperty(key)) {

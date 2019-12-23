@@ -3,6 +3,7 @@ import * as selectors from 'src/app/cli/store/command/command.selectors';
 import { AppState } from 'src/app/store';
 import { InitializedCommand } from './command.reducers';
 import { educationModel } from 'src/test-helpers/factory/models';
+import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Selectors: Command', () => {
   let appState: AppState;
@@ -52,5 +53,14 @@ describe('NGRX Selectors: Command', () => {
     };
 
     expect(selectors.selectEducationExecutionData(appState)).toEqual(appState.cli.command.executed.education);
+  });
+
+  it('should select executed skills data', () => {
+    const skillSets = [skillSetModel()];
+    appState.cli.command.executed = {
+      skills: { skills: skillSets }
+    };
+
+    expect(selectors.selectSkillsExecutionData(appState)).toEqual(appState.cli.command.executed.skills);
   });
 });

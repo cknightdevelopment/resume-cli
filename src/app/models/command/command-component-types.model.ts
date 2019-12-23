@@ -7,6 +7,7 @@ import { InvalidParameterComponent } from 'src/app/cli/commands/invalid-paramete
 import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cli.component';
 import { HelpComponent } from 'src/app/cli/commands/help/help.component';
 import { EducationComponent } from 'src/app/cli/commands/education/education.component';
+import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
 
 export type CommandComponentTypes = RandomCommandComponent
   | UnknownCommandComponent
@@ -16,4 +17,5 @@ export type CommandComponentTypes = RandomCommandComponent
   | InvalidArgumentComponent
   | UnknownCliComponent
   | HelpComponent
-  | EducationComponent;
+  | EducationComponent
+  | SkillsComponent;

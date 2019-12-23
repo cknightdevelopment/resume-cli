@@ -22,6 +22,7 @@ import { TerminalOutputComponent } from './terminal-output/terminal-output.compo
 import { EffectsModule } from '@ngrx/effects';
 import { CommandEffects } from './store/command/command.effects';
 import { EducationComponent } from './commands/education/education.component';
+import { SkillsComponent } from './commands/skills/skills.component';
 
 const commandComponents = [
   RandomCommandComponent,
@@ -32,7 +33,8 @@ const commandComponents = [
   UnknownParameterComponent,
   UnknownCliComponent,
   HelpComponent,
-  EducationComponent
+  EducationComponent,
+  SkillsComponent
 ];
 
 @NgModule({
@@ -41,7 +43,7 @@ const commandComponents = [
     TerminalPromptComponent,
     TerminalCommandOutputComponent,
     TerminalOutputComponent,
-    ...commandComponents,
+    ...commandComponents
   ],
   imports: [
     CommonModule,
