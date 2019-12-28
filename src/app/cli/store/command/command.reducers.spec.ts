@@ -91,12 +91,14 @@ describe('NGRX Reducers: Command', () => {
       expect(reducer(commandState, new CommandInitiated('1')).history).toEqual([...prevHistory, command]);
     });
 
-    it('should not add to history array when command text is an immediate duplicate', () => {
-      const prevHistory = [{ text: '1', initializedOn: new Date() }, { text: '2', initializedOn: new Date() }];
-      commandState.history = prevHistory;
+    it('should not add to history array when command text is an immediate duplicate regardless of array index order ' +
+      '(should sort by initializedOn DESC)',
+      () => {
+        const prevHistory = [{ text: 'Jan2', initializedOn: new Date(2019, 0, 2) }, { text: 'Jan1', initializedOn: new Date(2019, 0, 1) }];
+        commandState.history = prevHistory;
 
-      expect(reducer(commandState, new CommandInitiated('2')).history).toEqual(prevHistory);
-    });
+        expect(reducer(commandState, new CommandInitiated('Jan2')).history).toEqual(prevHistory);
+      });
 
     it('should handle when history is falsy', () => {
       commandState.history = null;

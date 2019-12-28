@@ -4,12 +4,14 @@ export const CONSTANTS = {
     UP: 'ArrowUp',
     DOWN: 'ArrowDown',
     ENTER: 'Enter',
-    BACKSPACE: 'Backspace'
+    BACKSPACE: 'Backspace',
+    K: 'KeyK',
   },
   CLI_NAME: 'chris',
   COMMAND: {
     PARAM_PREFIX: '--',
-    PARAM_KEY_VALUE_SEPARATOR: '='
+    PARAM_KEY_VALUE_SEPARATOR: '=',
+    CLEAR_COMMANDS: ['clear', 'cls']
   },
   PARAM_REASONS: {
     NOT_NON_NEGATIVE_INTEGER: 'not a non-negative integer'

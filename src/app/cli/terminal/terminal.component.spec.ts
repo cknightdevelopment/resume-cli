@@ -9,12 +9,30 @@ import { CommandInitiated } from '../store/command/command.actions';
 import { MockCommandFacade } from 'src/test-helpers/mock/command-facade.mock';
 import { InitializedCommand } from '../store/command/command.reducers';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
+import { ParseStatus } from 'src/app/models/command/parse-status.model';
+import { HelpComponent } from '../commands/help/help.component';
+import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
+
+class MockCommandParserService {
+  static parsedCommandToReturn = {
+    status: ParseStatus.Parsed,
+    name: 'Mock' as any,
+    componentType: HelpComponent as any,
+    params: { test: 123 } as any
+  };
+
+  parseCommand(): ParsedCommandInput {
+    return MockCommandParserService.parsedCommandToReturn;
+  }
+}
 
 describe('TerminalComponent', () => {
   let component: TerminalComponent;
   let promptComponent: TerminalPromptComponent;
   let fixture: ComponentFixture<TerminalComponent>;
   let mockCommandFacade: MockCommandFacade;
+  let mockCommandParserSvc: MockCommandParserService;
 
   function getElements() {
     return {
@@ -30,7 +48,8 @@ describe('TerminalComponent', () => {
         TestModule
       ],
       providers: [
-        { provide: CommandFacade, useClass: MockCommandFacade }
+        { provide: CommandFacade, useClass: MockCommandFacade },
+        { provide: CommandParserService, useClass: MockCommandParserService }
       ],
       declarations: [
         TerminalComponent,
@@ -45,6 +64,7 @@ describe('TerminalComponent', () => {
     component = fixture.componentInstance;
     promptComponent = fixture.debugElement.query(By.directive(TerminalPromptComponent)).componentInstance;
     mockCommandFacade = TestBed.get(CommandFacade);
+    mockCommandParserSvc = TestBed.get(CommandParserService);
     fixture.detectChanges();
   });
 
@@ -95,14 +115,38 @@ describe('TerminalComponent', () => {
   });
 
   describe('initialized commands', () => {
-    it('should create terminal command output component for each initialized command', () => {
-      mockCommandFacade.initializedCommand$.next({ text: 'test1', initializedOn: new Date() });
-      fixture.detectChanges();
-      mockCommandFacade.initializedCommand$.next({ text: 'test2', initializedOn: new Date() });
+    it('should create terminal command output component for each initialized command with parsed result', () => {
+      spyOn(mockCommandParserSvc, 'parseCommand').and.callThrough();
+
+      const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+      mockCommandFacade.initializedCommand$.next(initializedCommand);
       fixture.detectChanges();
 
       const elements = getElements();
-      expect(elements.commandOutputs.length).toEqual(2);
+      expect(mockCommandParserSvc.parseCommand).toHaveBeenCalledWith('test');
+      expect(component.commands).toEqual([{
+        initialized: initializedCommand,
+        parsed: MockCommandParserService.parsedCommandToReturn
+      }]);
+      expect(elements.commandOutputs.length).toEqual(1);
+    });
+
+    it('should clear terminal command command output when initialized command with status of clear', () => {
+      spyOn(mockCommandParserSvc, 'parseCommand').and.returnValue({
+        status: ParseStatus.Clear
+      });
+
+      // add one item to the commands, so we can test that it gets cleared
+      component.commands = [{ initialized: {} as any, parsed: {} as any }];
+      fixture.detectChanges();
+
+      const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+      mockCommandFacade.initializedCommand$.next(initializedCommand);
+      fixture.detectChanges();
+
+      const elements = getElements();
+      expect(component.commands).toEqual([]);
+      expect(elements.commandOutputs.length).toEqual(0);
     });
 
     it('should not create terminal command output component for falsy initialized command', () => {

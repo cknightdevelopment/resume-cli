@@ -62,6 +62,14 @@ describe('CommandParserService', () => {
       } as ParsedCommandInput);
     });
 
+    it('should return clear when preparsed data is clear', () => {
+      spyOn(parserSvc, 'getPreParsedCommandData').and.returnValue({ clear: true });
+
+      expect(parserSvc.parseCommand('test')).toEqual({
+        status: ParseStatus.Clear
+      } as ParsedCommandInput);
+    });
+
     it('should return help when preparsed data is no command', () => {
       spyOn(parserSvc, 'getPreParsedCommandData').and.returnValue({
         noCommand: true
@@ -108,6 +116,12 @@ describe('CommandParserService', () => {
     it('should return noCommand when known cli but no command', () => {
       const text = createCommandText();
       expect(parserSvc.getPreParsedCommandData(text)).toEqual({ noCommand: true } as PreParsedCommand);
+    });
+
+    it('should return clear when clear command passed in (non-main cli command)', () => {
+      CONSTANTS.COMMAND.CLEAR_COMMANDS.forEach(cmd => {
+        expect(parserSvc.getPreParsedCommandData(cmd)).toEqual({ clear: true } as PreParsedCommand);
+      });
     });
 
     it('should return name and empty params when command provided without parameters', () => {

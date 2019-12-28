@@ -21,6 +21,7 @@ export class TerminalPromptComponent implements OnInit {
   @Input() styles: TerminalNgStyle;
   @Input() history: InitializedCommand[];
   @Output() commandInitiated = new EventEmitter<string>();
+  @Output() cleared = new EventEmitter<void>();
 
   commandCtrl: FormControl;
 
@@ -35,7 +36,7 @@ export class TerminalPromptComponent implements OnInit {
   }
 
   onKeydown(event: KeyboardEvent) {
-    switch (event.key) {
+    switch (event.code) {
       case CONSTANTS.KEY_CODES.TAB:
         event.preventDefault();
         break;
@@ -50,6 +51,12 @@ export class TerminalPromptComponent implements OnInit {
       case CONSTANTS.KEY_CODES.DOWN:
         this.onDown();
         event.preventDefault();
+        break;
+      case CONSTANTS.KEY_CODES.K:
+        if (event.metaKey) {
+          this.onMetaK();
+          event.preventDefault();
+        }
         break;
       default:
         break;
@@ -89,6 +96,10 @@ export class TerminalPromptComponent implements OnInit {
       this.resetHistoryPosition();
       this.commandCtrl.patchValue(null);
     }
+  }
+
+  private onMetaK() {
+    this.cleared.emit();
   }
 
   private resetHistoryPosition() {

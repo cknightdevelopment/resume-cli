@@ -59,17 +59,16 @@ describe('TerminalPromptComponent', () => {
 
   it('should handle tab', () => {
     const { input } = getElements();
-    const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.TAB });
+    const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.TAB });
 
     fixture.detectChanges();
 
     expect(preventDefault).toHaveBeenCalled();
   });
 
-
   it('should handle shift tab', () => {
     const { input } = getElements();
-    const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.TAB, shiftKey: true });
+    const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.TAB, shiftKey: true });
 
     fixture.detectChanges();
 
@@ -78,14 +77,29 @@ describe('TerminalPromptComponent', () => {
 
   it('should handle enter', () => {
     const { input } = getElements();
-    component.commandCtrl.patchValue('chris');
-    const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.ENTER });
+    component.commandCtrl.patchValue('test');
+    const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.ENTER });
 
     fixture.detectChanges();
 
     expect(preventDefault).toHaveBeenCalled();
-    const expected = cold('a', { a: 'chris' });
+    const expected = cold('a', { a: 'test' });
     expect(component.commandInitiated).toBeObservable(expected);
+  });
+
+  it('should handle Meta + K', () => {
+    const { input } = getElements();
+    component.commandCtrl.patchValue('test');
+    const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.K, metaKey: true });
+
+    fixture.detectChanges();
+
+    expect(preventDefault).toHaveBeenCalled();
+    const expected = cold('a', { a: undefined });
+    expect(component.cleared).toBeObservable(expected);
+
+    // should keep the form control value when cleared
+    expect(component.commandCtrl.value).toEqual('test');
   });
 
   describe('arrow keys', () => {
@@ -102,13 +116,13 @@ describe('TerminalPromptComponent', () => {
 
     describe('up arrow', () => {
       it('should prevent default', () => {
-        const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
+        const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
         fixture.detectChanges();
         expect(preventDefault).toHaveBeenCalled();
       });
 
       it('should handle when no history', () => {
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
         fixture.detectChanges();
 
         expect(commandCtrlPatchValueSpy).not.toHaveBeenCalled();
@@ -122,20 +136,20 @@ describe('TerminalPromptComponent', () => {
         ];
         fixture.detectChanges();
 
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
         fixture.detectChanges();
         expect(commandCtrlPatchValueSpy).toHaveBeenCalledWith('3');
 
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
         fixture.detectChanges();
         expect(commandCtrlPatchValueSpy).toHaveBeenCalledWith('2');
 
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
         fixture.detectChanges();
         expect(commandCtrlPatchValueSpy).toHaveBeenCalledWith('1');
 
         // once last history item is reached, continuing to hit up should display the last item
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
         fixture.detectChanges();
         expect(commandCtrlPatchValueSpy).toHaveBeenCalledWith('1');
       });
@@ -143,13 +157,13 @@ describe('TerminalPromptComponent', () => {
 
     describe('down arrow', () => {
       it('should prevent default', () => {
-        const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.DOWN });
+        const { preventDefault } = keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.DOWN });
         fixture.detectChanges();
         expect(preventDefault).toHaveBeenCalled();
       });
 
       it('should handle when no history', () => {
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.DOWN });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.DOWN });
         fixture.detectChanges();
 
         expect(commandCtrlPatchValueSpy).not.toHaveBeenCalled();
@@ -164,21 +178,21 @@ describe('TerminalPromptComponent', () => {
         fixture.detectChanges();
 
         // move to the last history item
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.UP });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.UP });
         fixture.detectChanges();
 
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.DOWN });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.DOWN });
         fixture.detectChanges();
         expect(commandCtrlPatchValueSpy).toHaveBeenCalledWith('2');
 
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.DOWN });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.DOWN });
         fixture.detectChanges();
         expect(commandCtrlPatchValueSpy).toHaveBeenCalledWith('3');
 
         // once first history item has already been shown, pressing down again clears out value
-        keyboard(input, KeyboardEventName.KEYDOWN, { key: CONSTANTS.KEY_CODES.DOWN });
+        keyboard(input, KeyboardEventName.KEYDOWN, { code: CONSTANTS.KEY_CODES.DOWN });
         fixture.detectChanges();
         expect(commandCtrlPatchValueSpy).toHaveBeenCalledWith(null);
       });

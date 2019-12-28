@@ -2,17 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TerminalCommandOutputComponent } from './terminal-command-output.component';
 import { By } from '@angular/platform-browser';
-import { InitializedCommand } from '../store/command/command.reducers';
 import { ChangeDetectionStrategy, Input, Component, NgModule } from '@angular/core';
 import { CommandComponent } from '../commands/command.component';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
 import { CommonModule } from '@angular/common';
 import { ParseStatus } from 'src/app/models/command/parse-status.model';
-import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
 
-interface MockCommandInputParams {
-  test: number;
-}
 
 @Component({
   template: `<div class="command-json">{{ params | json }}</div>`
@@ -21,19 +16,6 @@ class MockCommandComponent implements CommandComponent<MockCommandComponent> {
   @Input() params: MockCommandComponent;
 
   constructor() {}
-}
-
-class MockCommandParserService {
-  static paramsToReturn = { test: 123 } as MockCommandInputParams;
-
-  parseCommand(): ParsedCommandInput {
-    return {
-      status: ParseStatus.Parsed,
-      name: 'Mock' as any,
-      componentType: MockCommandComponent as any,
-      params: MockCommandParserService.paramsToReturn as any
-    };
-  }
 }
 
 @NgModule({
@@ -66,10 +48,7 @@ describe('TerminalCommandOutputComponent', () => {
       ],
       declarations: [
         TerminalCommandOutputComponent
-      ],
-      providers: [
-        { provide: CommandParserService, useClass: MockCommandParserService }
-      ],
+      ]
     }).overrideComponent(TerminalCommandOutputComponent, {
       set: { changeDetection: ChangeDetectionStrategy.Default }
     }).compileComponents();
@@ -94,20 +73,28 @@ describe('TerminalCommandOutputComponent', () => {
 
   describe('command provided', () => {
     beforeEach(() => {
-      component.command = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+      component.command = {
+        initialized: { text: 'test', initializedOn: new Date() },
+        parsed: {
+          status: ParseStatus.Parsed,
+          name: 'Mock' as any,
+          componentType: MockCommandComponent as any,
+          params: { test: 123 } as any
+        }
+      };
       fixture.detectChanges();
     });
 
-    it('should show command text only if a command is provided', () => {
+    it('should show command text only if an initialized command is provided', () => {
       const elements = getElements();
       expect(elements.initializedCommandText).toBeTruthy();
       expect(elements.initializedCommandText.nativeElement.innerText).toEqual('test');
     });
 
-    it('should show command text only if a command is provided', () => {
+    it('should show command component only if a parsed command is provided', () => {
       const elements = getElements();
       expect(elements.mockCommandJsonElement).toBeTruthy();
-      expect(JSON.parse(elements.mockCommandJsonElement.nativeElement.innerText)).toEqual(MockCommandParserService.paramsToReturn);
+      expect(JSON.parse(elements.mockCommandJsonElement.nativeElement.innerText)).toEqual({ test: 123 });
     });
   });
 });

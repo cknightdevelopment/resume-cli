@@ -7,5 +7,6 @@ export enum ParseStatus {
   UnknownParameter,
   MissingParameter,
   InvalidParameter,
-  InvalidArgument
+  InvalidArgument,
+  Clear
 }

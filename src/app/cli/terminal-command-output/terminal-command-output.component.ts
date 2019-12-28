@@ -1,8 +1,7 @@
 // tslint:disable-next-line: max-line-length
-import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { InitializedCommand } from '../store/command/command.reducers';
+import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectionStrategy, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
-import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
+import { TerminalCommandOutputParam } from '../terminal/terminal.component';
 
 @Component({
   selector: 'app-terminal-command-output',
@@ -12,18 +11,15 @@ import { CommandParserService } from 'src/app/core/command/command-parser/comman
   encapsulation: ViewEncapsulation.None
 })
 export class TerminalCommandOutputComponent implements OnInit {
-  @Input() command: InitializedCommand;
-  @ViewChild('commandOutput', {static: true, read: ViewContainerRef}) commandOutputRef: ViewContainerRef;
+  @Input() command: TerminalCommandOutputParam;
+  @ViewChild('commandOutput', { static: true, read: ViewContainerRef }) commandOutputRef: ViewContainerRef;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private commandParserSvc: CommandParserService) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
-    if (!this.command) return;
+    if (!this.command || !this.command.initialized || !this.command.parsed) return;
 
-    const parsedCommandInput = this.commandParserSvc.parseCommand(this.command.text);
-    if (parsedCommandInput) {
-      this.loadCommandComponent(parsedCommandInput);
-    }
+    this.loadCommandComponent(this.command.parsed);
   }
 
   private loadCommandComponent(parsedCommandInput: ParsedCommandInput) {

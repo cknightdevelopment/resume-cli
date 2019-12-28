@@ -44,6 +44,10 @@ export class CommandParserService {
         componentType: UnknownCliComponent,
         params: { cliName: preParsedCommand.unknownCliName } as UnknownCliInputParams,
       };
+    } else if (preParsedCommand.clear) {
+      return {
+        status: ParseStatus.Clear
+      };
     } else if (preParsedCommand.noCommand) {
       // return help if no command provided
       return {
@@ -64,7 +68,9 @@ export class CommandParserService {
     if (!commandParts || !commandParts.length) {
       return { empty: true };
     } else if (!ciEquals(commandParts[0], CONSTANTS.CLI_NAME)) {
-      return { unknownCli: true, unknownCliName: commandParts[0] } as PreParsedCommand;
+      return CONSTANTS.COMMAND.CLEAR_COMMANDS.some(x => ciEquals(commandParts[0], x))
+        ? { clear: true } as PreParsedCommand
+        : { unknownCli: true, unknownCliName: commandParts[0] } as PreParsedCommand;
     } else if (commandParts.length < 2) {
       return { noCommand: true } as PreParsedCommand;
     }

@@ -8,4 +8,5 @@ export interface PreParsedCommand extends ValidPreParsedCommand {
   unknownCliName?: string;
   noCommand?: boolean;
   empty?: boolean;
+  clear?: boolean;
 }

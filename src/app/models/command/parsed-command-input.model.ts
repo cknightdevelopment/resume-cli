@@ -7,6 +7,6 @@ import { CommandInputParams } from './input/command-input-params.model';
 export interface ParsedCommandInput {
   status: ParseStatus;
   name?: CommandNames;
-  componentType: Type<CommandComponentTypes>;
-  params: CommandInputParams;
+  componentType?: Type<CommandComponentTypes>;
+  params?: CommandInputParams;
 }
