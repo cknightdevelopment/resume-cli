@@ -48,8 +48,6 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
         });
         const isImmediateRepeat = ciEquals(sortedHistory[0].text, newCommand.text);
 
-        // const isImmediateRepeat = ciEquals(state.history[state.history.length - 1].text, newCommand.text);
-
         if (isImmediateRepeat) {
           newCommandForHistory = [];
         }

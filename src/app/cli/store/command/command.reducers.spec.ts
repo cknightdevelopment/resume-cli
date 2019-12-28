@@ -80,13 +80,16 @@ describe('NGRX Reducers: Command', () => {
     });
 
     it('should add to history array when command text is a non-immediate duplicate', () => {
-      const prevHistory = [{ text: '1', initializedOn: new Date() }, { text: '2', initializedOn: new Date() }];
+      const prevHistory = [{ text: '1', initializedOn: new Date(2019, 0, 1) }, { text: '2', initializedOn: new Date(2019, 0, 2) }];
       commandState.history = prevHistory;
 
       const command = {
         text: '1',
-        initializedOn: new Date()
+        initializedOn: new Date(2019, 0, 3)
       } as InitializedCommand;
+
+      // adjust the new 'Date()' in the reducer to return 01/03/2019
+      jasmine.clock().mockDate(new Date(2019, 0, 3));
 
       expect(reducer(commandState, new CommandInitiated('1')).history).toEqual([...prevHistory, command]);
     });
