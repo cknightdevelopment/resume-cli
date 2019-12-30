@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { RandomCommandInputParams } from 'src/app/models/command/input/random-command-input-params.model';
+import { RandomInputParams } from 'src/app/models/command/input/random-input-params.model';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
@@ -39,7 +39,7 @@ export class CommandExecutedFail implements Action {
 
 export class RandomExecuted implements Action {
   readonly type = CommandActionTypes.RandomExecuted;
-  constructor(public payload: RandomCommandInputParams) {}
+  constructor(public payload: RandomInputParams) {}
 }
 
 export class RandomExecutedSuccess implements Action {

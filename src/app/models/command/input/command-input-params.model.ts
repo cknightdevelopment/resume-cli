@@ -1,4 +1,4 @@
-import { RandomCommandInputParams } from './random-command-input-params.model';
+import { RandomInputParams } from './random-input-params.model';
 import { UnknownCommandInputParams } from './unknown-command-input-params.model';
 import { UnknownParameterInputParams } from './unknown-parameter-input-params.model';
 import { MissingParameterInputParams } from './missing-parameter-input-params.model';
@@ -9,7 +9,7 @@ import { HelpCommandInputParams } from './help-command-input-params.model';
 import { EducationInputParams } from './education-input-params.model';
 import { SkillsInputParams } from './skills-input-params.model';
 
-export type CommandInputParams = RandomCommandInputParams
+export type CommandInputParams = RandomInputParams
   | UnknownCommandInputParams
   | UnknownParameterInputParams
   | MissingParameterInputParams

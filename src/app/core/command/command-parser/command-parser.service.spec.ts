@@ -11,7 +11,7 @@ import { CommandNames } from 'src/app/models/command/command-names.model';
 import { InvalidParameterComponent } from 'src/app/cli/commands/invalid-parameter/invalid-parameter.component';
 import { InvalidParameterInputParams } from 'src/app/models/command/input/invalid-parameter-input-params.model';
 import { RandomCommandComponent } from 'src/app/cli/commands/random-command/random-command.component';
-import { RandomCommandInputParams } from 'src/app/models/command/input/random-command-input-params.model';
+import { RandomInputParams } from 'src/app/models/command/input/random-input-params.model';
 import { InvalidArgumentComponent } from 'src/app/cli/commands/invalid-argument/invalid-argument.component';
 import { InvalidArgumentInputParams } from 'src/app/models/command/input/invalid-argument-input-params.model';
 import { CONSTANTS } from 'src/app/models/constants';
@@ -190,7 +190,7 @@ describe('CommandParserService', () => {
           status: ParseStatus.Parsed,
           name: CommandNames.Random,
           componentType: RandomCommandComponent,
-          params: { } as RandomCommandInputParams
+          params: { count: null } as RandomInputParams
         } as ParsedCommandInput);
       });
 
@@ -200,7 +200,7 @@ describe('CommandParserService', () => {
           status: ParseStatus.Parsed,
           name: CommandNames.Random,
           componentType: RandomCommandComponent,
-          params: { count: 3 } as RandomCommandInputParams
+          params: { count: 3 } as RandomInputParams
         } as ParsedCommandInput);
       });
 

@@ -1,4 +1,4 @@
 export interface MissingParameterInputParams {
-  name: string;
+  paramName: string;
   reason?: string;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommandComponent } from '../command.component';
-import { RandomCommandInputParams } from 'src/app/models/command/input/random-command-input-params.model';
+import { RandomInputParams } from 'src/app/models/command/input/random-input-params.model';
 import { CommandFacade } from '../../store/command/command.facade';
 import { RandomExecuted } from '../../store/command/command.actions';
 import { filter, take } from 'rxjs/operators';
@@ -14,8 +14,8 @@ import { RandomCommandExecutedModel } from 'src/app/models/command/executed/rand
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class RandomCommandComponent implements CommandComponent<RandomCommandInputParams>, OnInit {
-  @Input() params: RandomCommandInputParams;
+export class RandomCommandComponent implements CommandComponent<RandomInputParams>, OnInit {
+  @Input() params: RandomInputParams;
   data: RandomCommandExecutedModel;
 
   constructor(private facade: CommandFacade) {
