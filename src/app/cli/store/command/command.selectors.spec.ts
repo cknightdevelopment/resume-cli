@@ -2,7 +2,7 @@ import * as factory from 'src/test-helpers/factory/state';
 import * as selectors from 'src/app/cli/store/command/command.selectors';
 import { AppState } from 'src/app/store';
 import { InitializedCommand } from './command.reducers';
-import { educationModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Selectors: Command', () => {
@@ -62,5 +62,14 @@ describe('NGRX Selectors: Command', () => {
     };
 
     expect(selectors.selectSkillsExecutionData(appState)).toEqual(appState.cli.command.executed.skills);
+  });
+
+  it('should select executed links data', () => {
+    const links = [linkModel()];
+    appState.cli.command.executed = {
+      links: { links }
+    };
+
+    expect(selectors.selectLinksExecutionData(appState)).toEqual(appState.cli.command.executed.links);
   });
 });

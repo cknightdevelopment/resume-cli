@@ -8,7 +8,7 @@ import { LoadStaticData, LoadStaticDataSuccess } from './chris.actions';
 import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { ChrisService } from 'src/app/core/chris/chris.service';
 import { ChrisDataModel } from 'src/app/models/chris/chris-data.model';
-import { educationModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 class MockChrisService {
@@ -19,12 +19,14 @@ class MockChrisService {
   ];
   edu = educationModel();
   skills = [skillSetModel()];
+  links = [linkModel()];
 
   getData(): Observable<ChrisDataModel> {
     return of({
       facts: this.facts,
       education: this.edu,
-      skills: this.skills
+      skills: this.skills,
+      links: this.links
     });
   }
 }
@@ -61,7 +63,8 @@ describe('NGRX Effects: Chris', () => {
       a: new LoadStaticDataSuccess({
         facts: chrisSvc.facts,
         education: chrisSvc.edu,
-        skills: chrisSvc.skills
+        skills: chrisSvc.skills,
+        links: chrisSvc.links
       })
     });
 

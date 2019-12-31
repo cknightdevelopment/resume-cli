@@ -26,6 +26,7 @@ import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
 import { keys as _keys, difference as _difference } from 'lodash';
 import { RandomInputParamsValidator } from 'src/app/models/command/input/validators/random-input-params-validator.model';
 import { InputParamsValidator } from 'src/app/models/command/input/validators/input-params-validator.model';
+import { LinksComponent } from 'src/app/cli/commands/links/links.component';
 
 
 @Injectable({
@@ -95,6 +96,9 @@ export class CommandParserService {
         break;
       case CommandNames.Skills:
         parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Skills, SkillsComponent);
+        break;
+      case CommandNames.Links:
+        parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Links, LinksComponent);
         break;
       default:
         return {

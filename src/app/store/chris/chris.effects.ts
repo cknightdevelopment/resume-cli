@@ -20,7 +20,8 @@ export class ChrisEffects {
     map(data => new LoadStaticDataSuccess({
       facts: data.facts,
       education: data.education,
-      skills: data.skills
+      skills: data.skills,
+      links: data.links
     }))
   );
 }

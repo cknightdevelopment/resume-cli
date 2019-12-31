@@ -3,6 +3,7 @@ import { RandomCommandExecutedModel } from 'src/app/models/command/executed/rand
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
 import { ciEquals } from 'src/app/util';
 import { SkillsExecutedModel } from 'src/app/models/command/executed/skills-executed.model';
+import { LinksExecutedModel } from 'src/app/models/command/executed/links-executed.model';
 
 export interface CommandState {
   initializedCommand: InitializedCommand;
@@ -12,6 +13,7 @@ export interface CommandState {
     random?: RandomCommandExecutedModel,
     education?: EducationExecutedModel,
     skills?: SkillsExecutedModel,
+    links?: LinksExecutedModel,
   };
 }
 
@@ -56,7 +58,7 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
       return {
         ...state,
         initializedCommand: newCommand,
-        history: [...(state.history || []), ...newCommandForHistory ]
+        history: [...(state.history || []), ...newCommandForHistory]
       };
     case CommandActionTypes.RandomExecuted:
       return {
@@ -91,7 +93,7 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
           education: action.payload
         }
       };
-      case CommandActionTypes.SkillsExecuted:
+    case CommandActionTypes.SkillsExecuted:
       return {
         ...state,
         executed: {
@@ -103,6 +105,20 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
         ...state,
         executed: {
           skills: action.payload
+        }
+      };
+    case CommandActionTypes.LinksExecuted:
+      return {
+        ...state,
+        executed: {
+          links: null
+        }
+      };
+    case CommandActionTypes.LinksExecutedSuccess:
+      return {
+        ...state,
+        executed: {
+          links: action.payload
         }
       };
     default: {

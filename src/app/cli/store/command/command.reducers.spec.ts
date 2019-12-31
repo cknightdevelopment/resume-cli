@@ -2,10 +2,10 @@ import * as factory from 'src/test-helpers/factory/state';
 import { reducer, intitalState, InitializedCommand } from './command.reducers';
 import { NoopAction } from 'src/test-helpers/noop-action';
 // tslint:disable-next-line: max-line-length
-import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, SkillsExecuted, SkillsExecutedSuccess } from './command.actions';
+import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess } from './command.actions';
 import { CommandState } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
-import { educationModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Reducers: Command', () => {
@@ -171,6 +171,20 @@ describe('NGRX Reducers: Command', () => {
       const returnedState = reducer(commandState, new SkillsExecutedSuccess({ skills: skillSets }));
 
       expect(returnedState.executed.skills).toEqual({ skills: skillSets });
+    });
+  });
+
+  describe('links', () => {
+    it('should clear executed links state when links is executed', () => {
+      commandState.executed = { links: { links: [linkModel()] } };
+      expect(reducer(commandState, new LinksExecuted({})).executed.links).toBeNull();
+    });
+
+    it('should set executed links on successful links execution', () => {
+      const links = [linkModel()];
+      const returnedState = reducer(commandState, new LinksExecutedSuccess({ links }));
+
+      expect(returnedState.executed.links).toEqual({ links });
     });
   });
 });

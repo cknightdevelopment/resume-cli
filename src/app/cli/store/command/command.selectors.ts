@@ -42,3 +42,8 @@ export const selectSkillsExecutionData = createSelector(
   selectCommand,
   command => command.executed && command.executed.skills
 );
+
+export const selectLinksExecutionData = createSelector(
+  selectCommand,
+  command => command.executed && command.executed.links
+);

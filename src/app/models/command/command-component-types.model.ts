@@ -8,6 +8,7 @@ import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cl
 import { HelpComponent } from 'src/app/cli/commands/help/help.component';
 import { EducationComponent } from 'src/app/cli/commands/education/education.component';
 import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
+import { LinksComponent } from 'src/app/cli/commands/links/links.component';
 
 export type CommandComponentTypes = RandomCommandComponent
   | UnknownCommandComponent
@@ -18,4 +19,5 @@ export type CommandComponentTypes = RandomCommandComponent
   | UnknownCliComponent
   | HelpComponent
   | EducationComponent
-  | SkillsComponent;
+  | SkillsComponent
+  | LinksComponent;

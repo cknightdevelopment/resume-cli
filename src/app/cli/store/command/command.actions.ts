@@ -6,6 +6,8 @@ import { EducationExecutedModel } from 'src/app/models/command/executed/educatio
 import { InitializedCommand } from './command.reducers';
 import { SkillsInputParams } from 'src/app/models/command/input/skills-input-params.model';
 import { SkillsExecutedModel } from 'src/app/models/command/executed/skills-executed.model';
+import { LinksInputParams } from 'src/app/models/command/input/links-input-params.model';
+import { LinksExecutedModel } from 'src/app/models/command/executed/links-executed.model';
 
 export enum CommandActionTypes {
   CommandEffectsInit = '[Command] Effects Init',
@@ -20,6 +22,9 @@ export enum CommandActionTypes {
 
   SkillsExecuted = '[Command] Skills Executed',
   SkillsExecutedSuccess = '[Command] Skills Executed Success',
+
+  LinksExecuted = '[Command] Links Executed',
+  LinksExecutedSuccess = '[Command] Links Executed Success',
 }
 
 export class CommandEffectsInit implements Action {
@@ -67,6 +72,16 @@ export class SkillsExecutedSuccess implements Action {
   constructor(public payload: SkillsExecutedModel) {}
 }
 
+export class LinksExecuted implements Action {
+  readonly type = CommandActionTypes.LinksExecuted;
+  constructor(public payload: LinksInputParams) {}
+}
+
+export class LinksExecutedSuccess implements Action {
+  readonly type = CommandActionTypes.LinksExecutedSuccess;
+  constructor(public payload: LinksExecutedModel) {}
+}
+
 export type CommandAction = CommandInitiated
   | CommandEffectsInit
   | CommandExecutedFail
@@ -75,4 +90,6 @@ export type CommandAction = CommandInitiated
   | EducationExecuted
   | EducationExecutedSuccess
   | SkillsExecuted
-  | SkillsExecutedSuccess;
+  | SkillsExecutedSuccess
+  | LinksExecuted
+  | LinksExecutedSuccess;

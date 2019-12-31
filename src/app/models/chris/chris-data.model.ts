@@ -2,6 +2,7 @@ export interface ChrisDataModel {
   facts: string[];
   education: EducationModel;
   skills: SkillSetModel[];
+  links: LinkModel[];
 }
 
 export interface EducationModel {
@@ -29,4 +30,10 @@ export interface SkillSetModel {
 export interface SkillRatingModel {
   name: string;
   rating: number;
+}
+
+export interface LinkModel {
+  title: string;
+  url: string;
+  icon: string;
 }

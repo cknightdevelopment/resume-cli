@@ -1,0 +1,10 @@
+.links-container {
+  display: flex;
+  flex-direction: column;
+
+  div {
+    display: grid;
+    grid-template-columns: 22px auto;
+    grid-template-rows: 25px;
+  }
+}

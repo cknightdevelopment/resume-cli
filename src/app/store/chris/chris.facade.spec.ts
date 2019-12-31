@@ -6,7 +6,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { LoadStaticData } from './chris.actions';
 import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { educationModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Facade: Chris', () => {
@@ -70,5 +70,18 @@ describe('NGRX Facade: Chris', () => {
     const expected = cold('a', { a: skillSets });
 
     expect(facade.skills$).toBeObservable(expected);
+  });
+
+  it('should get links from store', () => {
+    const links = [linkModel()];
+    mockStore.setState(factory.appState({
+      chris: factory.chrisState({
+        links
+      })
+    }));
+
+    const expected = cold('a', { a: links });
+
+    expect(facade.links$).toBeObservable(expected);
   });
 });

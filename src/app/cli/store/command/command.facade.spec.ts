@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { InitializedCommand } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
-import { educationModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Facade: Command', () => {
@@ -123,5 +123,21 @@ describe('NGRX Facade: Command', () => {
 
     const expected = cold('a', { a: { skills: skillSets } });
     expect(facade.commandData.skills$).toBeObservable(expected);
+  });
+
+  it('should get executed links data', () => {
+    const links = [linkModel()];
+    mockStore.setState(factory.appState({
+      cli: factory.cliState({
+        command: factory.commandState({
+          executed: {
+            links: { links }
+          }
+        })
+      })
+    }));
+
+    const expected = cold('a', { a: { links } });
+    expect(facade.commandData.links$).toBeObservable(expected);
   });
 });
