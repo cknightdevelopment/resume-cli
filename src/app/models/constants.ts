@@ -5,7 +5,6 @@ export const CONSTANTS = {
     DOWN: 'ArrowDown',
     ENTER: 'Enter',
     BACKSPACE: 'Backspace',
-    K: 'KeyK',
   },
   CLI_NAME: 'chris',
   COMMAND: {

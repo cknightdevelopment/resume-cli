@@ -1,5 +1,5 @@
 // tslint:disable-next-line: max-line-length
-import { Component, OnInit, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy, Input, Output, EventEmitter, ViewEncapsulation, HostListener } from '@angular/core';
 import { CONSTANTS } from 'src/app/models/constants';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
@@ -35,8 +35,20 @@ export class TerminalPromptComponent implements OnInit {
     this.commandCtrl = this.fb.control(null);
   }
 
+  @HostListener('document:keydown', ['$event'])
+  globalKeydownEventHandler(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+
+    // if target of keydown event is not the textarea, change focus to the text area
+    // this will bring us to that location of the page & make the event occur on that element too
+    if (this.terminalInput && this.terminalInput.nativeElement && (!target || !target.isSameNode(this.terminalInput.nativeElement))) {
+      this.terminalInput.nativeElement.focus();
+    }
+  }
+
   onKeydown(event: KeyboardEvent) {
-    switch (event.code) {
+    // using key here because it is available is all browsers
+    switch (event.key) {
       case CONSTANTS.KEY_CODES.TAB:
         event.preventDefault();
         break;
@@ -52,7 +64,7 @@ export class TerminalPromptComponent implements OnInit {
         this.onDown();
         event.preventDefault();
         break;
-      case CONSTANTS.KEY_CODES.K:
+      case 'k':
         if (event.metaKey) {
           this.onMetaK();
           event.preventDefault();
