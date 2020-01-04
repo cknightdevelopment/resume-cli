@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '..';
 import { CommandAction } from './command.actions';
 // tslint:disable-next-line: max-line-length
-import { selectHistory, selectInitializedCommand, selectRandomExecutionData, selectUsedFacts, selectEducationExecutionData, selectSkillsExecutionData, selectLinksExecutionData } from './command.selectors';
+import { selectHistory, selectInitializedCommand, selectRandomExecutionData, selectUsedFacts, selectEducationExecutionData, selectSkillsExecutionData, selectLinksExecutionData, selectWorkHistoryExecutionData, selectContactExecutionData, selectIssueExecutionData } from './command.selectors';
 
 @Injectable()
 export class CommandFacade {
@@ -15,6 +15,9 @@ export class CommandFacade {
     education$: this.store.select(selectEducationExecutionData),
     skills$: this.store.select(selectSkillsExecutionData),
     links$: this.store.select(selectLinksExecutionData),
+    workHistory$: this.store.select(selectWorkHistoryExecutionData),
+    contact$: this.store.select(selectContactExecutionData),
+    issue$: this.store.select(selectIssueExecutionData),
   };
 
   constructor(private store: Store<AppState>) {

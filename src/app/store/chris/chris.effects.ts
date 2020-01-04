@@ -21,7 +21,10 @@ export class ChrisEffects {
       facts: data.facts,
       education: data.education,
       skills: data.skills,
-      links: data.links
+      links: data.links,
+      workHistory: data.workHistory,
+      contact: data.contact,
+      issue: data.issue
     }))
   );
 }

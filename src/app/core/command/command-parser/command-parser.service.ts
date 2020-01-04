@@ -27,6 +27,9 @@ import { keys as _keys, difference as _difference } from 'lodash';
 import { RandomInputParamsValidator } from 'src/app/models/command/input/validators/random-input-params-validator.model';
 import { InputParamsValidator } from 'src/app/models/command/input/validators/input-params-validator.model';
 import { LinksComponent } from 'src/app/cli/commands/links/links.component';
+import { WorkHistoryComponent } from 'src/app/cli/commands/work-history/work-history.component';
+import { ContactComponent } from 'src/app/cli/commands/contact/contact.component';
+import { IssueComponent } from 'src/app/cli/commands/issue/issue.component';
 
 
 @Injectable({
@@ -99,6 +102,15 @@ export class CommandParserService {
         break;
       case CommandNames.Links:
         parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Links, LinksComponent);
+        break;
+      case CommandNames.WorkHistory:
+        parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.WorkHistory, WorkHistoryComponent);
+        break;
+      case CommandNames.Contact:
+        parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Contact, ContactComponent);
+        break;
+      case CommandNames.Issue:
+        parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Issue, IssueComponent);
         break;
       default:
         return {

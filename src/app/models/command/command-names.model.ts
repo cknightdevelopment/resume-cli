@@ -3,5 +3,8 @@ export enum CommandNames {
   Help = 'help',
   Education = 'education',
   Skills = 'skills',
-  Links = 'links'
+  Links = 'links',
+  WorkHistory = 'workhistory',
+  Issue = 'issue',
+  Contact = 'contact'
 }

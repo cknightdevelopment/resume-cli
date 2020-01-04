@@ -4,6 +4,9 @@ import { EducationExecutedModel } from 'src/app/models/command/executed/educatio
 import { ciEquals } from 'src/app/util';
 import { SkillsExecutedModel } from 'src/app/models/command/executed/skills-executed.model';
 import { LinksExecutedModel } from 'src/app/models/command/executed/links-executed.model';
+import { WorkHistoryExecutedModel } from 'src/app/models/command/executed/work-history-executed.model';
+import { ContactExecutedModel } from 'src/app/models/command/executed/contact-executed.model';
+import { IssueExecutedModel } from 'src/app/models/command/executed/issue-executed.model';
 
 export interface CommandState {
   initializedCommand: InitializedCommand;
@@ -14,6 +17,9 @@ export interface CommandState {
     education?: EducationExecutedModel,
     skills?: SkillsExecutedModel,
     links?: LinksExecutedModel,
+    workHistory?: WorkHistoryExecutedModel,
+    contact?: ContactExecutedModel,
+    issue?: IssueExecutedModel
   };
 }
 
@@ -119,6 +125,48 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
         ...state,
         executed: {
           links: action.payload
+        }
+      };
+    case CommandActionTypes.WorkHistoryExecuted:
+      return {
+        ...state,
+        executed: {
+          workHistory: null
+        }
+      };
+    case CommandActionTypes.WorkHistoryExecutedSuccess:
+      return {
+        ...state,
+        executed: {
+          workHistory: action.payload
+        }
+      };
+    case CommandActionTypes.IssueExecuted:
+      return {
+        ...state,
+        executed: {
+          issue: null
+        }
+      };
+    case CommandActionTypes.IssueExecutedSuccess:
+      return {
+        ...state,
+        executed: {
+          issue: action.payload
+        }
+      };
+    case CommandActionTypes.ContactExecuted:
+      return {
+        ...state,
+        executed: {
+          contact: null
+        }
+      };
+    case CommandActionTypes.ContactExecutedSuccess:
+      return {
+        ...state,
+        executed: {
+          contact: action.payload
         }
       };
     default: {

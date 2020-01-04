@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { InitializedCommand } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
-import { educationModel, linkModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Facade: Command', () => {
@@ -139,5 +139,53 @@ describe('NGRX Facade: Command', () => {
 
     const expected = cold('a', { a: { links } });
     expect(facade.commandData.links$).toBeObservable(expected);
+  });
+
+  it('should get executed work history data', () => {
+    const workHistory = [workHistoryModel()];
+    mockStore.setState(factory.appState({
+      cli: factory.cliState({
+        command: factory.commandState({
+          executed: {
+            workHistory: { workHistory }
+          }
+        })
+      })
+    }));
+
+    const expected = cold('a', { a: { workHistory } });
+    expect(facade.commandData.workHistory$).toBeObservable(expected);
+  });
+
+  it('should get executed contact data', () => {
+    const contact = contactModel();
+    mockStore.setState(factory.appState({
+      cli: factory.cliState({
+        command: factory.commandState({
+          executed: {
+            contact: { contact }
+          }
+        })
+      })
+    }));
+
+    const expected = cold('a', { a: { contact } });
+    expect(facade.commandData.contact$).toBeObservable(expected);
+  });
+
+  it('should get executed issue data', () => {
+    const issue = issueModel();
+    mockStore.setState(factory.appState({
+      cli: factory.cliState({
+        command: factory.commandState({
+          executed: {
+            issue: { issue }
+          }
+        })
+      })
+    }));
+
+    const expected = cold('a', { a: { issue } });
+    expect(facade.commandData.issue$).toBeObservable(expected);
   });
 });

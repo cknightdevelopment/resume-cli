@@ -24,3 +24,18 @@ export const selectLinks = createSelector(
   selectChris,
   (state: ChrisState) => state.links
 );
+
+export const selectWorkHistory = createSelector(
+  selectChris,
+  (state: ChrisState) => state.workHistory
+);
+
+export const selectContact = createSelector(
+  selectChris,
+  (state: ChrisState) => state.contact
+);
+
+export const selectIssue = createSelector(
+  selectChris,
+  (state: ChrisState) => state.issue
+);

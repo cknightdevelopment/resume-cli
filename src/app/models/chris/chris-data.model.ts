@@ -3,6 +3,9 @@ export interface ChrisDataModel {
   education: EducationModel;
   skills: SkillSetModel[];
   links: LinkModel[];
+  workHistory: WorkHistoryModel[];
+  contact: ContactModel;
+  issue: IssueModel;
 }
 
 export interface EducationModel {
@@ -36,4 +39,21 @@ export interface LinkModel {
   title: string;
   url: string;
   icon: string;
+}
+
+export interface WorkHistoryModel {
+  employer: string;
+  position: string;
+  start: string;
+  end: string;
+  details: string[];
+}
+
+export class ContactModel {
+  email: string;
+  phone: string;
+}
+
+export class IssueModel {
+  url: string;
 }

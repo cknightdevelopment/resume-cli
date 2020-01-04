@@ -1,7 +1,7 @@
 import * as factory from 'src/test-helpers/factory/state';
 import * as selectors from './chris.selectors';
 import { AppState } from 'src/app/store';
-import { educationModel, linkModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Selectors: Chris', () => {
@@ -29,5 +29,20 @@ describe('NGRX Selectors: Chris', () => {
   it('should select links', () => {
     appState.chris.links = [linkModel()];
     expect(selectors.selectLinks(appState)).toEqual(appState.chris.links);
+  });
+
+  it('should select work history', () => {
+    appState.chris.workHistory = [workHistoryModel()];
+    expect(selectors.selectWorkHistory(appState)).toEqual(appState.chris.workHistory);
+  });
+
+  it('should select contact', () => {
+    appState.chris.contact = contactModel();
+    expect(selectors.selectContact(appState)).toEqual(appState.chris.contact);
+  });
+
+  it('should select issue', () => {
+    appState.chris.issue = issueModel();
+    expect(selectors.selectIssue(appState)).toEqual(appState.chris.issue);
   });
 });

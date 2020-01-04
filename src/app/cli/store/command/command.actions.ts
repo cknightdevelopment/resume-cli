@@ -8,6 +8,12 @@ import { SkillsInputParams } from 'src/app/models/command/input/skills-input-par
 import { SkillsExecutedModel } from 'src/app/models/command/executed/skills-executed.model';
 import { LinksInputParams } from 'src/app/models/command/input/links-input-params.model';
 import { LinksExecutedModel } from 'src/app/models/command/executed/links-executed.model';
+import { WorkHistoryInputParams } from 'src/app/models/command/input/work-history-input-params.model';
+import { WorkHistoryExecutedModel } from 'src/app/models/command/executed/work-history-executed.model';
+import { IssueInputParams } from 'src/app/models/command/input/issue-input-params.model';
+import { IssueExecutedModel } from 'src/app/models/command/executed/issue-executed.model';
+import { ContactInputParams } from 'src/app/models/command/input/contact-input-params.model';
+import { ContactExecutedModel } from 'src/app/models/command/executed/contact-executed.model';
 
 export enum CommandActionTypes {
   CommandEffectsInit = '[Command] Effects Init',
@@ -25,6 +31,15 @@ export enum CommandActionTypes {
 
   LinksExecuted = '[Command] Links Executed',
   LinksExecutedSuccess = '[Command] Links Executed Success',
+
+  WorkHistoryExecuted = '[Command] Work History Executed',
+  WorkHistoryExecutedSuccess = '[Command] Work History Executed Success',
+
+  IssueExecuted = '[Command] Issue Executed',
+  IssueExecutedSuccess = '[Command] Issue Executed Success',
+
+  ContactExecuted = '[Command] Contact Executed',
+  ContactExecutedSuccess = '[Command] Contact Executed Success',
 }
 
 export class CommandEffectsInit implements Action {
@@ -82,6 +97,36 @@ export class LinksExecutedSuccess implements Action {
   constructor(public payload: LinksExecutedModel) {}
 }
 
+export class WorkHistoryExecuted implements Action {
+  readonly type = CommandActionTypes.WorkHistoryExecuted;
+  constructor(public payload: WorkHistoryInputParams) {}
+}
+
+export class WorkHistoryExecutedSuccess implements Action {
+  readonly type = CommandActionTypes.WorkHistoryExecutedSuccess;
+  constructor(public payload: WorkHistoryExecutedModel) {}
+}
+
+export class IssueExecuted implements Action {
+  readonly type = CommandActionTypes.IssueExecuted;
+  constructor(public payload: IssueInputParams) {}
+}
+
+export class IssueExecutedSuccess implements Action {
+  readonly type = CommandActionTypes.IssueExecutedSuccess;
+  constructor(public payload: IssueExecutedModel) {}
+}
+
+export class ContactExecuted implements Action {
+  readonly type = CommandActionTypes.ContactExecuted;
+  constructor(public payload: ContactInputParams) {}
+}
+
+export class ContactExecutedSuccess implements Action {
+  readonly type = CommandActionTypes.ContactExecutedSuccess;
+  constructor(public payload: ContactExecutedModel) {}
+}
+
 export type CommandAction = CommandInitiated
   | CommandEffectsInit
   | CommandExecutedFail
@@ -92,4 +137,10 @@ export type CommandAction = CommandInitiated
   | SkillsExecuted
   | SkillsExecutedSuccess
   | LinksExecuted
-  | LinksExecutedSuccess;
+  | LinksExecutedSuccess
+  | WorkHistoryExecuted
+  | WorkHistoryExecutedSuccess
+  | IssueExecuted
+  | IssueExecutedSuccess
+  | ContactExecuted
+  | ContactExecutedSuccess;

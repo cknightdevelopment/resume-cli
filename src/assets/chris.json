@@ -75,5 +75,23 @@
     { "title": "YouTube", "icon": "fab fa-youtube", "url": "https://www.youtube.com/channel/UCpnEzs1pVZ7k5FaAPAeDBdA" },
     { "title": "Blog", "icon": "fas fa-blog", "url": "https://knightcodes.com/" },
     { "title": "Resume Download", "icon": "far fa-file", "url": "https://github.com/cknightdevelopment/resume" }
-  ]
+  ],
+  "workHistory": [
+    {
+      "employer": "AutoLoop",
+      "position": "Senior Software Enginner",
+      "start": "October 2015",
+      "end": "present",
+      "details": [
+        "Worked on code stuff..."
+      ]
+    }
+  ],
+  "contact": {
+    "email": "chris02115@gmail.com",
+    "phone": "+1 (626) 660-5524"
+  },
+  "issue": {
+    "url": "https://github.com/cknightdevelopment/resume/issues/new"
+  }
 }

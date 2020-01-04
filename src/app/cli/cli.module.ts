@@ -24,6 +24,9 @@ import { CommandEffects } from './store/command/command.effects';
 import { EducationComponent } from './commands/education/education.component';
 import { SkillsComponent } from './commands/skills/skills.component';
 import { LinksComponent } from './commands/links/links.component';
+import { WorkHistoryComponent } from './commands/work-history/work-history.component';
+import { IssueComponent } from './commands/issue/issue.component';
+import { ContactComponent } from './commands/contact/contact.component';
 
 const commandComponents = [
   RandomCommandComponent,
@@ -36,7 +39,10 @@ const commandComponents = [
   HelpComponent,
   EducationComponent,
   SkillsComponent,
-  LinksComponent
+  LinksComponent,
+  WorkHistoryComponent,
+  IssueComponent,
+  ContactComponent
 ];
 
 @NgModule({
@@ -45,7 +51,7 @@ const commandComponents = [
     TerminalPromptComponent,
     TerminalCommandOutputComponent,
     TerminalOutputComponent,
-    ...commandComponents,
+    ...commandComponents
   ],
   imports: [
     CommonModule,

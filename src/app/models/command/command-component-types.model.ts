@@ -9,6 +9,9 @@ import { HelpComponent } from 'src/app/cli/commands/help/help.component';
 import { EducationComponent } from 'src/app/cli/commands/education/education.component';
 import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
 import { LinksComponent } from 'src/app/cli/commands/links/links.component';
+import { WorkHistoryComponent } from 'src/app/cli/commands/work-history/work-history.component';
+import { IssueComponent } from 'src/app/cli/commands/issue/issue.component';
+import { ContactComponent } from 'src/app/cli/commands/contact/contact.component';
 
 export type CommandComponentTypes = RandomCommandComponent
   | UnknownCommandComponent
@@ -20,4 +23,7 @@ export type CommandComponentTypes = RandomCommandComponent
   | HelpComponent
   | EducationComponent
   | SkillsComponent
-  | LinksComponent;
+  | LinksComponent
+  | WorkHistoryComponent
+  | IssueComponent
+  | ContactComponent;

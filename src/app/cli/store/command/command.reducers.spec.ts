@@ -2,10 +2,10 @@ import * as factory from 'src/test-helpers/factory/state';
 import { reducer, intitalState, InitializedCommand } from './command.reducers';
 import { NoopAction } from 'src/test-helpers/noop-action';
 // tslint:disable-next-line: max-line-length
-import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess } from './command.actions';
+import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, ContactExecuted, ContactExecutedSuccess, IssueExecuted, IssueExecutedSuccess } from './command.actions';
 import { CommandState } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
-import { educationModel, linkModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Reducers: Command', () => {
@@ -185,6 +185,48 @@ describe('NGRX Reducers: Command', () => {
       const returnedState = reducer(commandState, new LinksExecutedSuccess({ links }));
 
       expect(returnedState.executed.links).toEqual({ links });
+    });
+  });
+
+  describe('work history', () => {
+    it('should clear executed work history state when work history is executed', () => {
+      commandState.executed = { workHistory: { workHistory: [workHistoryModel()] } };
+      expect(reducer(commandState, new WorkHistoryExecuted({})).executed.workHistory).toBeNull();
+    });
+
+    it('should set executed work history on successful work history execution', () => {
+      const workHistory = [workHistoryModel()];
+      const returnedState = reducer(commandState, new WorkHistoryExecutedSuccess({ workHistory }));
+
+      expect(returnedState.executed.workHistory).toEqual({ workHistory });
+    });
+  });
+
+  describe('contact', () => {
+    it('should clear executed contact state when contact is executed', () => {
+      commandState.executed = { contact: { contact: contactModel() } };
+      expect(reducer(commandState, new ContactExecuted({})).executed.contact).toBeNull();
+    });
+
+    it('should set executed contact on successful contact execution', () => {
+      const contact = contactModel();
+      const returnedState = reducer(commandState, new ContactExecutedSuccess({ contact }));
+
+      expect(returnedState.executed.contact).toEqual({ contact });
+    });
+  });
+
+  describe('issue', () => {
+    it('should clear executed issue state when issue is executed', () => {
+      commandState.executed = { issue: { issue: issueModel() } };
+      expect(reducer(commandState, new IssueExecuted({})).executed.issue).toBeNull();
+    });
+
+    it('should set executed issue on successful issue execution', () => {
+      const issue = issueModel();
+      const returnedState = reducer(commandState, new IssueExecutedSuccess({ issue }));
+
+      expect(returnedState.executed.issue).toEqual({ issue });
     });
   });
 });

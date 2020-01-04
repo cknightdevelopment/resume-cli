@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { CommandEffects } from './command.effects';
 // tslint:disable-next-line: max-line-length
-import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess } from './command.actions';
+import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, ContactExecuted, ContactExecutedSuccess, IssueExecuted, IssueExecutedSuccess } from './command.actions';
 import { CommandService } from 'src/app/core/command/command.service';
 import * as factory from 'src/test-helpers/factory/models';
 import { CommandFacade } from './command.facade';
@@ -41,13 +41,19 @@ class MockChrisFacade {
     education: factory.educationModel(),
     facts: ['Fact1', 'Fact2', 'Fact3'],
     skills: [factory.skillSetModel()],
-    links: [factory.linkModel()]
+    links: [factory.linkModel()],
+    workHistory: [factory.workHistoryModel()],
+    contact: factory.contactModel(),
+    issue: factory.issueModel()
   };
 
   facts$ = of(this.data.facts);
   education$ = of(this.data.education);
   skills$ = of(this.data.skills);
   links$ = of(this.data.links);
+  workHistory$ = of(this.data.workHistory);
+  contact$ = of(this.data.contact);
+  issue$ = of(this.data.issue);
 }
 
 let actions$: Observable<Action>;
@@ -207,6 +213,33 @@ describe('NGRX Effects: Command', () => {
       const expected = cold('a', { a: new LinksExecutedSuccess({ links: mockChrisFacade.data.links }) });
 
       expect(effects.links$).toBeObservable(expected);
+    });
+  });
+
+  describe('work history$', () => {
+    it('should get work history data from facade', () => {
+      actions$ = cold('a', { a: new WorkHistoryExecuted({}) });
+      const expected = cold('a', { a: new WorkHistoryExecutedSuccess({ workHistory: mockChrisFacade.data.workHistory }) });
+
+      expect(effects.workHistory$).toBeObservable(expected);
+    });
+  });
+
+  describe('contact$', () => {
+    it('should get contact data from facade', () => {
+      actions$ = cold('a', { a: new ContactExecuted({}) });
+      const expected = cold('a', { a: new ContactExecutedSuccess({ contact: mockChrisFacade.data.contact }) });
+
+      expect(effects.contact$).toBeObservable(expected);
+    });
+  });
+
+  describe('issue$', () => {
+    it('should get issue data from facade', () => {
+      actions$ = cold('a', { a: new IssueExecuted({}) });
+      const expected = cold('a', { a: new IssueExecutedSuccess({ issue: mockChrisFacade.data.issue }) });
+
+      expect(effects.issue$).toBeObservable(expected);
     });
   });
 });

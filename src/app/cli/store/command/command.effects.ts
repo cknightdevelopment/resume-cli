@@ -1,7 +1,7 @@
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line: max-line-length
-import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecutedSuccess, LinksExecutedSuccess } from './command.actions';
+import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecutedSuccess, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, LinksExecuted, IssueExecuted, IssueExecutedSuccess, ContactExecuted, ContactExecutedSuccess } from './command.actions';
 import { withLatestFrom, map, tap } from 'rxjs/operators';
 import { CommandService } from 'src/app/core/command/command.service';
 import { CommandFacade } from './command.facade';
@@ -66,10 +66,34 @@ export class CommandEffects implements OnInitEffects {
   );
 
   @Effect() links$ = this.actions$.pipe(
-    ofType<EducationExecuted>(CommandActionTypes.LinksExecuted),
+    ofType<LinksExecuted>(CommandActionTypes.LinksExecuted),
     withLatestFrom(this.chrisFacade.links$),
     map(([action, links]) => {
       return new LinksExecutedSuccess({ links });
+    })
+  );
+
+  @Effect() workHistory$ = this.actions$.pipe(
+    ofType<WorkHistoryExecuted>(CommandActionTypes.WorkHistoryExecuted),
+    withLatestFrom(this.chrisFacade.workHistory$),
+    map(([action, workHistory]) => {
+      return new WorkHistoryExecutedSuccess({ workHistory });
+    })
+  );
+
+  @Effect() issue$ = this.actions$.pipe(
+    ofType<IssueExecuted>(CommandActionTypes.IssueExecuted),
+    withLatestFrom(this.chrisFacade.issue$),
+    map(([action, issue]) => {
+      return new IssueExecutedSuccess({ issue });
+    })
+  );
+
+  @Effect() contact$ = this.actions$.pipe(
+    ofType<ContactExecuted>(CommandActionTypes.ContactExecuted),
+    withLatestFrom(this.chrisFacade.contact$),
+    map(([action, contact]) => {
+      return new ContactExecutedSuccess({ contact });
     })
   );
 

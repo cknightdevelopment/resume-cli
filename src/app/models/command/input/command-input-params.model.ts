@@ -8,6 +8,9 @@ import { UnknownCliInputParams } from './unknown-cli-input-params.model';
 import { HelpCommandInputParams } from './help-command-input-params.model';
 import { EducationInputParams } from './education-input-params.model';
 import { SkillsInputParams } from './skills-input-params.model';
+import { WorkHistoryInputParams } from './work-history-input-params.model';
+import { IssueInputParams } from './issue-input-params.model';
+import { ContactInputParams } from './contact-input-params.model';
 
 export type CommandInputParams = RandomInputParams
   | UnknownCommandInputParams
@@ -18,4 +21,7 @@ export type CommandInputParams = RandomInputParams
   | UnknownCliInputParams
   | HelpCommandInputParams
   | EducationInputParams
-  | SkillsInputParams;
+  | SkillsInputParams
+  | WorkHistoryInputParams
+  | IssueInputParams
+  | ContactInputParams;

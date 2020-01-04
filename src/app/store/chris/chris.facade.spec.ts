@@ -6,7 +6,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { LoadStaticData } from './chris.actions';
 import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { educationModel, linkModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Facade: Chris', () => {
@@ -83,5 +83,44 @@ describe('NGRX Facade: Chris', () => {
     const expected = cold('a', { a: links });
 
     expect(facade.links$).toBeObservable(expected);
+  });
+
+  it('should get work history from store', () => {
+    const workHistory = [workHistoryModel()];
+    mockStore.setState(factory.appState({
+      chris: factory.chrisState({
+        workHistory
+      })
+    }));
+
+    const expected = cold('a', { a: workHistory });
+
+    expect(facade.workHistory$).toBeObservable(expected);
+  });
+
+  it('should get contact from store', () => {
+    const contact = contactModel();
+    mockStore.setState(factory.appState({
+      chris: factory.chrisState({
+        contact
+      })
+    }));
+
+    const expected = cold('a', { a: contact });
+
+    expect(facade.contact$).toBeObservable(expected);
+  });
+
+  it('should get issue from store', () => {
+    const issue = issueModel();
+    mockStore.setState(factory.appState({
+      chris: factory.chrisState({
+        issue
+      })
+    }));
+
+    const expected = cold('a', { a: issue });
+
+    expect(facade.issue$).toBeObservable(expected);
   });
 });

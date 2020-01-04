@@ -27,6 +27,12 @@ import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
 import { SkillsInputParams } from 'src/app/models/command/input/skills-input-params.model';
 import { LinksComponent } from 'src/app/cli/commands/links/links.component';
 import { LinksInputParams } from 'src/app/models/command/input/links-input-params.model';
+import { WorkHistoryComponent } from 'src/app/cli/commands/work-history/work-history.component';
+import { WorkHistoryInputParams } from 'src/app/models/command/input/work-history-input-params.model';
+import { ContactComponent } from 'src/app/cli/commands/contact/contact.component';
+import { ContactInputParams } from 'src/app/models/command/input/contact-input-params.model';
+import { IssueComponent } from 'src/app/cli/commands/issue/issue.component';
+import { IssueInputParams } from 'src/app/models/command/input/issue-input-params.model';
 
 describe('CommandParserService', () => {
   let parserSvc: CommandParserService;
@@ -245,7 +251,7 @@ describe('CommandParserService', () => {
       });
     });
 
-    describe('EducationCommandComponent', () => {
+    describe('EducationComponent', () => {
       it('should return education with no param data', () => {
         const result = parserSvc.getCommandInputData({ name: CommandNames.Education });
         expect(result).toEqual({
@@ -269,7 +275,7 @@ describe('CommandParserService', () => {
       });
     });
 
-    describe('SkillsCommandComponent', () => {
+    describe('SkillsComponent', () => {
       it('should return skills with no param data', () => {
         const result = parserSvc.getCommandInputData({ name: CommandNames.Skills });
         expect(result).toEqual({
@@ -293,7 +299,7 @@ describe('CommandParserService', () => {
       });
     });
 
-    describe('LinksCommandComponent', () => {
+    describe('LinksComponent', () => {
       it('should return links with no param data', () => {
         const result = parserSvc.getCommandInputData({ name: CommandNames.Links });
         expect(result).toEqual({
@@ -303,16 +309,40 @@ describe('CommandParserService', () => {
           params: { } as LinksInputParams
         } as ParsedCommandInput);
       });
+    });
 
-      it('should return unknown parameter when unrecognized param is provided', () => {
-        const result = parserSvc.getCommandInputData({ name: CommandNames.Links, params: [createParameterText('BADPARAM')] });
+    describe('WorkHistoryComponent', () => {
+      it('should return work history with no param data', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.WorkHistory });
         expect(result).toEqual({
-          status: ParseStatus.UnknownParameter,
-          componentType: UnknownParameterComponent,
-          params: {
-            paramName: 'BADPARAM',
-            command: CommandNames.Links
-          } as UnknownParameterInputParams
+          status: ParseStatus.Parsed,
+          name: CommandNames.WorkHistory,
+          componentType: WorkHistoryComponent,
+          params: { } as WorkHistoryInputParams
+        } as ParsedCommandInput);
+      });
+    });
+
+    describe('ContactComponent', () => {
+      it('should return contact with no param data', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Contact });
+        expect(result).toEqual({
+          status: ParseStatus.Parsed,
+          name: CommandNames.Contact,
+          componentType: ContactComponent,
+          params: { } as ContactInputParams
+        } as ParsedCommandInput);
+      });
+    });
+
+    describe('IssueComponent', () => {
+      it('should return issue with no param data', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Issue });
+        expect(result).toEqual({
+          status: ParseStatus.Parsed,
+          name: CommandNames.Issue,
+          componentType: IssueComponent,
+          params: { } as IssueInputParams
         } as ParsedCommandInput);
       });
     });

@@ -2,7 +2,7 @@ import * as factory from 'src/test-helpers/factory/state';
 import * as selectors from 'src/app/cli/store/command/command.selectors';
 import { AppState } from 'src/app/store';
 import { InitializedCommand } from './command.reducers';
-import { educationModel, linkModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Selectors: Command', () => {
@@ -71,5 +71,32 @@ describe('NGRX Selectors: Command', () => {
     };
 
     expect(selectors.selectLinksExecutionData(appState)).toEqual(appState.cli.command.executed.links);
+  });
+
+  it('should select executed work history data', () => {
+    const workHistory = [workHistoryModel()];
+    appState.cli.command.executed = {
+      workHistory: { workHistory }
+    };
+
+    expect(selectors.selectWorkHistoryExecutionData(appState)).toEqual(appState.cli.command.executed.workHistory);
+  });
+
+  it('should select executed contact data', () => {
+    const contact = contactModel();
+    appState.cli.command.executed = {
+      contact: { contact }
+    };
+
+    expect(selectors.selectContactExecutionData(appState)).toEqual(appState.cli.command.executed.contact);
+  });
+
+  it('should select executed links data', () => {
+    const issue = issueModel();
+    appState.cli.command.executed = {
+      issue: { issue }
+    };
+
+    expect(selectors.selectIssueExecutionData(appState)).toEqual(appState.cli.command.executed.issue);
   });
 });

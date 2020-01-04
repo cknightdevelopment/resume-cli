@@ -47,3 +47,18 @@ export const selectLinksExecutionData = createSelector(
   selectCommand,
   command => command.executed && command.executed.links
 );
+
+export const selectWorkHistoryExecutionData = createSelector(
+  selectCommand,
+  command => command.executed && command.executed.workHistory
+);
+
+export const selectContactExecutionData = createSelector(
+  selectCommand,
+  command => command.executed && command.executed.contact
+);
+
+export const selectIssueExecutionData = createSelector(
+  selectCommand,
+  command => command.executed && command.executed.issue
+);
