@@ -191,6 +191,23 @@ describe('CommandParserService', () => {
       } as ParsedCommandInput);
     });
 
+    describe('case insesitive', () => {
+      it('should parse command & parameters case insensitively', () => {
+        // just using random as the sandbox
+
+        const result = parserSvc.getCommandInputData({
+          name: CommandNames.Random.toUpperCase(), // upper case
+          params: [createParameterText('CoUnT', '3')] // mixed case
+        });
+        expect(result).toEqual({
+          status: ParseStatus.Parsed,
+          name: CommandNames.Random,
+          componentType: RandomCommandComponent,
+          params: { count: 3 } as RandomInputParams
+        } as ParsedCommandInput);
+      });
+    });
+
     describe('RandomCommandComponent', () => {
       it('should return random with no param data', () => {
         const result = parserSvc.getCommandInputData({ name: CommandNames.Random });

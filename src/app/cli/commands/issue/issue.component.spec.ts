@@ -7,6 +7,7 @@ import { CommandFacade } from '../../store/command/command.facade';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { IssueExecuted } from '../../store/command/command.actions';
 import { IssueComponent } from './issue.component';
+import { issueModel } from 'src/test-helpers/factory/models';
 
 describe('IssueComponent', () => {
   let component: IssueComponent;
@@ -60,21 +61,13 @@ describe('IssueComponent', () => {
     expect(dispatchSpy).toHaveBeenCalledWith(new IssueExecuted(component.params));
   });
 
-  // it('should display output for issue', () => {
-  //   const links = [
-  //     linkModel({ icon: 'icon1', title: 'title1', url: 'url1' }),
-  //     linkModel({ icon: 'icon2', title: 'title2', url: 'url2' })
-  //   ];
+  it('should open issue url is new tab when execution data is received', () => {
+    spyOn(window, 'open');
+    const issue = issueModel();
 
-  //   mockCommandFacade.commandData.links$.next({ links });
-  //   fixture.detectChanges();
+    mockCommandFacade.commandData.issue$.next({ issue });
+    fixture.detectChanges();
 
-  //   const elements = getElements();
-  //   expect(elements.length).toEqual(2);
-  //   elements.forEach((x, i) => {
-  //     expect(x.icon.nativeElement.classList).toContain(links[i].icon);
-  //     expect(x.link.nativeElement.getAttribute('href')).toEqual(links[i].url);
-  //     expect(x.link.nativeElement.innerText).toEqual(links[i].title);
-  //   });
-  // });
+    expect(window.open).toHaveBeenCalledWith(issue.url, '_blank');
+  });
 });

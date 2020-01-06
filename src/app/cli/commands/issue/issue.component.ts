@@ -24,6 +24,13 @@ export class IssueComponent implements CommandComponent<IssueInputParams>, OnIni
     this.facade.commandData.issue$.pipe(
       filter(x => !!x),
       take(1)
-    ).subscribe(x => this.data = x);
+    ).subscribe(data => {
+      this.data = data;
+
+      if (this.data.issue && this.data.issue.url) {
+        // open new tab with url to log an issue
+        window.open(this.data.issue.url, '_blank');
+      }
+    });
   }
 }

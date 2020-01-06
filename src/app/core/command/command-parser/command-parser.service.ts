@@ -23,7 +23,7 @@ import { HelpComponent } from 'src/app/cli/commands/help/help.component';
 import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
 import { EducationComponent } from 'src/app/cli/commands/education/education.component';
 import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
-import { keys as _keys, difference as _difference } from 'lodash';
+import { keys as _keys, differenceWith as _differenceWith, mapKeys as _mapKeys } from 'lodash';
 import { RandomInputParamsValidator } from 'src/app/models/command/input/validators/random-input-params-validator.model';
 import { InputParamsValidator } from 'src/app/models/command/input/validators/input-params-validator.model';
 import { LinksComponent } from 'src/app/cli/commands/links/links.component';
@@ -88,7 +88,7 @@ export class CommandParserService {
     const inputParams = this.getCommandInputParams(preParsedCommand.params);
     let parseFunc: () => ParsedCommandInput;
 
-    switch (preParsedCommand.name) {
+    switch (preParsedCommand.name && preParsedCommand.name.toLowerCase()) {
       case CommandNames.Random:
         parseFunc = () => this.parseCommandInput(
           this.buildCommandInput(inputParams.valid, new RandomInputParamsValidator()), CommandNames.Random, RandomCommandComponent
@@ -192,15 +192,17 @@ export class CommandParserService {
   private buildCommandInput<T>(kvp: KeyValuePair<string>, inputParamsValidator?: InputParamsValidator<T>): ParsedParams<T> {
     const params = {} as T;
 
-    const unknownParameters = _difference(_keys(kvp), _keys(inputParamsValidator));
+    const unknownParameters = _differenceWith(_keys(kvp), _keys(inputParamsValidator), (a, b) => ciEquals(a, b));
     if (unknownParameters.length) {
       return { unknown: unknownParameters[0] };
     }
 
+    const lowerCasePropertyKvp = _mapKeys(kvp, (value, key) => key.toLowerCase());
+
     for (const key in inputParamsValidator) {
       if (inputParamsValidator.hasOwnProperty(key)) {
         const validator = inputParamsValidator[key];
-        const value = kvp[key];
+        const value = lowerCasePropertyKvp[key.toLowerCase()];
         const validationResult = validator(key, value && value.trim());
 
         if (validationResult) {

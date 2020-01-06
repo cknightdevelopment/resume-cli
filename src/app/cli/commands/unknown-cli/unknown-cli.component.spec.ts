@@ -39,7 +39,7 @@ describe('UnknownCliComponent', () => {
     const elements = getElements();
     expect(elements.output.nativeElement.classList).toContain('command-output-text--error');
     expect(elements.output.nativeElement.innerText).toEqual(
-      `unknown cli: '${component.params.cliName}'`
+      `unknown command: '${component.params.cliName}'`
     );
   });
 });

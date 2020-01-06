@@ -1,3 +1,6 @@
+/**
+ * All commands should be in lower case!
+ */
 export enum CommandNames {
   Random = 'random',
   Help = 'help',
