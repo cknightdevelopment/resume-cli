@@ -7,6 +7,7 @@ import { CommandFacade } from '../../store/command/command.facade';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ContactExecuted } from '../../store/command/command.actions';
 import { ContactComponent } from './contact.component';
+import { contactModel } from 'src/test-helpers/factory/models';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
@@ -15,18 +16,18 @@ describe('ContactComponent', () => {
   let mockCommandFacade: MockCommandFacade;
 
   function getElements() {
-    const output = fixture.debugElement.query(By.css(`${SELECTORS.TERMINAL_OUTPUT}`));
-    const linkContainers = output.queryAll(By.css('.links-container .link-container'));
+    const output = fixture.debugElement.query(By.css(`${SELECTORS.TERMINAL_OUTPUT} .contact-container`));
 
-    const result = linkContainers.map(container => {
-      return {
-        container,
-        icon: container.query(By.css('i')),
-        link: container.query(By.css('a'))
-      };
-    });
-
-    return output && result;
+    return {
+      email: {
+        link: output.query(By.css('.contact-email a')),
+        icon: output.query(By.css('.contact-email a i'))
+      },
+      phone: {
+        link: output.query(By.css('.contact-phone a')),
+        icon: output.query(By.css('.contact-phone a i'))
+      }
+    };
   }
 
   beforeEach(async(() => {
@@ -60,21 +61,50 @@ describe('ContactComponent', () => {
     expect(dispatchSpy).toHaveBeenCalledWith(new ContactExecuted(component.params));
   });
 
-  // it('should display output for contact', () => {
-  //   const links = [
-  //     linkModel({ icon: 'icon1', title: 'title1', url: 'url1' }),
-  //     linkModel({ icon: 'icon2', title: 'title2', url: 'url2' })
-  //   ];
+  it('should display output for contact', () => {
+    const contact = contactModel({
+      email: 'test@email.com',
+      phone: '1234567890'
+    });
 
-  //   mockCommandFacade.commandData.links$.next({ links });
-  //   fixture.detectChanges();
+    mockCommandFacade.commandData.contact$.next({ contact });
+    fixture.detectChanges();
 
-  //   const elements = getElements();
-  //   expect(elements.length).toEqual(2);
-  //   elements.forEach((x, i) => {
-  //     expect(x.icon.nativeElement.classList).toContain(links[i].icon);
-  //     expect(x.link.nativeElement.getAttribute('href')).toEqual(links[i].url);
-  //     expect(x.link.nativeElement.innerText).toEqual(links[i].title);
-  //   });
-  // });
+    const elements = getElements();
+    expect(elements.email.link.nativeElement.innerText).toEqual(contact.email);
+    expect(elements.email.link.nativeElement.getAttribute('href')).toEqual(`mailto:${contact.email}`);
+
+    const emailIconClasses = elements.email.icon.nativeElement.classList;
+    expect(emailIconClasses).toContain('far');
+    expect(emailIconClasses).toContain('fa-envelope');
+
+    expect(elements.phone.link.nativeElement.innerText).toEqual(contact.phone);
+    expect(elements.phone.link.nativeElement.getAttribute('href')).toEqual(`tel:${contact.phone}`);
+
+    const phoneIconClasses = elements.phone.icon.nativeElement.classList;
+    expect(phoneIconClasses).toContain('fas');
+    expect(phoneIconClasses).toContain('fa-phone');
+  });
+
+  it('should not display phone when no phone provided', () => {
+    const contact = contactModel({ email: 'test@email.com', phone: null });
+
+    mockCommandFacade.commandData.contact$.next({ contact });
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.email.link).toBeTruthy();
+    expect(elements.phone.link).toBeFalsy();
+  });
+
+  it('should not display email when no email provided', () => {
+    const contact = contactModel({ email: null, phone: '1234567890' });
+
+    mockCommandFacade.commandData.contact$.next({ contact });
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.email.link).toBeFalsy();
+    expect(elements.phone.link).toBeTruthy();
+  });
 });

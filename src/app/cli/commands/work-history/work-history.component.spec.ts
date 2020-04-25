@@ -7,6 +7,7 @@ import { CommandFacade } from '../../store/command/command.facade';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { WorkHistoryExecuted } from '../../store/command/command.actions';
 import { WorkHistoryComponent } from './work-history.component';
+import { workHistoryModel } from 'src/test-helpers/factory/models';
 
 describe('WorkHistoryComponent', () => {
   let component: WorkHistoryComponent;
@@ -15,18 +16,14 @@ describe('WorkHistoryComponent', () => {
   let mockCommandFacade: MockCommandFacade;
 
   function getElements() {
-    const output = fixture.debugElement.query(By.css(`${SELECTORS.TERMINAL_OUTPUT}`));
-    const linkContainers = output.queryAll(By.css('.links-container .link-container'));
+    const workHistories = fixture.debugElement.queryAll(By.css(`${SELECTORS.TERMINAL_OUTPUT} .work-history-container .work-history-item`));
 
-    const result = linkContainers.map(container => {
-      return {
-        container,
-        icon: container.query(By.css('i')),
-        link: container.query(By.css('a'))
-      };
-    });
-
-    return output && result;
+    return (workHistories || []).map(wh => ({
+        employer: wh.query(By.css('.work-history--top-level :first-child')),
+        position: wh.query(By.css('.work-history--top-level :nth-child(2)')),
+        dates: wh.query(By.css('.work-history--top-level :nth-child(3)')),
+        details: wh.queryAll(By.css('.work-history--details li'))
+    }));
   }
 
   beforeEach(async(() => {
@@ -60,21 +57,40 @@ describe('WorkHistoryComponent', () => {
     expect(dispatchSpy).toHaveBeenCalledWith(new WorkHistoryExecuted(component.params));
   });
 
-  // it('should display output for work history', () => {
-  //   const links = [
-  //     linkModel({ icon: 'icon1', title: 'title1', url: 'url1' }),
-  //     linkModel({ icon: 'icon2', title: 'title2', url: 'url2' })
-  //   ];
+  it('should display work history data', () => {
+    const workHistory = [ workHistoryModel(), workHistoryModel() ];
 
-  //   mockCommandFacade.commandData.links$.next({ links });
-  //   fixture.detectChanges();
+    mockCommandFacade.commandData.workHistory$.next({ workHistory });
+    fixture.detectChanges();
 
-  //   const elements = getElements();
-  //   expect(elements.length).toEqual(2);
-  //   elements.forEach((x, i) => {
-  //     expect(x.icon.nativeElement.classList).toContain(links[i].icon);
-  //     expect(x.link.nativeElement.getAttribute('href')).toEqual(links[i].url);
-  //     expect(x.link.nativeElement.innerText).toEqual(links[i].title);
-  //   });
-  // });
+    const elements = getElements();
+    elements.forEach((wh, whi) => {
+      expect(wh.employer.nativeElement.innerText).toEqual(workHistory[0].employer);
+      expect(wh.position.nativeElement.innerText).toEqual(workHistory[0].position);
+      expect(wh.dates.nativeElement.innerText).toEqual(`${workHistory[0].start} - ${workHistory[0].end}`);
+      wh.details.forEach((detail, detaili) => {
+        expect(detail.nativeElement.innerText).toEqual(workHistory[whi].details[detaili]);
+      });
+    });
+  });
+
+  it('should not display work history details if there are none', () => {
+    const workHistory = [ workHistoryModel({ details: null }) ];
+
+    mockCommandFacade.commandData.workHistory$.next({ workHistory });
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements[0].details.length).toEqual(0);
+  });
+
+  it('should not display work history if none is provided', () => {
+    const workHistory = [];
+
+    mockCommandFacade.commandData.workHistory$.next({ workHistory });
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.length).toEqual(0);
+  });
 });

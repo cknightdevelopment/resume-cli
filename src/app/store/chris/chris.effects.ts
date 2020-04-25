@@ -24,7 +24,8 @@ export class ChrisEffects {
       links: data.links,
       workHistory: data.workHistory,
       contact: data.contact,
-      issue: data.issue
+      issue: data.issue,
+      help: data.help
     }))
   );
 }

@@ -3,9 +3,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '..';
 import { Observable } from 'rxjs';
 import { ChrisAction } from './chris.actions';
-import { selectFacts, selectEducation, selectSkills, selectLinks, selectWorkHistory, selectContact, selectIssue } from './chris.selectors';
 // tslint:disable-next-line: max-line-length
-import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel } from 'src/app/models/chris/chris-data.model';
+import { selectFacts, selectEducation, selectSkills, selectLinks, selectWorkHistory, selectContact, selectIssue, selectHelp } from './chris.selectors';
+// tslint:disable-next-line: max-line-length
+import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel, HelpModel } from 'src/app/models/chris/chris-data.model';
 
 @Injectable()
 export class ChrisFacade {
@@ -16,6 +17,7 @@ export class ChrisFacade {
   workHistory$: Observable<WorkHistoryModel[]> = this.store.select(selectWorkHistory);
   contact$: Observable<ContactModel> = this.store.select(selectContact);
   issue$: Observable<IssueModel> = this.store.select(selectIssue);
+  help$: Observable<HelpModel> = this.store.select(selectHelp);
 
   constructor(private store: Store<AppState>) {
   }

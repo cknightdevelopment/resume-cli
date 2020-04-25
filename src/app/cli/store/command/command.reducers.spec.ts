@@ -2,10 +2,10 @@ import * as factory from 'src/test-helpers/factory/state';
 import { reducer, intitalState, InitializedCommand } from './command.reducers';
 import { NoopAction } from 'src/test-helpers/noop-action';
 // tslint:disable-next-line: max-line-length
-import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, ContactExecuted, ContactExecutedSuccess, IssueExecuted, IssueExecutedSuccess } from './command.actions';
+import { CommandInitiated, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, ContactExecuted, ContactExecutedSuccess, IssueExecuted, IssueExecutedSuccess, HelpExecuted, HelpExecutedSuccess } from './command.actions';
 import { CommandState } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
-import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Reducers: Command', () => {
@@ -227,6 +227,20 @@ describe('NGRX Reducers: Command', () => {
       const returnedState = reducer(commandState, new IssueExecutedSuccess({ issue }));
 
       expect(returnedState.executed.issue).toEqual({ issue });
+    });
+  });
+
+  describe('help', () => {
+    it('should clear executed help state when help is executed', () => {
+      commandState.executed = { help: { help: helpModel() } };
+      expect(reducer(commandState, new HelpExecuted({})).executed.help).toBeNull();
+    });
+
+    it('should set executed help on successful help execution', () => {
+      const help = helpModel();
+      const returnedState = reducer(commandState, new HelpExecutedSuccess({ help }));
+
+      expect(returnedState.executed.help).toEqual({ help });
     });
   });
 });

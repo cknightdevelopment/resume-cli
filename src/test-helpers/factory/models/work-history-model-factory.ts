@@ -1,8 +1,9 @@
-import { merge as _merge } from 'lodash';
+import { mergeWith as _mergeWith } from 'lodash';
 import { WorkHistoryModel } from 'src/app/models/chris/chris-data.model';
+import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function workHistoryModel(override?: Partial<WorkHistoryModel>): WorkHistoryModel {
-  return _merge({
+  return _mergeWith({
     employer: 'test employer',
     position: 'test position',
     start: 'test start',
@@ -11,5 +12,5 @@ export function workHistoryModel(override?: Partial<WorkHistoryModel>): WorkHist
       'test details 1',
       'test details 2'
     ]
-  } as WorkHistoryModel, override);
+  } as WorkHistoryModel, override, replaceArrayCustomizer);
 }

@@ -14,6 +14,8 @@ import { IssueInputParams } from 'src/app/models/command/input/issue-input-param
 import { IssueExecutedModel } from 'src/app/models/command/executed/issue-executed.model';
 import { ContactInputParams } from 'src/app/models/command/input/contact-input-params.model';
 import { ContactExecutedModel } from 'src/app/models/command/executed/contact-executed.model';
+import { HelpInputParams } from 'src/app/models/command/input/help-input-params.model';
+import { HelpExecutedModel } from 'src/app/models/command/executed/help-executed.model';
 
 export enum CommandActionTypes {
   CommandEffectsInit = '[Command] Effects Init',
@@ -40,6 +42,9 @@ export enum CommandActionTypes {
 
   ContactExecuted = '[Command] Contact Executed',
   ContactExecutedSuccess = '[Command] Contact Executed Success',
+
+  HelpExecuted = '[Command] Help Executed',
+  HelpExecutedSuccess = '[Command] Help Executed Success',
 }
 
 export class CommandEffectsInit implements Action {
@@ -127,6 +132,16 @@ export class ContactExecutedSuccess implements Action {
   constructor(public payload: ContactExecutedModel) {}
 }
 
+export class HelpExecuted implements Action {
+  readonly type = CommandActionTypes.HelpExecuted;
+  constructor(public payload: HelpInputParams) {}
+}
+
+export class HelpExecutedSuccess implements Action {
+  readonly type = CommandActionTypes.HelpExecutedSuccess;
+  constructor(public payload: HelpExecutedModel) {}
+}
+
 export type CommandAction = CommandInitiated
   | CommandEffectsInit
   | CommandExecutedFail
@@ -143,4 +158,6 @@ export type CommandAction = CommandInitiated
   | IssueExecuted
   | IssueExecutedSuccess
   | ContactExecuted
-  | ContactExecutedSuccess;
+  | ContactExecutedSuccess
+  | HelpExecuted
+  | HelpExecutedSuccess;

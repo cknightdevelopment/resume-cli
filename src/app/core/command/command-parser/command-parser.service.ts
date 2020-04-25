@@ -14,13 +14,12 @@ import { InvalidArgumentComponent as InvalidArgumentComponent } from 'src/app/cl
 import { MissingParameterComponent } from 'src/app/cli/commands/missing-parameter/missing-parameter.component';
 import { UnknownParameterInputParams } from 'src/app/models/command/input/unknown-parameter-input-params.model';
 import { UnknownParameterComponent } from 'src/app/cli/commands/unknown-parameter/unknown-parameter.component';
-import { ciEquals } from 'src/app/util';
+import { ciEquals, uuidv4 } from 'src/app/util';
 import { InvalidParameterComponent } from 'src/app/cli/commands/invalid-parameter/invalid-parameter.component';
 import { InvalidParameterInputParams } from 'src/app/models/command/input/invalid-parameter-input-params.model';
 import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cli.component';
 import { UnknownCliInputParams } from 'src/app/models/command/input/unknown-cli-input-params.model';
 import { HelpComponent } from 'src/app/cli/commands/help/help.component';
-import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
 import { EducationComponent } from 'src/app/cli/commands/education/education.component';
 import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
 import { keys as _keys, differenceWith as _differenceWith, mapKeys as _mapKeys } from 'lodash';
@@ -30,6 +29,7 @@ import { LinksComponent } from 'src/app/cli/commands/links/links.component';
 import { WorkHistoryComponent } from 'src/app/cli/commands/work-history/work-history.component';
 import { ContactComponent } from 'src/app/cli/commands/contact/contact.component';
 import { IssueComponent } from 'src/app/cli/commands/issue/issue.component';
+import { IssueInputParamsValidator } from 'src/app/models/command/input/validators/issue-input-params-validator.model';
 
 
 @Injectable({
@@ -53,12 +53,7 @@ export class CommandParserService {
       };
     } else if (preParsedCommand.noCommand) {
       // return help if no command provided
-      return {
-        name: CommandNames.Help,
-        status: ParseStatus.Parsed,
-        componentType: HelpComponent,
-        params: {} as HelpCommandInputParams,
-      };
+      return this.parseCommandInput(this.buildCommandInput({}), CommandNames.Help, HelpComponent);
     }
 
     return this.getCommandInputData(preParsedCommand);
@@ -78,9 +73,12 @@ export class CommandParserService {
       return { noCommand: true } as PreParsedCommand;
     }
 
+    let paramParts = commandParts.slice(2);
+    paramParts = this.handleParamsWithQuotes(paramParts);
+
     return {
       name: commandParts[1],
-      params: commandParts.slice(2)
+      params: paramParts
     } as PreParsedCommand;
   }
 
@@ -110,7 +108,12 @@ export class CommandParserService {
         parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Contact, ContactComponent);
         break;
       case CommandNames.Issue:
-        parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Issue, IssueComponent);
+        parseFunc = () => this.parseCommandInput(
+          this.buildCommandInput(inputParams.valid, new IssueInputParamsValidator()), CommandNames.Issue, IssueComponent
+        );
+        break;
+      case CommandNames.Help:
+        parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Help, HelpComponent);
         break;
       default:
         return {
@@ -221,6 +224,102 @@ export class CommandParserService {
 
     return { params };
   }
+
+  private handleParamsWithQuotes(paramParts: string[]): string[] {
+    const quotedModel = this.buildQuotedModel(paramParts);
+
+    // if not valid then pass back original, and downsteam validation will handle it
+    if (!this.validateQuotedModel(quotedModel)) {
+      return paramParts;
+    }
+
+    return this.mergeQuotedParamParts(paramParts, quotedModel);
+  }
+
+  private getFirstNonEscapedDoubleQuoteIndex(val: string): number {
+    return val.split('').findIndex((char, i) => {
+      return char === CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER && val[i - 1] !== '\\';
+    });
+  }
+
+  private buildQuotedModel(paramParts: string[]): QuotedModel {
+    const result = {
+      isOpen: false,
+      groups: []
+    } as QuotedModel;
+
+    paramParts.forEach((part, partIndex) => {
+      let startIndex = 0;
+
+      while (true) {
+        const quoteIndex = this.getFirstNonEscapedDoubleQuoteIndex(part.substring(startIndex));
+
+        if (quoteIndex < 0) break;
+
+        if (!result.isOpen) {
+          result.groups.push({
+            startCharIndex: quoteIndex + startIndex,
+            startPartIndex: partIndex
+          });
+        } else {
+          result.groups[result.groups.length - 1].endCharIndex = quoteIndex + startIndex;
+          result.groups[result.groups.length - 1].endPartIndex = partIndex;
+        }
+        result.isOpen = !result.isOpen;
+
+        startIndex += (quoteIndex + 1);
+      }
+    });
+
+    return result;
+  }
+
+  private validateQuotedModel(model: QuotedModel): boolean {
+    return !model.isOpen && !model.groups.some(x => x.endPartIndex == null);
+  }
+
+  private mergeQuotedParamParts(paramParts: string[], quotedModel: QuotedModel): string[] {
+    const result = [] as string[];
+    const uuid = uuidv4();
+
+    for (let partIndex = 0; partIndex < paramParts.length; partIndex++) {
+      const part = paramParts[partIndex];
+      const group = quotedModel.groups.find(x => partIndex >= x.startPartIndex && partIndex <= x.endPartIndex);
+      if (group && group.startPartIndex === partIndex) {
+        const slice = paramParts.slice(group.startPartIndex, group.endPartIndex + 1);
+        let mergedString = slice.join(' ');
+
+        if (!mergedString.startsWith(CONSTANTS.COMMAND.PARAM_PREFIX)) {
+          return paramParts;
+        }
+
+        mergedString = mergedString
+          // remove leading quote after equal sign
+          // tslint:disable-next-line: max-line-length
+          .replace(`${CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}${CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}`, CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR)
+          // substring to not include the trailing quote
+          .substring(0, mergedString.length - 2);
+
+        if (this.getFirstNonEscapedDoubleQuoteIndex(mergedString) >= 0) {
+          return paramParts;
+        }
+
+        result.push(mergedString
+          // replace any escaped quotes with simple quotes
+          .replace(new RegExp(/\\/, 'g'), uuid)
+          .replace(
+            new RegExp(`${uuid}${CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}`, 'g'), CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER
+          )
+          .replace(new RegExp(uuid, 'g'), '\\')
+          // .replace(/\\"/g, '"')
+        );
+      } else if (!group) {
+        result.push(part);
+      }
+    }
+
+    return result;
+  }
 }
 
 interface ParsedParams<T> {
@@ -228,4 +327,9 @@ interface ParsedParams<T> {
   invalid?: InvalidArgumentInputParams;
   missing?: MissingParameterInputParams;
   params?: T;
+}
+
+interface QuotedModel {
+  isOpen: boolean;
+  groups: { startCharIndex: number, startPartIndex: number, endCharIndex?: number, endPartIndex?: number }[];
 }

@@ -1,11 +1,12 @@
 import { CommandState } from 'src/app/cli/store/command/command.reducers';
-import { merge as _merge } from 'lodash';
+import { mergeWith as _mergeWith } from 'lodash';
+import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function commandState(override?: Partial<CommandState>): CommandState {
-  return _merge({
+  return _mergeWith({
     initializedCommand: null,
     history: [],
     executed: null,
     usedFacts: []
-  } as CommandState, override);
+  } as CommandState, override, replaceArrayCustomizer);
 }

@@ -6,6 +6,7 @@ export interface ChrisDataModel {
   workHistory: WorkHistoryModel[];
   contact: ContactModel;
   issue: IssueModel;
+  help: HelpModel;
 }
 
 export interface EducationModel {
@@ -56,4 +57,30 @@ export class ContactModel {
 
 export class IssueModel {
   url: string;
+  title?: string;
+}
+
+export class HelpModel {
+  sourceCodeUrl: string;
+  buildStatus: CodeStatusModel;
+  coverageStatus: CodeStatusModel;
+  commands: CommandHelpModel[];
+}
+
+export class CodeStatusModel {
+  linkUrl: string;
+  imgUrl: string;
+}
+
+export class CommandHelpModel {
+  name: string;
+  description: string;
+  arguments?: ArgumentHelpModel[];
+}
+
+export class ArgumentHelpModel {
+  name: string;
+  description: string;
+  required?: boolean;
+  default?: string;
 }

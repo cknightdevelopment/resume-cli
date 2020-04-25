@@ -2,7 +2,7 @@ import * as factory from 'src/test-helpers/factory/state';
 import * as selectors from 'src/app/cli/store/command/command.selectors';
 import { AppState } from 'src/app/store';
 import { InitializedCommand } from './command.reducers';
-import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 describe('NGRX Selectors: Command', () => {
@@ -91,12 +91,21 @@ describe('NGRX Selectors: Command', () => {
     expect(selectors.selectContactExecutionData(appState)).toEqual(appState.cli.command.executed.contact);
   });
 
-  it('should select executed links data', () => {
+  it('should select executed issue data', () => {
     const issue = issueModel();
     appState.cli.command.executed = {
       issue: { issue }
     };
 
     expect(selectors.selectIssueExecutionData(appState)).toEqual(appState.cli.command.executed.issue);
+  });
+
+  it('should select executed help data', () => {
+    const help = helpModel();
+    appState.cli.command.executed = {
+      help: { help }
+    };
+
+    expect(selectors.selectHelpExecutionData(appState)).toEqual(appState.cli.command.executed.help);
   });
 });

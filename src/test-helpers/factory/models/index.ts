@@ -5,3 +5,4 @@ export * from './link-model-factory';
 export * from './work-history-model-factory';
 export * from './contact-model-factory';
 export * from './issue-model-factory';
+export * from './help-model-factory';

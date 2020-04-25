@@ -20,7 +20,6 @@ import { UnknownParameterInputParams } from 'src/app/models/command/input/unknow
 import { UnknownCliComponent } from 'src/app/cli/commands/unknown-cli/unknown-cli.component';
 import { UnknownCliInputParams } from 'src/app/models/command/input/unknown-cli-input-params.model';
 import { HelpComponent } from 'src/app/cli/commands/help/help.component';
-import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
 import { EducationComponent } from 'src/app/cli/commands/education/education.component';
 import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
 import { SkillsComponent } from 'src/app/cli/commands/skills/skills.component';
@@ -33,6 +32,7 @@ import { ContactComponent } from 'src/app/cli/commands/contact/contact.component
 import { ContactInputParams } from 'src/app/models/command/input/contact-input-params.model';
 import { IssueComponent } from 'src/app/cli/commands/issue/issue.component';
 import { IssueInputParams } from 'src/app/models/command/input/issue-input-params.model';
+import { HelpInputParams } from 'src/app/models/command/input/help-input-params.model';
 
 describe('CommandParserService', () => {
   let parserSvc: CommandParserService;
@@ -87,7 +87,7 @@ describe('CommandParserService', () => {
         name: CommandNames.Help,
         status: ParseStatus.Parsed,
         componentType: HelpComponent,
-        params: {} as HelpCommandInputParams
+        params: {} as HelpInputParams
       } as ParsedCommandInput);
     });
 
@@ -151,6 +151,48 @@ describe('CommandParserService', () => {
         name: 'COMMANDNAME',
         params: []
       } as PreParsedCommand);
+    });
+
+    describe('quoted parameters', () => {
+      it('should parse parameters with quotes and escapes', () => {
+        const text = createCommandText('commandname', { noSpace: '"test"', space: '"test test"', escaped: '"test \\"quoted\\" test"' });
+
+        expect(parserSvc.getPreParsedCommandData(text)).toEqual({
+          name: 'commandname',
+          params: [
+            createParameterText('noSpace', 'test'),
+            createParameterText('space', 'test test'),
+            createParameterText('escaped', 'test "quoted" test')
+          ]
+        } as PreParsedCommand);
+      });
+
+      it('should be invalid parameter when no closing quote', () => {
+        const text = createCommandText(CommandNames.Issue, { title: '"no closing quote' });
+        expect(parserSvc.parseCommand(text)).toEqual({
+          status: ParseStatus.InvalidParameter,
+          componentType: InvalidParameterComponent,
+          params: { paramName: 'closing' } as InvalidParameterInputParams
+        });
+      });
+
+      it('should be invalid parameter when no opening quote', () => {
+        const text = createCommandText(CommandNames.Issue, { title: 'no opening quote"' });
+        expect(parserSvc.parseCommand(text)).toEqual({
+          status: ParseStatus.InvalidParameter,
+          componentType: InvalidParameterComponent,
+          params: { paramName: 'opening' } as InvalidParameterInputParams
+        });
+      });
+
+      it('should be invalid parameter using single quotes', () => {
+        const text = createCommandText(CommandNames.Issue, { title: '\'single quote\'' });
+        expect(parserSvc.parseCommand(text)).toEqual({
+          status: ParseStatus.InvalidParameter,
+          componentType: InvalidParameterComponent,
+          params: { paramName: 'quote\'' } as InvalidParameterInputParams
+        });
+      });
     });
   });
 
@@ -359,7 +401,29 @@ describe('CommandParserService', () => {
           status: ParseStatus.Parsed,
           name: CommandNames.Issue,
           componentType: IssueComponent,
-          params: { } as IssueInputParams
+          params: { title: undefined } as IssueInputParams
+        } as ParsedCommandInput);
+      });
+
+      it('should return issue with title param data', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Issue, params: [createParameterText('title', 'test title')] });
+        expect(result).toEqual({
+          status: ParseStatus.Parsed,
+          name: CommandNames.Issue,
+          componentType: IssueComponent,
+          params: { title: 'test title' } as IssueInputParams
+        } as ParsedCommandInput);
+      });
+    });
+
+    describe('HelpComponent', () => {
+      it('should return help with no param data', () => {
+        const result = parserSvc.getCommandInputData({ name: CommandNames.Help });
+        expect(result).toEqual({
+          status: ParseStatus.Parsed,
+          name: CommandNames.Help,
+          componentType: HelpComponent,
+          params: {} as HelpInputParams
         } as ParsedCommandInput);
       });
     });

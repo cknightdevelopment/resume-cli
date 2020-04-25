@@ -39,3 +39,8 @@ export const selectIssue = createSelector(
   selectChris,
   (state: ChrisState) => state.issue
 );
+
+export const selectHelp = createSelector(
+  selectChris,
+  (state: ChrisState) => state.help
+);

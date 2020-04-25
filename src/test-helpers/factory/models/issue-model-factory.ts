@@ -1,8 +1,9 @@
-import { merge as _merge } from 'lodash';
-import { EducationModel, IssueModel } from 'src/app/models/chris/chris-data.model';
+import { mergeWith as _mergeWith } from 'lodash';
+import { IssueModel } from 'src/app/models/chris/chris-data.model';
+import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function issueModel(override?: Partial<IssueModel>): IssueModel {
-  return _merge({
-    url: 'test url'
-  } as IssueModel, override);
+  return _mergeWith({
+    url: 'http://test.com'
+  } as IssueModel, override, replaceArrayCustomizer);
 }

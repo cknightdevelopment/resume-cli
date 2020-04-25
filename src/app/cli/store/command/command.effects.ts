@@ -1,7 +1,7 @@
 import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line: max-line-length
-import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecutedSuccess, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, LinksExecuted, IssueExecuted, IssueExecutedSuccess, ContactExecuted, ContactExecutedSuccess } from './command.actions';
+import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecutedSuccess, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, LinksExecuted, IssueExecuted, IssueExecutedSuccess, ContactExecuted, ContactExecutedSuccess, HelpExecuted, HelpExecutedSuccess } from './command.actions';
 import { withLatestFrom, map, tap } from 'rxjs/operators';
 import { CommandService } from 'src/app/core/command/command.service';
 import { CommandFacade } from './command.facade';
@@ -85,7 +85,7 @@ export class CommandEffects implements OnInitEffects {
     ofType<IssueExecuted>(CommandActionTypes.IssueExecuted),
     withLatestFrom(this.chrisFacade.issue$),
     map(([action, issue]) => {
-      return new IssueExecutedSuccess({ issue });
+      return new IssueExecutedSuccess({ issue: { url: issue.url, title: action.payload.title } });
     })
   );
 
@@ -94,6 +94,14 @@ export class CommandEffects implements OnInitEffects {
     withLatestFrom(this.chrisFacade.contact$),
     map(([action, contact]) => {
       return new ContactExecutedSuccess({ contact });
+    })
+  );
+
+  @Effect() help$ = this.actions$.pipe(
+    ofType<HelpExecuted>(CommandActionTypes.HelpExecuted),
+    withLatestFrom(this.chrisFacade.help$),
+    map(([action, help]) => {
+      return new HelpExecutedSuccess({ help });
     })
   );
 

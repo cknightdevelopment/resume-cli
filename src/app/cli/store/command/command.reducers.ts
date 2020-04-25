@@ -7,6 +7,7 @@ import { LinksExecutedModel } from 'src/app/models/command/executed/links-execut
 import { WorkHistoryExecutedModel } from 'src/app/models/command/executed/work-history-executed.model';
 import { ContactExecutedModel } from 'src/app/models/command/executed/contact-executed.model';
 import { IssueExecutedModel } from 'src/app/models/command/executed/issue-executed.model';
+import { HelpExecutedModel } from 'src/app/models/command/executed/help-executed.model';
 
 export interface CommandState {
   initializedCommand: InitializedCommand;
@@ -19,7 +20,8 @@ export interface CommandState {
     links?: LinksExecutedModel,
     workHistory?: WorkHistoryExecutedModel,
     contact?: ContactExecutedModel,
-    issue?: IssueExecutedModel
+    issue?: IssueExecutedModel,
+    help?: HelpExecutedModel
   };
 }
 
@@ -167,6 +169,20 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
         ...state,
         executed: {
           contact: action.payload
+        }
+      };
+    case CommandActionTypes.HelpExecuted:
+      return {
+        ...state,
+        executed: {
+          help: null
+        }
+      };
+    case CommandActionTypes.HelpExecutedSuccess:
+      return {
+        ...state,
+        executed: {
+          help: action.payload
         }
       };
     default: {

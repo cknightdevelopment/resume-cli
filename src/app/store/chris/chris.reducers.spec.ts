@@ -2,7 +2,7 @@ import * as factory from 'src/test-helpers/factory/state';
 import { NoopAction } from 'src/test-helpers/noop-action';
 import { ChrisState, reducer, intitalState } from './chris.reducers';
 import { LoadStaticDataSuccess } from './chris.actions';
-import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 
@@ -19,7 +19,8 @@ describe('NGRX Reducers: Chris', () => {
       links: [linkModel()],
       workHistory: [workHistoryModel()],
       contact: contactModel(),
-      issue: issueModel()
+      issue: issueModel(),
+      help: helpModel()
     });
     expect(reducer(intitalState, new LoadStaticDataSuccess(data))).toEqual(jasmine.objectContaining<ChrisState>({
       facts: data.facts,
@@ -28,7 +29,8 @@ describe('NGRX Reducers: Chris', () => {
       links: data.links,
       workHistory: data.workHistory,
       contact: data.contact,
-      issue: data.issue
+      issue: data.issue,
+      help: data.help
     }));
   });
 });

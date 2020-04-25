@@ -1,1 +1,10 @@
-<p>contact works!</p>
+<app-terminal-output>
+  <div class="contact-container">
+    <div class="contact-email" *ngIf="data?.contact?.email">
+      <a href="mailto:{{data.contact.email}}"><i class="far fa-envelope"></i>{{data.contact.email}}</a>
+    </div>
+    <div class="contact-phone" *ngIf="data?.contact?.phone">
+      <a href="tel:{{data.contact.phone}}"><i class="fas fa-phone"></i>{{data.contact.phone}}</a>
+    </div>
+  </div>
+</app-terminal-output>

@@ -1,6 +1,6 @@
 import { ChrisAction, ChrisActionTypes } from './chris.actions';
 // tslint:disable-next-line: max-line-length
-import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel } from 'src/app/models/chris/chris-data.model';
+import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel, HelpModel } from 'src/app/models/chris/chris-data.model';
 
 export interface ChrisState {
   facts: string[];
@@ -10,6 +10,7 @@ export interface ChrisState {
   workHistory: WorkHistoryModel[];
   contact: ContactModel;
   issue: IssueModel;
+  help: HelpModel;
 }
 
 export const intitalState: ChrisState = {
@@ -19,7 +20,8 @@ export const intitalState: ChrisState = {
   links: [],
   workHistory: [],
   contact: null,
-  issue: null
+  issue: null,
+  help: null
 };
 
 export function reducer(state = intitalState, action: ChrisAction): ChrisState {

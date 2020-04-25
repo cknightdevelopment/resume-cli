@@ -1,6 +1,12 @@
 import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { CommandComponent } from '../command.component';
-import { HelpCommandInputParams } from 'src/app/models/command/input/help-command-input-params.model';
+import { HelpInputParams } from 'src/app/models/command/input/help-input-params.model';
+import { HelpExecutedModel } from 'src/app/models/command/executed/help-executed.model';
+import { CommandFacade } from '../../store/command/command.facade';
+import { HelpExecuted } from '../../store/command/command.actions';
+import { filter, take } from 'rxjs/operators';
+import { ArgumentHelpModel } from 'src/app/models/chris/chris-data.model';
+import { CONSTANTS } from 'src/app/models/constants';
 
 @Component({
   selector: 'app-help',
@@ -9,8 +15,36 @@ import { HelpCommandInputParams } from 'src/app/models/command/input/help-comman
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class HelpComponent implements CommandComponent<HelpCommandInputParams> {
-  @Input() params: HelpCommandInputParams;
+export class HelpComponent implements CommandComponent<HelpInputParams>, OnInit {
+  @Input() params: HelpInputParams;
+  data: HelpExecutedModel;
+  CONSTANTS = CONSTANTS;
 
-  constructor() { }
+  constructor(private facade: CommandFacade) { }
+
+  ngOnInit(): void {
+    this.facade.dispatch(new HelpExecuted(this.params));
+    this.facade.commandData.help$.pipe(
+      filter(x => !!x),
+      take(1)
+    ).subscribe(x => this.data = x);
+  }
+
+  sort(data: any[]) {
+    return (data || []).slice().sort((a, b) => a.name > b.name ? 1 : -1);
+  }
+
+  secondaryInfo(argument: ArgumentHelpModel) {
+    if (!argument) return null;
+
+    let result = `(${argument.required ? 'required' : 'optional'}`;
+
+    if (argument.default) {
+      result += `, default=${argument.default}`;
+    }
+
+    result += ')';
+
+    return result;
+  }
 }

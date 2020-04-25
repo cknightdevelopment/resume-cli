@@ -15,21 +15,6 @@ describe('IssueComponent', () => {
   let dispatchSpy: jasmine.Spy;
   let mockCommandFacade: MockCommandFacade;
 
-  function getElements() {
-    const output = fixture.debugElement.query(By.css(`${SELECTORS.TERMINAL_OUTPUT}`));
-    const linkContainers = output.queryAll(By.css('.links-container .link-container'));
-
-    const result = linkContainers.map(container => {
-      return {
-        container,
-        icon: container.query(By.css('i')),
-        link: container.query(By.css('a'))
-      };
-    });
-
-    return output && result;
-  }
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
@@ -63,11 +48,21 @@ describe('IssueComponent', () => {
 
   it('should open issue url is new tab when execution data is received', () => {
     spyOn(window, 'open');
-    const issue = issueModel();
+    const issue = issueModel({ title: null });
 
     mockCommandFacade.commandData.issue$.next({ issue });
     fixture.detectChanges();
 
-    expect(window.open).toHaveBeenCalledWith(issue.url, '_blank');
+    expect(window.open).toHaveBeenCalledWith(`${issue.url}?title=`, '_blank');
+  });
+
+  it('should open issue url with title when one is provided', () => {
+    spyOn(window, 'open');
+    const issue = issueModel({ title: 'test title' });
+
+    mockCommandFacade.commandData.issue$.next({ issue });
+    fixture.detectChanges();
+
+    expect(window.open).toHaveBeenCalledWith(`${issue.url}?title=${issue.title}`, '_blank');
   });
 });

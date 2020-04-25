@@ -29,7 +29,7 @@ export class IssueComponent implements CommandComponent<IssueInputParams>, OnIni
 
       if (this.data.issue && this.data.issue.url) {
         // open new tab with url to log an issue
-        window.open(this.data.issue.url, '_blank');
+        window.open(`${this.data.issue.url}?title=${this.data.issue.title || ''}`, '_blank');
       }
     });
   }

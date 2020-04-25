@@ -17,7 +17,6 @@ export const selectInitializedCommand = createSelector(
 
 export const selectHistory = createSelector(
   selectCommand,
-  // todo: filter out repeats next to each other
   command => command.history.slice().sort((a, b) => {
     return b.initializedOn > a.initializedOn ? 1 : -1;
   })
@@ -61,4 +60,9 @@ export const selectContactExecutionData = createSelector(
 export const selectIssueExecutionData = createSelector(
   selectCommand,
   command => command.executed && command.executed.issue
+);
+
+export const selectHelpExecutionData = createSelector(
+  selectCommand,
+  command => command.executed && command.executed.help
 );

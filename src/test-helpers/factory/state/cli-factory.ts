@@ -1,10 +1,11 @@
 import { CliState } from 'src/app/cli/store';
 import * as factory from 'src/test-helpers/factory/state';
-import { merge as _merge } from 'lodash';
+import { mergeWith as _mergeWith } from 'lodash';
+import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function cliState(override?: Partial<CliState>): CliState {
-  return _merge({
+  return _mergeWith({
     terminal: factory.terminalState(),
     command: factory.commandState()
-  } as CliState, override);
+  } as CliState, override, replaceArrayCustomizer);
 }

@@ -7,6 +7,7 @@ import { LinksExecutedModel } from 'src/app/models/command/executed/links-execut
 import { WorkHistoryExecutedModel } from 'src/app/models/command/executed/work-history-executed.model';
 import { ContactExecutedModel } from 'src/app/models/command/executed/contact-executed.model';
 import { IssueExecutedModel } from 'src/app/models/command/executed/issue-executed.model';
+import { HelpExecutedModel } from 'src/app/models/command/executed/help-executed.model';
 
 export class MockCommandFacade {
   initializedCommand$ = new Subject<InitializedCommand>();
@@ -19,6 +20,7 @@ export class MockCommandFacade {
     workHistory$: new Subject<WorkHistoryExecutedModel>(),
     contact$: new Subject<ContactExecutedModel>(),
     issue$: new Subject<IssueExecutedModel>(),
+    help$: new Subject<HelpExecutedModel>()
   };
 
   dispatch() {}

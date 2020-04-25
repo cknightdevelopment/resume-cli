@@ -1,4 +1,6 @@
-import { isValidNumberString, isPositiveInteger, ciEquals, ciIncludes, getRandomArrayIndex, updateItemIndex, isValidDate } from './util';
+// tslint:disable-next-line: max-line-length
+import { isValidNumberString, isPositiveInteger, ciEquals, ciIncludes, getRandomArrayIndex, updateItemIndex, isValidDate, uuidv4 } from './util';
+import { uniq as _uniq } from 'lodash';
 
 describe('util', () => {
   describe('isValidNumberString', () => {
@@ -166,6 +168,19 @@ describe('util', () => {
       expect(isValidDate({} as any)).toBeFalsy();
       expect(isValidDate('' as any)).toBeFalsy();
       expect(isValidDate('01/01/2019' as any)).toBeFalsy();
+    });
+  });
+
+  describe('uuidv4', () => {
+    it('should provide unique values', () => {
+      const values = [] as string[];
+
+      // 100 iteration should be sufficient for testing
+      for (let i = 0; i < 100; i++) {
+        values.push(uuidv4());
+      }
+
+      expect(_uniq(values).length).toEqual(values.length);
     });
   });
 });

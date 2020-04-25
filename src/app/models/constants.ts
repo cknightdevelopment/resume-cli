@@ -10,6 +10,7 @@ export const CONSTANTS = {
   COMMAND: {
     PARAM_PREFIX: '--',
     PARAM_KEY_VALUE_SEPARATOR: '=',
+    PARAM_VALUE_SPACE_SURROUNDER: '"',
     CLEAR_COMMANDS: ['clear', 'cls']
   },
   PARAM_REASONS: {

@@ -1,16 +1,26 @@
 {
   "facts": [
-    "He was born in Cleveland, OH.",
-    "He competes semi-competitively in CrossFit competitions.",
-    "He shares a birthday with Chris Rock, Ashton Kutcher, and Charles Dickens.",
-    "He attended the Berklee College of Music in Boston, MA as a bass performance major.",
-    "His favorite movie is Good Will Hunting.",
-    "His favorite TV show is Seinfeld.",
-    "You could pay him $1,000 to go to Disneyland for a day... and he would still decline.",
-    "His wife is a professional musician and tours around the world. Check her music out at aubreylogan.com",
-    "During high school he played basketball against Lebron James... and got destroyed, obviously.",
-    "He has three older brothers.",
-    "His favorite book is 'Boys In the Boat' by Daniel James Brown."
+    "I was born in Cleveland, OH.",
+    "I compete semi-competitively in CrossFit competitions.",
+    "I shares a birthday with Chris Rock, Ashton Kutcher, and Charles Dickens.",
+    "I attended the Berklee College of Music in Boston, MA as a bass performance major.",
+    "My favorite movie is Good Will Hunting.",
+    "My favorite TV show is Seinfeld.",
+    "You could pay me $1,000 to go to Disneyland for a day... and I would still decline.",
+    "My wife is a professional musician and tours around the world. Check her music out at aubreylogan.com",
+    "During high school I played basketball against Lebron James... and got destroyed, obviously.",
+    "I has three older brothers.",
+    "My favorite book is 'Boys In the Boat' by Daniel James Brown.",
+    "Jerry Seinfeld is my favorite comedian.",
+    "I have not watched 1 second of any of the Star Wars movies.",
+    "My great great great grandfather was the head butler for the richest man in the world at that time.",
+    "I've traveled all around the world, 43 countries total so far...",
+    "Ella Fitzgerald is my favorite singer of all time",
+    "I think baseball games need to be trimmed to just 6 innings, the games are too long ;)",
+    "I can play the bass, guitar, and drums",
+    "I have two cats, Frankie (named after Frank Sinatra) and Rosie (my town's nickname is the 'Rose City')",
+    "I met my wife during freshman orientation in college, we dated all of college, and got married right after we graduated.",
+    "I have a deep fear of ostriches, probably stemming from a bad dream I had as a child."
   ],
   "education": {
     "college": {
@@ -78,12 +88,56 @@
   ],
   "workHistory": [
     {
-      "employer": "AutoLoop",
-      "position": "Senior Software Enginner",
+      "employer": "Affinitiv",
+      "position": "Senior Software Engineer",
       "start": "October 2015",
-      "end": "present",
+      "end": "January 2020",
       "details": [
-        "Worked on code stuff..."
+        "Worked on a distributed team of over 250 engineers on a CMS system for car dealerships. Worked primarily in JavaScript, TypeScript, CSS, HTML, Angular, Node, C#, and SQL.",
+        "Member of core team for green field project to build a new mobile-first web application for dealership employees to manage customer data. Built application in Angular and making use of the Nrwl ecosystem libraries, mono-repo pattern, and implemented NgRx patterns for the application developers to extend. Designed and developed a large set of custom user controls to be used throughout the application by multiple teams, which had over 97% unit test coverage. Trained other teams on Angular best practices, coding standards, etc.",
+        "Lead engineer on a project to create a custom data access layer (“DAL”) for our applications to retrieve data from our SQL database. The DAL would be auto generated after inspection of the SQL schema, procedures, etc. The generated DAL included request/response models, methods to call stored procedures, scalar function, and table valued functions, re-try logic, logging, concurrent queries, etc.  We also developed utilities for team members to update their local databases based off of database changes checked into Git, and generation of update scripts for deployments. This DAL became the primary method at the company to interact with the database.",
+        "Lead a development effort in building a re-usable utility library to be used across all projects at Auto Loop. This library included hundreds of decoupled methods that were non-domain specific, allowing them to be used for common tasks and procedures regardless of the project type. This library had a very high percentage of test coverage utilizing unit tests, which were required to pass upon checking in commits."
+      ]
+    },
+    {
+      "employer": "Public Storage",
+      "position": "Senior Software Engineer",
+      "start": "January 2014",
+      "end": "October 2015",
+      "details": [
+        "Developed a single page web application for tracking and managing statutory license permits for all Public Storage locations. This web application was built using AngularJS, Bootstrap, and Underscore on the front-end, utilizing a RESTful Web API web service layer and a SQL Server 2012 database. This project also included a set of nightly jobs to notify managers of details concerning license renewal and expiration.",
+        "Developed a universal RESTful web service to be utilized across several applications within the business, including a public facing website, call center, IVR system, and in-store CRM system. Previously each system had its own independent set of web services, leading to duplicated code and longer development cycles. This new service received tens of millions of requests each day and averaged a sub 250ms response time per request. The web service was developed using ASP.NET Web API, .NET Framework 4.5, and Entity Framework using a SQL Server 2012 database."
+      ]
+    },
+    {
+      "employer": "Spruce Media, LLC",
+      "position": "Software Engineer",
+      "start": "August 2012",
+      "end": "December 2013",
+      "details": [
+        "Worked on the development and maintenance needs of the application code, web-based tools, servers, and databases in our core SaaS products that integrate with the Facebook API ecosystem. This included code maintenance in all layers of the .NET application stack, database optimization, deployments, and general platform stability.",
+        "Developed a transaction logging system to assist in proactive identification of issues and more robust data-gathering, without causing performance degradation. This system sent alerts to both business users and developers informing them of potential issues in the system.",
+        "Contributed in technical efforts involved with issue/bug troubleshooting, identification, and ultimate resolution with the core SaaS products and other supporting systems for both internal and external users. This involved work within a wide spectrum of technologies and platforms, from front end JavaScript coding, to database updates and server issues."
+      ]
+    },
+    {
+      "employer": "Gursey Schneider LLP",
+      "position": "Web Developer",
+      "start": "March 2010",
+      "end": "July 2012",
+      "details": [
+        "Worked as part of a five-member development team on several large-scale web and desktop application projects. This involved the gathering of technical/business requirements, planning, coding, testing, and deployment of custom applications using technologies such as C#, VB, MVC3+, ASP.NET, .NET Framework 3.5+, LINQ, Entity Framework, SQL, HTML/XHTML, CSS, JavaScript, AJAX, jQuery, web services, etc.",
+        "Built a modularized staff availability platform using C#, ASP.NET MVC 4, SQL, jQuery, and the .NET Quartz API. This platform allowed real time availability tracking for the law office partners to determine which staff members were available to work on new cases, and also included the ability to auto-assign cases to staff based on their availability, experience, etc."
+      ]
+    },
+    {
+      "employer": "Experian QAS",
+      "position": "Professional Services Consultant",
+      "start": "May 2009",
+      "end": "February 2010",
+      "details": [
+        "Worked with premier customers to install software in Windows and Linux environments, consulting developers with the coding of custom integrations using the Experian QAS API’s and web services, project management of deployments from a technical standpoint, and offering general technical assistance to clients",
+        "Supported sales account managers and business development managers with the technical aspects of the sales process and partner agreements"
       ]
     }
   ],
@@ -93,5 +147,65 @@
   },
   "issue": {
     "url": "https://github.com/cknightdevelopment/resume/issues/new"
+  },
+  "help": {
+    "sourceCodeUrl": "https://github.com/cknightdevelopment/resume",
+    "buildStatus": {
+      "linkUrl": "https://travis-ci.org/cknightdevelopment/resume",
+      "imgUrl": "https://travis-ci.org/cknightdevelopment/resume.svg?branch=master"
+    },
+    "coverageStatus": {
+      "linkUrl": "https://coveralls.io/github/cknightdevelopment/resume?branch=master",
+      "imgUrl": "https://coveralls.io/repos/github/cknightdevelopment/resume/badge.svg?branch=master"
+    },
+    "commands": [
+      {
+        "name": "random",
+        "description": "Learn some interesting random facts about Chris",
+        "arguments": [
+          {
+            "name": "count",
+            "description": "Number of random facts you want to see",
+            "required": false,
+            "default": "1"
+          }
+        ]
+      },
+      {
+        "name": "contact",
+        "description": "Find ways to contact Chris"
+      },
+      {
+        "name": "education",
+        "description": "Learn about Chris' education"
+      },
+      {
+        "name": "help",
+        "description": "View documentation for using this Resume CLI"
+      },
+      {
+        "name": "issue",
+        "description": "Log a GutHub issue for the Resume CLI",
+        "arguments": [
+          {
+            "name": "title",
+            "description": "Title of the issue you want to log",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "links",
+        "description": "Get links to some of Chris' external resources"
+      },
+      {
+        "name": "skills",
+        "description": "View skill levels across a number of disciplines"
+      },
+      {
+        "name": "workhistory",
+        "description": "View Chris' work history over the years"
+      }
+    ]
   }
 }

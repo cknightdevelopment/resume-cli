@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { CommandEffects } from './command.effects';
 // tslint:disable-next-line: max-line-length
-import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, ContactExecuted, ContactExecutedSuccess, IssueExecuted, IssueExecutedSuccess } from './command.actions';
+import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, ContactExecuted, ContactExecutedSuccess, IssueExecuted, IssueExecutedSuccess, HelpExecuted, HelpExecutedSuccess } from './command.actions';
 import { CommandService } from 'src/app/core/command/command.service';
 import * as factory from 'src/test-helpers/factory/models';
 import { CommandFacade } from './command.facade';
@@ -44,7 +44,8 @@ class MockChrisFacade {
     links: [factory.linkModel()],
     workHistory: [factory.workHistoryModel()],
     contact: factory.contactModel(),
-    issue: factory.issueModel()
+    issue: factory.issueModel(),
+    help: factory.helpModel()
   };
 
   facts$ = of(this.data.facts);
@@ -54,6 +55,7 @@ class MockChrisFacade {
   workHistory$ = of(this.data.workHistory);
   contact$ = of(this.data.contact);
   issue$ = of(this.data.issue);
+  help$ = of(this.data.help);
 }
 
 let actions$: Observable<Action>;
@@ -236,10 +238,26 @@ describe('NGRX Effects: Command', () => {
 
   describe('issue$', () => {
     it('should get issue data from facade', () => {
-      actions$ = cold('a', { a: new IssueExecuted({}) });
-      const expected = cold('a', { a: new IssueExecutedSuccess({ issue: mockChrisFacade.data.issue }) });
+      actions$ = cold('a', { a: new IssueExecuted({ title: 'test title' }) });
+      const expected = cold('a', {
+        a: new IssueExecutedSuccess({
+          issue: {
+            ...mockChrisFacade.data.issue,
+            title: 'test title'
+          }
+        })
+      });
 
       expect(effects.issue$).toBeObservable(expected);
+    });
+  });
+
+  describe('help$', () => {
+    it('should get help data from facade', () => {
+      actions$ = cold('a', { a: new HelpExecuted({}) });
+      const expected = cold('a', { a: new HelpExecutedSuccess({ help: mockChrisFacade.data.help }) });
+
+      expect(effects.help$).toBeObservable(expected);
     });
   });
 });

@@ -1,8 +1,9 @@
-import { merge as _merge } from 'lodash';
+import { mergeWith as _mergeWith } from 'lodash';
 import { EducationModel } from 'src/app/models/chris/chris-data.model';
+import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function educationModel(override?: Partial<EducationModel>): EducationModel {
-  return _merge({
+  return _mergeWith({
     college: {
       name: 'test name',
       url: 'test url',
@@ -14,5 +15,5 @@ export function educationModel(override?: Partial<EducationModel>): EducationMod
       highlights: ['test highlight 1', 'test highlight 2'],
       other: ['test other 1', 'test other 2']
     }
-  } as EducationModel, override);
+  } as EducationModel, override, replaceArrayCustomizer);
 }

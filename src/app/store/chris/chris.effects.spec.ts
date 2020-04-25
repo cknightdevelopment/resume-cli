@@ -8,7 +8,7 @@ import { LoadStaticData, LoadStaticDataSuccess } from './chris.actions';
 import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { ChrisService } from 'src/app/core/chris/chris.service';
 import { ChrisDataModel } from 'src/app/models/chris/chris-data.model';
-import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
+import { educationModel, helpModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 class MockChrisService {
@@ -23,6 +23,7 @@ class MockChrisService {
   workHistory = [workHistoryModel()];
   contact = contactModel();
   issue = issueModel();
+  help = helpModel();
 
   getData(): Observable<ChrisDataModel> {
     return of({
@@ -32,7 +33,8 @@ class MockChrisService {
       links: this.links,
       workHistory: this.workHistory,
       contact: this.contact,
-      issue: this.issue
+      issue: this.issue,
+      help: this.help
     });
   }
 }
@@ -73,7 +75,8 @@ describe('NGRX Effects: Chris', () => {
         links: chrisSvc.links,
         workHistory: chrisSvc.workHistory,
         contact: chrisSvc.contact,
-        issue: chrisSvc.issue
+        issue: chrisSvc.issue,
+        help: chrisSvc.help
       })
     });
 
