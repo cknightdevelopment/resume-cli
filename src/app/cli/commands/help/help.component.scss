@@ -1,55 +1,57 @@
-.help-links {
-  display: flex;
-  align-items: center;
-
-  a i {
-    margin-right: 5px;
-  }
-
-  a + a {
-    margin-left: 10px;
-  }
-}
-
-h4 {
-  text-transform: uppercase;
-}
-
-.example-commands-container {
-  margin: 20px 0;
-  border: 1px dashed;
-  padding: 10px;
-  display: inline-block;
-}
-
-.command-help-container {
-  .command-help {
+.help-container {
+  .help-links {
     display: flex;
+    align-items: center;
 
-    .command-help--name {
-      flex-basis: 125px;
+    a i {
+      margin-right: 5px;
     }
 
-    .command-help--description {
-      flex: 1 0 0%;
+    a + a {
+      margin-left: 10px;
     }
   }
-}
 
-.arguments-help-container {
-  margin: 10px 0;
-
-  .arguments-help-container--title {
-    margin-bottom: 5px;
+  h4 {
     text-transform: uppercase;
   }
 
-  .argument-help {
-    display: flex;
+  .example-commands-container {
+    margin: 20px 0;
+    border: 1px dashed;
+    padding: 10px;
+    display: inline-block;
+  }
 
-    .argument-help--name {
-      flex-basis: 125px;
-      font-style: italic;
+  .command-help-container {
+    .command-help {
+      display: flex;
+
+      .command-help--name {
+        flex-basis: 125px;
+      }
+
+      .command-help--description {
+        flex: 1 0 0%;
+      }
+    }
+  }
+
+  .arguments-help-container {
+    margin: 10px 0;
+
+    .arguments-help-container--title {
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    .argument-help {
+      display: flex;
+
+      .argument-help--name {
+        flex-basis: 125px;
+        font-style: italic;
+      }
     }
   }
 }
