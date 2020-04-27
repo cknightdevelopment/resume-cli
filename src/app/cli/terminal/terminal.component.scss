@@ -1,9 +1,9 @@
 @import "variables";
 
 .terminal {
-  min-height: 150px;
+  height: 100%;
   overflow: auto;
-  padding: 10px;
+  padding: 0 10px;
 
   a, a:visited, a:active {
     color: inherit;

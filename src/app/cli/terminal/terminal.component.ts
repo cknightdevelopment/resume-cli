@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { TerminalFacade } from '../store/terminal/terminal.facade';
 import { CommandFacade } from '../store/command/command.facade';
 import { CommandInitiated } from '../store/command/command.actions';
@@ -17,6 +17,7 @@ import { ParseStatus } from 'src/app/models/command/parse-status.model';
   encapsulation: ViewEncapsulation.None
 })
 export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
+  @ViewChild('resumeTerminal', { static: false }) private terminalElement: ElementRef;
   commands: TerminalCommandOutputParam[] = [];
   history$: Observable<InitializedCommand[]>;
 
@@ -43,6 +44,10 @@ export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
     this.history$ = this.commandFacade.history$.pipe(
       distinctUntilChanged((x, y) => x.length === y.length)
     );
+
+    this.commandFacade.initializedCommand$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(x => this.scrollToBottomOfTerminal());
   }
 
   initiateCommand(text: string) {
@@ -51,6 +56,12 @@ export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
 
   clear() {
     this.commands = [];
+  }
+
+  private scrollToBottomOfTerminal() {
+    setTimeout(() => {
+      this.terminalElement.nativeElement.scroll(0, this.terminalElement.nativeElement.scrollHeight);
+    }, 0);
   }
 }
 

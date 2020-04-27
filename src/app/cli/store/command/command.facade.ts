@@ -21,8 +21,7 @@ export class CommandFacade {
     help$: this.store.select(selectHelpExecutionData)
   };
 
-  constructor(private store: Store<AppState>) {
-  }
+  constructor(private store: Store<AppState>) {}
 
   dispatch(action: CommandAction): void {
     this.store.dispatch(action);

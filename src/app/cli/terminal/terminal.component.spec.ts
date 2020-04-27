@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { TerminalComponent } from './terminal.component';
 import { TerminalPromptComponent } from '../terminal-prompt/terminal-prompt.component';
@@ -130,6 +130,22 @@ describe('TerminalComponent', () => {
       }]);
       expect(elements.commandOutputs.length).toEqual(1);
     });
+
+    it('should scroll to bottom of terminal after initialized command fired in next browser turn', fakeAsync(() => {
+      const elements = getElements();
+      spyOn(elements.terminal.nativeElement, 'scroll');
+      spyOn(mockCommandParserSvc, 'parseCommand').and.callThrough();
+
+      const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+      mockCommandFacade.initializedCommand$.next(initializedCommand);
+      fixture.detectChanges();
+
+      expect(elements.terminal.nativeElement.scroll).not.toHaveBeenCalled();
+
+      tick();
+
+      expect(elements.terminal.nativeElement.scroll).toHaveBeenCalledWith(0, elements.terminal.nativeElement.scrollHeight);
+    }));
 
     it('should clear terminal command command output when initialized command with status of clear', () => {
       spyOn(mockCommandParserSvc, 'parseCommand').and.returnValue({
