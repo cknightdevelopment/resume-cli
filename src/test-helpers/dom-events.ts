@@ -132,6 +132,19 @@ export function keyboard(el: DebugElement | HTMLElement | Document, name: Keyboa
   return spies;
 }
 
+export function convertPropertyToGetterSetter<T>(obj: any, propertyName: keyof T, defaultValue?: any): void {
+  const backingPropertyName = `___${propertyName}___`;
+
+  Object.defineProperty(obj, backingPropertyName, {
+    value: defaultValue,
+    writable: true
+  });
+  Object.defineProperty(obj, propertyName, {
+    get() { return this[backingPropertyName]; },
+    set(value: any) { this[backingPropertyName] = value; },
+  });
+}
+
 function getHTMLElement(el: DebugElement | HTMLElement | Document): HTMLElement {
   return el instanceof HTMLElement ? el : el instanceof Document ? el as any : el.nativeElement as HTMLElement;
 }

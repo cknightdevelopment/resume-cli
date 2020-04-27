@@ -60,7 +60,8 @@ export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
 
   private scrollToBottomOfTerminal() {
     setTimeout(() => {
-      this.terminalElement.nativeElement.scroll(0, this.terminalElement.nativeElement.scrollHeight);
+      // need to do it this way to support Edge & IE
+      this.terminalElement.nativeElement.scrollTop = this.terminalElement.nativeElement.scrollHeight;
     }, 0);
   }
 }

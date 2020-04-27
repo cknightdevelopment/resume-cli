@@ -13,6 +13,7 @@ import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.
 import { ParseStatus } from 'src/app/models/command/parse-status.model';
 import { HelpComponent } from '../commands/help/help.component';
 import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
+import { convertPropertyToGetterSetter } from 'src/test-helpers/dom-events';
 
 class MockCommandParserService {
   static parsedCommandToReturn = {
@@ -132,19 +133,19 @@ describe('TerminalComponent', () => {
     });
 
     it('should scroll to bottom of terminal after initialized command fired in next browser turn', fakeAsync(() => {
-      const elements = getElements();
-      spyOn(elements.terminal.nativeElement, 'scroll');
       spyOn(mockCommandParserSvc, 'parseCommand').and.callThrough();
+
+      const elements = getElements();
+      // do this so that we can control how things are set and make it testable
+      convertPropertyToGetterSetter(elements.terminal.nativeElement, 'scrollTop', 0);
 
       const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
       mockCommandFacade.initializedCommand$.next(initializedCommand);
       fixture.detectChanges();
 
-      expect(elements.terminal.nativeElement.scroll).not.toHaveBeenCalled();
-
+      expect(elements.terminal.nativeElement.scrollTop).toEqual(0);
       tick();
-
-      expect(elements.terminal.nativeElement.scroll).toHaveBeenCalledWith(0, elements.terminal.nativeElement.scrollHeight);
+      expect(elements.terminal.nativeElement.scrollTop).toEqual(elements.terminal.nativeElement.scrollHeight);
     }));
 
     it('should clear terminal command command output when initialized command with status of clear', () => {
