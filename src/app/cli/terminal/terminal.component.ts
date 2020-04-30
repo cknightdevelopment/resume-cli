@@ -2,13 +2,16 @@ import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@an
 import { TerminalFacade } from '../store/terminal/terminal.facade';
 import { CommandFacade } from '../store/command/command.facade';
 import { CommandInitiated } from '../store/command/command.actions';
-import { takeUntil, filter, distinctUntilChanged, map } from 'rxjs/operators';
+import { takeUntil, filter, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { InitializedCommand } from '../store/command/command.reducers';
 import { UnsubscribeOnDestroy } from 'src/app/unsubscribe-on-destroy';
 import { Observable } from 'rxjs';
 import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
 import { ParseStatus } from 'src/app/models/command/parse-status.model';
+import { CONSTANTS } from 'src/app/models/constants';
+import { CommandNames } from 'src/app/models/command/command-names.model';
+import { createCommandText } from 'src/app/command-text.util';
 
 @Component({
   selector: 'app-terminal',
@@ -39,15 +42,15 @@ export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
       } else {
         this.commands.push(data);
       }
+
+      this.scrollToBottomOfTerminal();
     });
 
     this.history$ = this.commandFacade.history$.pipe(
       distinctUntilChanged((x, y) => x.length === y.length)
     );
 
-    this.commandFacade.initializedCommand$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(x => this.scrollToBottomOfTerminal());
+    this.initiateCommand(createCommandText(CommandNames.Help));
   }
 
   initiateCommand(text: string) {

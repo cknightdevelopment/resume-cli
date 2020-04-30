@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { CommandParserService } from './command-parser.service';
 import { PreParsedCommand } from 'src/app/models/command/input/pre-parsed-command.model';
-import { createCommandText, createParametersText, createParameterText } from 'src/test-helpers/factory/command-text-factory';
+import { createCommandText, createParametersText, createParameterText } from 'src/app/command-text.util';
 import { UnknownCommandInputParams } from 'src/app/models/command/input/unknown-command-input-params.model';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
 import { ParseStatus } from 'src/app/models/command/parse-status.model';

@@ -1,17 +1,18 @@
 import { KeyValuePair } from 'src/app/models/key-value-pair.model';
 import { CONSTANTS } from 'src/app/models/constants';
 
-export function createCommandText(name?: string, params?: KeyValuePair<string>) {
+export function createCommandText(commandName?: string, params?: KeyValuePair<string>) {
   let commandText = `${CONSTANTS.CLI_NAME}`;
 
-  if (name) {
-    commandText += ` ${name}`;
+  if (commandName) {
+    commandText += ` ${commandName}`;
+
+    const paramsText = createParametersText(params);
+    if (paramsText) {
+      commandText += ` ${paramsText}`;
+    }
   }
 
-  const paramsText = createParametersText(params);
-  if (paramsText) {
-    commandText += ` ${paramsText}`;
-  }
 
   return commandText;
 }

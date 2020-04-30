@@ -14,6 +14,8 @@ import { ParseStatus } from 'src/app/models/command/parse-status.model';
 import { HelpComponent } from '../commands/help/help.component';
 import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
 import { convertPropertyToGetterSetter } from 'src/test-helpers/dom-events';
+import { createCommandText } from 'src/app/command-text.util';
+import { CommandNames } from 'src/app/models/command/command-names.model';
 
 class MockCommandParserService {
   static parsedCommandToReturn = {
@@ -66,6 +68,9 @@ describe('TerminalComponent', () => {
     promptComponent = fixture.debugElement.query(By.directive(TerminalPromptComponent)).componentInstance;
     mockCommandFacade = TestBed.get(CommandFacade);
     mockCommandParserSvc = TestBed.get(CommandParserService);
+
+    spyOn(mockCommandFacade, 'dispatch');
+
     fixture.detectChanges();
   });
 
@@ -85,13 +90,18 @@ describe('TerminalComponent', () => {
     }));
   });
 
-  it('should initiate command', () => {
-    spyOn(mockCommandFacade, 'dispatch');
-    promptComponent.commandInitiated.emit('resume test');
+  it('should initiate help command on init', () => {
+    fixture.detectChanges();
+    expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated(createCommandText(CommandNames.Help)));
+  });
+
+  it('should initiate command when prompt emits', () => {
+    const commandText = createCommandText('test');
+    promptComponent.commandInitiated.emit(commandText);
 
     fixture.detectChanges();
 
-    expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated('resume test'));
+    expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated(commandText));
   });
 
   describe('history$', () => {
