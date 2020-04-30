@@ -19,10 +19,10 @@ describe('WorkHistoryComponent', () => {
     const workHistories = fixture.debugElement.queryAll(By.css(`${SELECTORS.TERMINAL_OUTPUT} .work-history-container .work-history-item`));
 
     return (workHistories || []).map(wh => ({
-        employer: wh.query(By.css('.work-history--top-level :first-child')),
-        position: wh.query(By.css('.work-history--top-level :nth-child(2)')),
-        dates: wh.query(By.css('.work-history--top-level :nth-child(3)')),
-        details: wh.queryAll(By.css('.work-history--details li'))
+        employer: wh.query(By.css('.work-history-item--top-level :first-child')),
+        position: wh.query(By.css('.work-history-item--top-level :nth-child(2)')),
+        dates: wh.query(By.css('.work-history-item--top-level :nth-child(3)')),
+        details: wh.queryAll(By.css('.work-history-item--details li'))
     }));
   }
 

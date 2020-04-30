@@ -92,7 +92,7 @@ describe('HelpComponent', () => {
     expect(coverageStatusImg.nativeElement.getAttribute('alt')).toEqual('Coverage Status');
 
     expect(elements.links.sourceCode.nativeElement.getAttribute('href')).toEqual(help.sourceCodeUrl);
-    expect(elements.links.sourceCode.nativeElement.innerText).toEqual('Source Code');
+    expect(elements.links.sourceCode.nativeElement.innerText).toEqual('View Source Code');
     const sourceCodeIconClasses = elements.links.sourceCode.query(By.css('i')).nativeElement.classList;
     expect(sourceCodeIconClasses).toContain('fab');
     expect(sourceCodeIconClasses).toContain('fa-github');
