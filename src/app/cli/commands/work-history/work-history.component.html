@@ -1,12 +1,12 @@
 <app-terminal-output>
   <div class="work-history-container">
     <div class="work-history-item mt10" *ngFor="let wh of data?.workHistory">
-      <div class="work-history--top-level">
+      <div class="work-history-item--top-level">
         <span>{{wh.employer}}</span>
         <span>{{wh.position}}</span>
         <span>{{wh.start}} - {{wh.end}}</span>
       </div>
-      <ul class="work-history--details">
+      <ul class="work-history-item--details">
         <li *ngFor="let detail of wh.details">{{detail}}</li>
       </ul>
     </div>

@@ -1,26 +1,49 @@
 {
   "facts": [
-    "I was born in Cleveland, OH.",
-    "I compete semi-competitively in CrossFit competitions.",
-    "I shares a birthday with Chris Rock, Ashton Kutcher, and Charles Dickens.",
-    "I attended the Berklee College of Music in Boston, MA as a bass performance major.",
-    "My favorite movie is Good Will Hunting.",
-    "My favorite TV show is Seinfeld.",
-    "You could pay me $1,000 to go to Disneyland for a day... and I would still decline.",
+    "I was born in Cleveland, OH",
+    "I compete semi-competitively in CrossFit competitions",
+    "I share a birthday with Chris Rock, Ashton Kutcher, and Charles Dickens",
+    "I attended the Berklee College of Music in Boston, MA as a bass player",
+    "My favorite movie is \"The Lives of Others\"",
+    "My favorite TV show is \"Seinfeld\"",
+    "You could pay me $1,000 to go to Disneyland for a day... and I would still decline",
     "My wife is a professional musician and tours around the world. Check her music out at aubreylogan.com",
-    "During high school I played basketball against Lebron James... and got destroyed, obviously.",
-    "I has three older brothers.",
-    "My favorite book is 'Boys In the Boat' by Daniel James Brown.",
-    "Jerry Seinfeld is my favorite comedian.",
-    "I have not watched 1 second of any of the Star Wars movies.",
-    "My great great great grandfather was the head butler for the richest man in the world at that time.",
-    "I've traveled all around the world, 43 countries total so far...",
+    "During high school I played basketball against Lebron James... and got destroyed, obviously",
+    "I have three older brothers",
+    "My favorite book is \"Boys In the Boat\" by Daniel James Brown",
+    "Jerry Seinfeld is my favorite comedian",
+    "I have not watched 1 second of any of the Star Wars movies",
+    "My great great great grandfather was the head butler for the richest man in the world at that time",
+    "I've traveled all around the world, 43 countries total so far",
     "Ella Fitzgerald is my favorite singer of all time",
-    "I think baseball games need to be trimmed to just 6 innings, the games are too long ;)",
+    "I think baseball games need to be shortened to just 6 innings",
     "I can play the bass, guitar, and drums",
     "I have two cats, Frankie (named after Frank Sinatra) and Rosie (my town's nickname is the 'Rose City')",
-    "I met my wife during freshman orientation in college, we dated all of college, and got married right after we graduated.",
-    "I have a deep fear of ostriches, probably stemming from a bad dream I had as a child."
+    "I met my wife during freshman orientation in college, we dated all of college, and got married right after we graduated",
+    "I have a deep fear of ostriches, probably stemming from a bad dream I had as a child.",
+    "My heaviest back squat is 350lbs",
+    "My heaviest squat clean is 275lbs",
+    "My heaviest front squat is 315lbs",
+    "My fastest 400m time is 53.45s",
+    "My heaviest back squat is 350lbs",
+    "My heaviest clean & jerk is 260lbs",
+    "One of my jobs during high school was baling hay for a local farm",
+    "One of my jobs during high school was produce clerk as a local grocery store",
+    "I played football, basketball, and track in high school",
+    "I use a journal app on my phone and write one memorable thing that happened every day",
+    "My favorite dessert is red velvet cake",
+    "My father-in-law and I go on a weekend trip together once a year",
+    "I hate going fishing",
+    "My wife and I drive a Subaru Imprezza and a Lexus ES350",
+    "I hate pickles",
+    "I dislocated my sholder in the middle of a lake while swimming when I was in college",
+    "I can make really good Old Fashioned",
+    "My wife and I grill steaks for dinner at least 2 two times a week",
+    "I am a huge Ohio State buckeyes fan",
+    "I had sideburns from middle school all the way until my late 20s",
+    "I did not read the \"Harry Potter\" series until I was in my 30s",
+    "I am currently learning how to play the mandola",
+    "I FaceTime my parent every Friday"
   ],
   "education": {
     "college": {
@@ -161,11 +184,11 @@
     "commands": [
       {
         "name": "random",
-        "description": "Learn some interesting random facts about Chris",
+        "description": "Learn some random facts about Chris",
         "arguments": [
           {
             "name": "count",
-            "description": "Number of random facts you want to see",
+            "description": "Number of random facts you want to view",
             "required": false,
             "default": "1"
           }
@@ -185,26 +208,26 @@
       },
       {
         "name": "issue",
-        "description": "Log a GutHub issue for the Resume CLI",
+        "description": "Log a GitHub issue for the Resume CLI",
         "arguments": [
           {
             "name": "title",
-            "description": "Title of the issue you want to log",
+            "description": "Title of the issue",
             "required": false
           }
         ]
       },
       {
         "name": "links",
-        "description": "Get links to some of Chris' external resources"
+        "description": "View links to some of Chris' external profiles & resources"
       },
       {
         "name": "skills",
-        "description": "View skill levels across a number of disciplines"
+        "description": "View skill levels across a number of languages, frameworks, etc."
       },
       {
         "name": "workhistory",
-        "description": "View Chris' work history over the years"
+        "description": "View Chris' work history"
       }
     ]
   }

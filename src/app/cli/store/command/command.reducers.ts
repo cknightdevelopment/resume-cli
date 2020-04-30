@@ -25,6 +25,18 @@ export interface CommandState {
   };
 }
 
+export type CallState = ProcessingState | ErrorState;
+export const enum ProcessingState {
+  INIT = 'INIT',
+  PROCESSING = 'PROCESSING',
+  COMPLETE = 'COMPLETED',
+}
+export class ErrorState {
+  readonly isError = true;
+
+  constructor(public errorMessage?: string) {}
+}
+
 export interface InitializedCommand {
   text: string;
   initializedOn: Date;

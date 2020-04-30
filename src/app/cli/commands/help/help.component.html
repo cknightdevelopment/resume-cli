@@ -4,19 +4,29 @@
   <div class="help-links">
     <a href="{{data.help.buildStatus.linkUrl}}" target="_blank"><img src="{{data.help.buildStatus.imgUrl}}" height="20px" alt="Build Status"></a>
     <a href="{{data.help.coverageStatus.linkUrl}}" target="_blank"><img src="{{data.help.coverageStatus.imgUrl}}" height="20px" alt="Coverage Status" /></a>
-    <a href="{{data.help.sourceCodeUrl}}" target="_blank"><i class="fab fa-github"></i>Source Code</a>
+    <a href="{{data.help.sourceCodeUrl}}" target="_blank"><i class="fab fa-github"></i>View Source Code</a>
   </div>
 
   <div class="example-commands-container">
-    <h4 class="mt0 example-commands-container--title">Examples</h4>
+    <h4 class="mt0 example-commands-container--title">Pseudo Command Examples</h4>
     <div class="example-command">
-      {{CONSTANTS.CLI_NAME}} command_name
+      <span class="example-command--cli">{{CONSTANTS.CLI_NAME}} </span>
+      <span class="example-command--command">command_name</span>
     </div>
     <div class="example-command">
-      {{CONSTANTS.CLI_NAME}} command_name {{CONSTANTS.COMMAND.PARAM_PREFIX}}argument_name{{CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}}argument_value
+      <span class="example-command--cli">{{CONSTANTS.CLI_NAME}} </span>
+      <span class="example-command--command">command_name </span>
+      <span class="example-command--argument">{{CONSTANTS.COMMAND.PARAM_PREFIX}}argument_name</span>
     </div>
     <div class="example-command">
-      {{CONSTANTS.CLI_NAME}} command_name {{CONSTANTS.COMMAND.PARAM_PREFIX}}argument_name{{CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}}{{CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}}text with spaces and \"quoted\" text{{CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}}
+      <span class="example-command--cli">{{CONSTANTS.CLI_NAME}} </span>
+      <span class="example-command--command">command_name </span>
+      <span class="example-command--argument">{{CONSTANTS.COMMAND.PARAM_PREFIX}}argument_name{{CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}}argument_value</span>
+    </div>
+    <div class="example-command">
+      <span class="example-command--cli">{{CONSTANTS.CLI_NAME}} </span>
+      <span class="example-command--command">command_name </span>
+      <span class="example-command--argument">{{CONSTANTS.COMMAND.PARAM_PREFIX}}argument_name{{CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}}{{CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}}spaced and \"quoted\" argument value{{CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}}</span>
     </div>
   </div>
 
