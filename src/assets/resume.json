@@ -1,5 +1,5 @@
 {
-  "cliName": "knight",
+  "cliName": "chris",
   "facts": [
     "I was born in Cleveland, OH",
     "I compete semi-competitively in CrossFit competitions",
@@ -73,7 +73,8 @@
         { "name": "TypeScript", "rating": 5 },
         { "name": "HTML", "rating": 4.5 },
         { "name": "CSS", "rating": 4.5 },
-        { "name": "C#", "rating": 4.5 },
+        { "name": "LESS/SCSS", "rating": 4.5 },
+        { "name": "C#", "rating": 4 },
         { "name": "SQL", "rating": 3.5 }
       ]
     },
@@ -82,7 +83,11 @@
       "maxRating": 5,
       "ratings": [
         { "name": "Angular", "rating": 5 },
-        { "name": "AngularJS", "rating": 4 },
+        { "name": "AngularJS", "rating": 4.5 },
+        { "name": "Node", "rating": 4 },
+        { "name": "Express", "rating": 4 },
+        { "name": "Native Script", "rating": 4 },
+        { "name": "Docker", "rating": 3.5 },
         { "name": "ASP.NET MVC", "rating": 4.5 },
         { "name": ".NET Core", "rating": 4 }
       ]
@@ -92,14 +97,25 @@
       "maxRating": 5,
       "ratings": [
         { "name": "Git", "rating": 5 },
-        { "name": "CI", "rating": 3.5 }
+        { "name": "Slack", "rating": 5 },
+        { "name": "VS Code", "rating": 5 },
+        { "name": "Zoom", "rating": 5 },
+        { "name": "Postman", "rating": 4 },
+        { "name": "MS Office", "rating": 4.5 },
+        { "name": "Terminal", "rating": 4 },
+        { "name": "CI/CD", "rating": 4 }
       ]
     },
     {
       "title": "Non-Technical Skills",
       "maxRating": 5,
       "ratings": [
-        { "name": "Cooperation", "rating": 5 }
+        { "name": "Cooperation", "rating": 5 },
+        { "name": "Taking Ownership", "rating": 5 },
+        { "name": "Working Remotely", "rating": 5 },
+        { "name": "Continuous Learning", "rating": 4.5 },
+        { "name": "Curiosity", "rating": 4.5 },
+        { "name": "Mentoring", "rating": 4 }
       ]
     }
   ],
@@ -108,7 +124,7 @@
     { "title": "Stack Overflow", "icon": "fab fa-stack-overflow", "url": "https://stackoverflow.com/users/1359239/chris-knight" },
     { "title": "YouTube", "icon": "fab fa-youtube", "url": "https://www.youtube.com/channel/UCpnEzs1pVZ7k5FaAPAeDBdA" },
     { "title": "Blog", "icon": "fas fa-blog", "url": "https://knightcodes.com/" },
-    { "title": "Resume Download", "icon": "far fa-file", "url": "https://github.com/cknightdevelopment/resume" }
+    { "title": "Resume Download", "icon": "far fa-file", "url": "https://www.dropbox.com/s/5h2f0bg2z4ux3ia/Chris%20Knight%20Resume.docx?dl=1" }
   ],
   "workHistory": [
     {
