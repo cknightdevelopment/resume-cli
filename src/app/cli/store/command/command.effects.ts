@@ -5,7 +5,7 @@ import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExe
 import { withLatestFrom, map, tap } from 'rxjs/operators';
 import { CommandService } from 'src/app/core/command/command.service';
 import { CommandFacade } from './command.facade';
-import { ChrisFacade } from 'src/app/store/chris/chris.facade';
+import { ResumeFacade } from 'src/app/store/resume/resume.facade';
 import { Action } from '@ngrx/store';
 import { CONSTANTS } from 'src/app/models/constants';
 import { InitializedCommandStorage } from 'src/app/models/command/initialized-command-storage.model';
@@ -16,7 +16,7 @@ import { isValidDate } from 'src/app/util';
 export class CommandEffects implements OnInitEffects {
   constructor(
     private actions$: Actions,
-    private chrisFacade: ChrisFacade,
+    private resumeFacade: ResumeFacade,
     private commandFacade: CommandFacade,
     private commandSvc: CommandService
   ) { }
@@ -33,13 +33,13 @@ export class CommandEffects implements OnInitEffects {
           initializedOnEpoch: item.initializedOn.getTime()
         } as InitializedCommandStorage));
 
-      localStorage.setItem(CONSTANTS.STORAGE_KEYS.HISTORY, JSON.stringify(storageHistory));
+      localStorage.setItem(CONSTANTS.STORAGE_KEYS.HISTORY(), JSON.stringify(storageHistory));
     })
   );
 
   @Effect() random$ = this.actions$.pipe(
     ofType<RandomExecuted>(CommandActionTypes.RandomExecuted),
-    withLatestFrom(this.chrisFacade.facts$, this.commandFacade.usedFacts$),
+    withLatestFrom(this.resumeFacade.facts$, this.commandFacade.usedFacts$),
     map(([action, allFacts, usedFacts]) => {
       // if no count provided, default to 1
       const count = (action.payload && action.payload.count) || 1;
@@ -51,7 +51,7 @@ export class CommandEffects implements OnInitEffects {
 
   @Effect() education$ = this.actions$.pipe(
     ofType<EducationExecuted>(CommandActionTypes.EducationExecuted),
-    withLatestFrom(this.chrisFacade.education$),
+    withLatestFrom(this.resumeFacade.education$),
     map(([action, education]) => {
       return new EducationExecutedSuccess({ college: education.college });
     })
@@ -59,7 +59,7 @@ export class CommandEffects implements OnInitEffects {
 
   @Effect() skills$ = this.actions$.pipe(
     ofType<EducationExecuted>(CommandActionTypes.SkillsExecuted),
-    withLatestFrom(this.chrisFacade.skills$),
+    withLatestFrom(this.resumeFacade.skills$),
     map(([action, skills]) => {
       return new SkillsExecutedSuccess({ skills });
     })
@@ -67,7 +67,7 @@ export class CommandEffects implements OnInitEffects {
 
   @Effect() links$ = this.actions$.pipe(
     ofType<LinksExecuted>(CommandActionTypes.LinksExecuted),
-    withLatestFrom(this.chrisFacade.links$),
+    withLatestFrom(this.resumeFacade.links$),
     map(([action, links]) => {
       return new LinksExecutedSuccess({ links });
     })
@@ -75,7 +75,7 @@ export class CommandEffects implements OnInitEffects {
 
   @Effect() workHistory$ = this.actions$.pipe(
     ofType<WorkHistoryExecuted>(CommandActionTypes.WorkHistoryExecuted),
-    withLatestFrom(this.chrisFacade.workHistory$),
+    withLatestFrom(this.resumeFacade.workHistory$),
     map(([action, workHistory]) => {
       return new WorkHistoryExecutedSuccess({ workHistory });
     })
@@ -83,7 +83,7 @@ export class CommandEffects implements OnInitEffects {
 
   @Effect() issue$ = this.actions$.pipe(
     ofType<IssueExecuted>(CommandActionTypes.IssueExecuted),
-    withLatestFrom(this.chrisFacade.issue$),
+    withLatestFrom(this.resumeFacade.issue$),
     map(([action, issue]) => {
       return new IssueExecutedSuccess({ issue: { url: issue.url, title: action.payload.title } });
     })
@@ -91,7 +91,7 @@ export class CommandEffects implements OnInitEffects {
 
   @Effect() contact$ = this.actions$.pipe(
     ofType<ContactExecuted>(CommandActionTypes.ContactExecuted),
-    withLatestFrom(this.chrisFacade.contact$),
+    withLatestFrom(this.resumeFacade.contact$),
     map(([action, contact]) => {
       return new ContactExecutedSuccess({ contact });
     })
@@ -99,7 +99,7 @@ export class CommandEffects implements OnInitEffects {
 
   @Effect() help$ = this.actions$.pipe(
     ofType<HelpExecuted>(CommandActionTypes.HelpExecuted),
-    withLatestFrom(this.chrisFacade.help$),
+    withLatestFrom(this.resumeFacade.help$),
     map(([action, help]) => {
       return new HelpExecutedSuccess({ help });
     })
@@ -109,7 +109,7 @@ export class CommandEffects implements OnInitEffects {
     let history = [] as InitializedCommand[];
 
     try {
-      const raw = localStorage.getItem(CONSTANTS.STORAGE_KEYS.HISTORY);
+      const raw = localStorage.getItem(CONSTANTS.STORAGE_KEYS.HISTORY());
       const parseResult = JSON.parse(raw) as InitializedCommandStorage[];
 
       if (Array.isArray(parseResult)) {

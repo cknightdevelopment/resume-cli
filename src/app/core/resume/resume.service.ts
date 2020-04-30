@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ChrisDataModel } from 'src/app/models/chris/chris-data.model';
+import { ResumeDataModel } from 'src/app/models/resume/resume-data.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChrisService {
+export class ResumeService {
   constructor(private http: HttpClient) {
   }
 
-  getData(): Observable<ChrisDataModel> {
-    return this.http.get<ChrisDataModel>(environment.dataFile);
+  getData(): Observable<ResumeDataModel> {
+    return this.http.get<ResumeDataModel>(environment.dataFile);
   }
 }

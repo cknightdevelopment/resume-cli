@@ -109,8 +109,8 @@ describe('TerminalPromptComponent', () => {
 
     beforeEach(() => {
       input = getElements().input;
-      // mimicking user already had a value types in (useful for testing when nothing is supposed to happen)
-      component.commandCtrl.patchValue('chris');
+      // mimicking user already had a value typed in (useful for testing when nothing is supposed to happen)
+      component.commandCtrl.patchValue(CONSTANTS.CLI_NAME);
       fixture.detectChanges();
       commandCtrlPatchValueSpy = spyOn(component.commandCtrl, 'patchValue').and.callThrough();
     });

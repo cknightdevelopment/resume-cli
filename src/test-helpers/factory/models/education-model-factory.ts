@@ -1,5 +1,5 @@
 import { mergeWith as _mergeWith } from 'lodash';
-import { EducationModel } from 'src/app/models/chris/chris-data.model';
+import { EducationModel } from 'src/app/models/resume/resume-data.model';
 import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function educationModel(override?: Partial<EducationModel>): EducationModel {

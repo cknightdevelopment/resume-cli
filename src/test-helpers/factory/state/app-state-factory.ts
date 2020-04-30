@@ -6,6 +6,6 @@ import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 export function appState(override?: Partial<AppState>): AppState {
   return _mergeWith({
     cli: factory.cliState(),
-    chris: factory.chrisState()
+    resume: factory.resumeState()
   } as AppState, override, replaceArrayCustomizer);
 }

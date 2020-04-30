@@ -32,7 +32,7 @@ describe('NGRX Facade: Command', () => {
 
   it('should dispatch actions', () => {
     spyOn(mockStore, 'dispatch');
-    const action = new CommandInitiated('chris test');
+    const action = new CommandInitiated('resume test');
     facade.dispatch(action);
     expect(mockStore.dispatch).toHaveBeenCalledWith(action);
   });

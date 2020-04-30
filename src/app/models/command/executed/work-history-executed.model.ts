@@ -1,4 +1,4 @@
-import { WorkHistoryModel } from '../../chris/chris-data.model';
+import { WorkHistoryModel } from '../../resume/resume-data.model';
 
 export interface WorkHistoryExecutedModel {
   workHistory: WorkHistoryModel[];

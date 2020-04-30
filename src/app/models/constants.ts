@@ -6,7 +6,7 @@ export const CONSTANTS = {
     ENTER: 'Enter',
     BACKSPACE: 'Backspace',
   },
-  CLI_NAME: 'chris',
+  CLI_NAME: 'resume',
   COMMAND: {
     PARAM_PREFIX: '--',
     PARAM_KEY_VALUE_SEPARATOR: '=',
@@ -14,9 +14,10 @@ export const CONSTANTS = {
     CLEAR_COMMANDS: ['clear', 'cls']
   },
   PARAM_REASONS: {
-    NOT_NON_NEGATIVE_INTEGER: 'not a non-negative integer'
+    NOT_NON_NEGATIVE_INTEGER: 'not a non-negative integer',
+    NOT_NON_ZERO_POSITIVE_INTEGER: 'not an integer greater than zero'
   },
   STORAGE_KEYS: {
-    HISTORY: 'chris:history'
+    HISTORY: () => `resume:${CONSTANTS.CLI_NAME}:history`
   }
 };

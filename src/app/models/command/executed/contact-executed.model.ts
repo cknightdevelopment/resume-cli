@@ -1,4 +1,4 @@
-import { ContactModel } from '../../chris/chris-data.model';
+import { ContactModel } from '../../resume/resume-data.model';
 
 export interface ContactExecutedModel {
   contact: ContactModel;

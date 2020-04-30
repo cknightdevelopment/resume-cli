@@ -1,4 +1,4 @@
-import { IssueModel } from '../../chris/chris-data.model';
+import { IssueModel } from '../../resume/resume-data.model';
 
 export interface IssueExecutedModel {
   issue: IssueModel;

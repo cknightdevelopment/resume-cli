@@ -1,5 +1,5 @@
 import { mergeWith as _mergeWith } from 'lodash';
-import { HelpModel } from 'src/app/models/chris/chris-data.model';
+import { HelpModel } from 'src/app/models/resume/resume-data.model';
 import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function helpModel(override?: Partial<HelpModel>): HelpModel {

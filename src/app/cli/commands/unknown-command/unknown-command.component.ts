@@ -16,7 +16,7 @@ export class UnknownCommandComponent implements CommandComponent<UnknownCommandI
 
   get message() {
     return `${CONSTANTS.CLI_NAME}: '${this.params.commandText}' is not a ${CONSTANTS.CLI_NAME} command. `
-      + `See '${CONSTANTS.CLI_NAME} ${CONSTANTS.COMMAND.PARAM_PREFIX}${CommandNames.Help}'.`;
+      + `See '${CONSTANTS.CLI_NAME} ${CommandNames.Help}'.`;
   }
 
   constructor() { }

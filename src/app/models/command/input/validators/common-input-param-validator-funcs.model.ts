@@ -13,12 +13,12 @@ export class CommonInputParamValidatorFuncs {
 
   static positiveInteger(paramName: string, value: string): InputParamValidatorFuncResponse<number> {
     const countParseResult = isValidNumberString(value);
-    if (!countParseResult.valid || !isPositiveInteger(countParseResult.value)) {
+    if (!countParseResult.valid || !isPositiveInteger(countParseResult.value, false)) {
       return {
         invalid: {
           paramName,
           value,
-          reason: CONSTANTS.PARAM_REASONS.NOT_NON_NEGATIVE_INTEGER
+          reason: CONSTANTS.PARAM_REASONS.NOT_NON_ZERO_POSITIVE_INTEGER
         }
       };
     } else {

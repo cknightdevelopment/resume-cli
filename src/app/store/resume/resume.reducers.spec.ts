@@ -1,18 +1,18 @@
 import * as factory from 'src/test-helpers/factory/state';
 import { NoopAction } from 'src/test-helpers/noop-action';
-import { ChrisState, reducer, intitalState } from './chris.reducers';
-import { LoadStaticDataSuccess } from './chris.actions';
+import { ResumeState, reducer, intitalState } from './resume.reducers';
+import { LoadStaticDataSuccess } from './resume.actions';
 import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
 
-describe('NGRX Reducers: Chris', () => {
+describe('NGRX Reducers: Resume', () => {
   it('should return initial state', () => {
     expect(reducer(undefined, new NoopAction() as any)).toEqual(intitalState);
   });
 
   it('should perform full data reset of static data', () => {
-    const data = factory.chrisState({
+    const data = factory.resumeState({
       facts: ['test fact'],
       education: educationModel(),
       skills: [skillSetModel()],
@@ -22,7 +22,7 @@ describe('NGRX Reducers: Chris', () => {
       issue: issueModel(),
       help: helpModel()
     });
-    expect(reducer(intitalState, new LoadStaticDataSuccess(data))).toEqual(jasmine.objectContaining<ChrisState>({
+    expect(reducer(intitalState, new LoadStaticDataSuccess(data))).toEqual(jasmine.objectContaining<ResumeState>({
       facts: data.facts,
       education: data.education,
       skills: data.skills,

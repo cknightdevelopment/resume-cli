@@ -1,4 +1,4 @@
-import { LinkModel } from '../../chris/chris-data.model';
+import { LinkModel } from '../../resume/resume-data.model';
 
 export interface LinksExecutedModel {
   links: LinkModel[];

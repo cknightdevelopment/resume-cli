@@ -1,4 +1,5 @@
-export interface ChrisDataModel {
+export interface ResumeDataModel {
+  cliName: string;
   facts: string[];
   education: EducationModel;
   skills: SkillSetModel[];

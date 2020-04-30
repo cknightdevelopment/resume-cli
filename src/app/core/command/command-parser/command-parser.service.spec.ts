@@ -279,7 +279,7 @@ describe('CommandParserService', () => {
           params: {
             paramName: 'count',
             value: '-3',
-            reason: CONSTANTS.PARAM_REASONS.NOT_NON_NEGATIVE_INTEGER
+            reason: CONSTANTS.PARAM_REASONS.NOT_NON_ZERO_POSITIVE_INTEGER
           } as InvalidArgumentInputParams
         } as ParsedCommandInput);
       });
@@ -292,7 +292,7 @@ describe('CommandParserService', () => {
           params: {
             paramName: 'count',
             value: 'abc',
-            reason: CONSTANTS.PARAM_REASONS.NOT_NON_NEGATIVE_INTEGER
+            reason: CONSTANTS.PARAM_REASONS.NOT_NON_ZERO_POSITIVE_INTEGER
           } as InvalidArgumentInputParams
         } as ParsedCommandInput);
       });

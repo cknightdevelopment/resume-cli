@@ -1,8 +1,8 @@
-import { ChrisAction, ChrisActionTypes } from './chris.actions';
+import { ResumeAction, ResumeActionTypes } from './resume.actions';
 // tslint:disable-next-line: max-line-length
-import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel, HelpModel } from 'src/app/models/chris/chris-data.model';
+import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel, HelpModel } from 'src/app/models/resume/resume-data.model';
 
-export interface ChrisState {
+export interface ResumeState {
   facts: string[];
   education: EducationModel;
   skills: SkillSetModel[];
@@ -13,7 +13,7 @@ export interface ChrisState {
   help: HelpModel;
 }
 
-export const intitalState: ChrisState = {
+export const intitalState: ResumeState = {
   facts: [],
   education: null,
   skills: [],
@@ -24,9 +24,9 @@ export const intitalState: ChrisState = {
   help: null
 };
 
-export function reducer(state = intitalState, action: ChrisAction): ChrisState {
+export function reducer(state = intitalState, action: ResumeAction): ResumeState {
   switch (action.type) {
-    case ChrisActionTypes.LoadStaticDataSuccess:
+    case ResumeActionTypes.LoadStaticDataSuccess:
       return {
         ...state,
         ...action.payload

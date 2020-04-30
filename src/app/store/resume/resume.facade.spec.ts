@@ -1,17 +1,17 @@
 import * as factory from 'src/test-helpers/factory/state';
 import { AppState } from 'src/app/store';
 import { TestBed } from '@angular/core/testing';
-import { ChrisFacade } from './chris.facade';
+import { ResumeFacade } from './resume.facade';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { LoadStaticData } from './chris.actions';
+import { LoadStaticData } from './resume.actions';
 import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
-describe('NGRX Facade: Chris', () => {
+describe('NGRX Facade: Resume', () => {
   let appState: AppState;
-  let facade: ChrisFacade;
+  let facade: ResumeFacade;
   let mockStore: MockStore<AppState>;
 
   beforeEach(() => {
@@ -19,13 +19,13 @@ describe('NGRX Facade: Chris', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        ChrisFacade,
+        ResumeFacade,
         provideMockStore({ initialState: appState })
       ]
     });
 
     mockStore = TestBed.get(Store);
-    facade = TestBed.get(ChrisFacade);
+    facade = TestBed.get(ResumeFacade);
   });
 
   it('should dispatch actions', () => {
@@ -38,7 +38,7 @@ describe('NGRX Facade: Chris', () => {
   it('should get facts from store', () => {
     const facts = ['test fact'];
     mockStore.setState(factory.appState({
-      chris: factory.chrisState({ facts })
+      resume: factory.resumeState({ facts })
     }));
 
     const expected = cold('a', { a: facts });
@@ -49,7 +49,7 @@ describe('NGRX Facade: Chris', () => {
   it('should get education from store', () => {
     const edu = educationModel();
     mockStore.setState(factory.appState({
-      chris: factory.chrisState({
+      resume: factory.resumeState({
         education: edu
       })
     }));
@@ -62,7 +62,7 @@ describe('NGRX Facade: Chris', () => {
   it('should get skills from store', () => {
     const skillSets = [skillSetModel()];
     mockStore.setState(factory.appState({
-      chris: factory.chrisState({
+      resume: factory.resumeState({
         skills: skillSets
       })
     }));
@@ -75,7 +75,7 @@ describe('NGRX Facade: Chris', () => {
   it('should get links from store', () => {
     const links = [linkModel()];
     mockStore.setState(factory.appState({
-      chris: factory.chrisState({
+      resume: factory.resumeState({
         links
       })
     }));
@@ -88,7 +88,7 @@ describe('NGRX Facade: Chris', () => {
   it('should get work history from store', () => {
     const workHistory = [workHistoryModel()];
     mockStore.setState(factory.appState({
-      chris: factory.chrisState({
+      resume: factory.resumeState({
         workHistory
       })
     }));
@@ -101,7 +101,7 @@ describe('NGRX Facade: Chris', () => {
   it('should get contact from store', () => {
     const contact = contactModel();
     mockStore.setState(factory.appState({
-      chris: factory.chrisState({
+      resume: factory.resumeState({
         contact
       })
     }));
@@ -114,7 +114,7 @@ describe('NGRX Facade: Chris', () => {
   it('should get issue from store', () => {
     const issue = issueModel();
     mockStore.setState(factory.appState({
-      chris: factory.chrisState({
+      resume: factory.resumeState({
         issue
       })
     }));
@@ -127,7 +127,7 @@ describe('NGRX Facade: Chris', () => {
   it('should get help from store', () => {
     const help = helpModel();
     mockStore.setState(factory.appState({
-      chris: factory.chrisState({
+      resume: factory.resumeState({
         help
       })
     }));

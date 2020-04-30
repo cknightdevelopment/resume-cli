@@ -9,7 +9,7 @@ import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExec
 import { CommandService } from 'src/app/core/command/command.service';
 import * as factory from 'src/test-helpers/factory/models';
 import { CommandFacade } from './command.facade';
-import { ChrisFacade } from 'src/app/store/chris/chris.facade';
+import { ResumeFacade } from 'src/app/store/resume/resume.facade';
 import { CONSTANTS } from 'src/app/models/constants';
 import { InitializedCommand } from './command.reducers';
 import { InitializedCommandStorage } from 'src/app/models/command/initialized-command-storage.model';
@@ -36,7 +36,7 @@ class MockCommandFacade {
   history$ = of(this.data.history);
 }
 
-class MockChrisFacade {
+class MockResumeFacade {
   data = {
     education: factory.educationModel(),
     facts: ['Fact1', 'Fact2', 'Fact3'],
@@ -64,7 +64,7 @@ describe('NGRX Effects: Command', () => {
   let effects: CommandEffects;
   let mockCommandSvc: MockCommandService;
   let mockCommandFacade: MockCommandFacade;
-  let mockChrisFacade: MockChrisFacade;
+  let mockResumeFacade: MockResumeFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,14 +73,14 @@ describe('NGRX Effects: Command', () => {
         provideMockActions(() => actions$),
         { provide: CommandService, useClass: MockCommandService },
         { provide: CommandFacade, useClass: MockCommandFacade },
-        { provide: ChrisFacade, useClass: MockChrisFacade }
+        { provide: ResumeFacade, useClass: MockResumeFacade }
       ],
     });
 
     effects = TestBed.get(CommandEffects);
     mockCommandSvc = TestBed.get(CommandService);
     mockCommandFacade = TestBed.get(CommandFacade);
-    mockChrisFacade = TestBed.get(ChrisFacade);
+    mockResumeFacade = TestBed.get(ResumeFacade);
   });
 
   it('should be created', () => {
@@ -97,7 +97,7 @@ describe('NGRX Effects: Command', () => {
 
       const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
 
-      expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY);
+      expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY());
       expect(actionResult).toEqual(new CommandEffectsInit([
         { text: 'test', initializedOn: date }
       ]));
@@ -133,7 +133,7 @@ describe('NGRX Effects: Command', () => {
 
       const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
 
-      expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY);
+      expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY());
       expect(actionResult).toEqual(new CommandEffectsInit([
         { text: 'test', initializedOn: date }
       ]));
@@ -149,7 +149,7 @@ describe('NGRX Effects: Command', () => {
       actions$ = cold('a', { a: new CommandInitiated('test') });
 
       effects.commandInitiated$.subscribe(x => {
-        expect(localStorage.setItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY, JSON.stringify([
+        expect(localStorage.setItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY(), JSON.stringify([
           { text: 'test', initializedOnEpoch: mockCommandFacade.date.getTime() }
         ] as InitializedCommandStorage[]));
       });
@@ -162,7 +162,7 @@ describe('NGRX Effects: Command', () => {
       mockCommandFacade.data.history.push(null);
 
       effects.commandInitiated$.subscribe(x => {
-        expect(localStorage.setItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY, JSON.stringify([
+        expect(localStorage.setItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY(), JSON.stringify([
           { text: 'test', initializedOnEpoch: mockCommandFacade.date.getTime() }
         ] as InitializedCommandStorage[]));
       });
@@ -194,7 +194,7 @@ describe('NGRX Effects: Command', () => {
   describe('education$', () => {
     it('should get education data from facade', () => {
       actions$ = cold('a', { a: new EducationExecuted({}) });
-      const expected = cold('a', { a: new EducationExecutedSuccess(mockChrisFacade.data.education) });
+      const expected = cold('a', { a: new EducationExecutedSuccess(mockResumeFacade.data.education) });
 
       expect(effects.education$).toBeObservable(expected);
     });
@@ -203,7 +203,7 @@ describe('NGRX Effects: Command', () => {
   describe('skills$', () => {
     it('should get skills data from facade', () => {
       actions$ = cold('a', { a: new SkillsExecuted({}) });
-      const expected = cold('a', { a: new SkillsExecutedSuccess({ skills: mockChrisFacade.data.skills }) });
+      const expected = cold('a', { a: new SkillsExecutedSuccess({ skills: mockResumeFacade.data.skills }) });
 
       expect(effects.skills$).toBeObservable(expected);
     });
@@ -212,7 +212,7 @@ describe('NGRX Effects: Command', () => {
   describe('links$', () => {
     it('should get links data from facade', () => {
       actions$ = cold('a', { a: new LinksExecuted({}) });
-      const expected = cold('a', { a: new LinksExecutedSuccess({ links: mockChrisFacade.data.links }) });
+      const expected = cold('a', { a: new LinksExecutedSuccess({ links: mockResumeFacade.data.links }) });
 
       expect(effects.links$).toBeObservable(expected);
     });
@@ -221,7 +221,7 @@ describe('NGRX Effects: Command', () => {
   describe('work history$', () => {
     it('should get work history data from facade', () => {
       actions$ = cold('a', { a: new WorkHistoryExecuted({}) });
-      const expected = cold('a', { a: new WorkHistoryExecutedSuccess({ workHistory: mockChrisFacade.data.workHistory }) });
+      const expected = cold('a', { a: new WorkHistoryExecutedSuccess({ workHistory: mockResumeFacade.data.workHistory }) });
 
       expect(effects.workHistory$).toBeObservable(expected);
     });
@@ -230,7 +230,7 @@ describe('NGRX Effects: Command', () => {
   describe('contact$', () => {
     it('should get contact data from facade', () => {
       actions$ = cold('a', { a: new ContactExecuted({}) });
-      const expected = cold('a', { a: new ContactExecutedSuccess({ contact: mockChrisFacade.data.contact }) });
+      const expected = cold('a', { a: new ContactExecutedSuccess({ contact: mockResumeFacade.data.contact }) });
 
       expect(effects.contact$).toBeObservable(expected);
     });
@@ -242,7 +242,7 @@ describe('NGRX Effects: Command', () => {
       const expected = cold('a', {
         a: new IssueExecutedSuccess({
           issue: {
-            ...mockChrisFacade.data.issue,
+            ...mockResumeFacade.data.issue,
             title: 'test title'
           }
         })
@@ -255,7 +255,7 @@ describe('NGRX Effects: Command', () => {
   describe('help$', () => {
     it('should get help data from facade', () => {
       actions$ = cold('a', { a: new HelpExecuted({}) });
-      const expected = cold('a', { a: new HelpExecutedSuccess({ help: mockChrisFacade.data.help }) });
+      const expected = cold('a', { a: new HelpExecutedSuccess({ help: mockResumeFacade.data.help }) });
 
       expect(effects.help$).toBeObservable(expected);
     });

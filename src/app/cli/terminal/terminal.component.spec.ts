@@ -87,11 +87,11 @@ describe('TerminalComponent', () => {
 
   it('should initiate command', () => {
     spyOn(mockCommandFacade, 'dispatch');
-    promptComponent.commandInitiated.emit('chris test');
+    promptComponent.commandInitiated.emit('resume test');
 
     fixture.detectChanges();
 
-    expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated('chris test'));
+    expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated('resume test'));
   });
 
   describe('history$', () => {

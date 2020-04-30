@@ -5,7 +5,7 @@ import { CommandFacade } from '../../store/command/command.facade';
 import { EducationExecuted } from '../../store/command/command.actions';
 import { filter, take } from 'rxjs/operators';
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
-import { CollegeModel } from 'src/app/models/chris/chris-data.model';
+import { CollegeModel } from 'src/app/models/resume/resume-data.model';
 
 @Component({
   selector: 'app-education',

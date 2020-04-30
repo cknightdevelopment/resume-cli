@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  dataFile: './assets/chris.json'
+  dataFile: './assets/resume.json'
 };
 
 /*

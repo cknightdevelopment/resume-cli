@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
-import { ChrisService } from './chris.service';
+import { ResumeService } from './resume.service';
 import { environment } from 'src/environments/environment';
-import { ChrisDataModel } from 'src/app/models/chris/chris-data.model';
+import { ResumeDataModel } from 'src/app/models/resume/resume-data.model';
 
-describe('ChrisService', () => {
-  let chrisSvc: ChrisService;
+describe('ResumeService', () => {
+  let resumeSvc: ResumeService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -14,11 +14,11 @@ describe('ChrisService', () => {
         HttpClientTestingModule
       ],
       providers: [
-        ChrisService
+        ResumeService
       ]
     });
 
-    chrisSvc = TestBed.get(ChrisService);
+    resumeSvc = TestBed.get(ResumeService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -27,13 +27,13 @@ describe('ChrisService', () => {
   });
 
   it('should be created', () => {
-    expect(chrisSvc).toBeTruthy();
+    expect(resumeSvc).toBeTruthy();
   });
 
   it('should get data from local JSON file', () => {
-    const response = { facts: ['Fact1', 'Fact2'] } as ChrisDataModel;
+    const response = { facts: ['Fact1', 'Fact2'] } as ResumeDataModel;
 
-    chrisSvc.getData().subscribe(data => expect(data).toEqual(response));
+    resumeSvc.getData().subscribe(data => expect(data).toEqual(response));
 
     const req = httpMock.expectOne(environment.dataFile);
     expect(req.request.method).toEqual('GET');

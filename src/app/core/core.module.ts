@@ -1,7 +1,7 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { throwIfAlreadyLoaded } from './module-import-checker';
-import { ChrisService } from './chris/chris.service';
+import { ResumeService } from './resume/resume.service';
 import { CommandService } from './command/command.service';
 import { CommandParserService } from './command/command-parser/command-parser.service';
 
@@ -13,7 +13,7 @@ import { CommandParserService } from './command/command-parser/command-parser.se
     CommonModule
   ],
   providers: [
-    ChrisService,
+    ResumeService,
     CommandService,
     CommandParserService
   ]

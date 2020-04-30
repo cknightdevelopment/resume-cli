@@ -5,7 +5,7 @@ import { HelpExecutedModel } from 'src/app/models/command/executed/help-executed
 import { CommandFacade } from '../../store/command/command.facade';
 import { HelpExecuted } from '../../store/command/command.actions';
 import { filter, take } from 'rxjs/operators';
-import { ArgumentHelpModel } from 'src/app/models/chris/chris-data.model';
+import { ArgumentHelpModel } from 'src/app/models/resume/resume-data.model';
 import { CONSTANTS } from 'src/app/models/constants';
 
 @Component({

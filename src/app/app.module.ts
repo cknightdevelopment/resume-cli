@@ -12,8 +12,8 @@ import { reducers, metaReducers } from './store';
 import { environment } from 'src/environments/environment';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { ChrisEffects } from './store/chris/chris.effects';
-import { ChrisFacade } from './store/chris/chris.facade';
+import { ResumeEffects } from './store/resume/resume.effects';
+import { ResumeFacade } from './store/resume/resume.facade';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import { ChrisFacade } from './store/chris/chris.facade';
       }
     }),
     EffectsModule.forRoot([
-      ChrisEffects
+      ResumeEffects
     ]),
     StoreDevtoolsModule.instrument({
       predicate: canUseStoreDevTools
@@ -42,7 +42,7 @@ import { ChrisFacade } from './store/chris/chris.facade';
     SharedModule
   ],
   providers: [
-    ChrisFacade
+    ResumeFacade
   ],
   bootstrap: [AppComponent]
 })

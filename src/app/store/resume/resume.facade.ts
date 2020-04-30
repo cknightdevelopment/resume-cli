@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '..';
 import { Observable } from 'rxjs';
-import { ChrisAction } from './chris.actions';
+import { ResumeAction } from './resume.actions';
 // tslint:disable-next-line: max-line-length
-import { selectFacts, selectEducation, selectSkills, selectLinks, selectWorkHistory, selectContact, selectIssue, selectHelp } from './chris.selectors';
+import { selectFacts, selectEducation, selectSkills, selectLinks, selectWorkHistory, selectContact, selectIssue, selectHelp } from './resume.selectors';
 // tslint:disable-next-line: max-line-length
-import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel, HelpModel } from 'src/app/models/chris/chris-data.model';
+import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel, HelpModel } from 'src/app/models/resume/resume-data.model';
 
 @Injectable()
-export class ChrisFacade {
+export class ResumeFacade {
   facts$: Observable<string[]> = this.store.select(selectFacts);
   education$: Observable<EducationModel> = this.store.select(selectEducation);
   skills$: Observable<SkillSetModel[]> = this.store.select(selectSkills);
@@ -22,7 +22,7 @@ export class ChrisFacade {
   constructor(private store: Store<AppState>) {
   }
 
-  dispatch(action: ChrisAction): void {
+  dispatch(action: ResumeAction): void {
     this.store.dispatch(action);
   }
 }

@@ -49,11 +49,11 @@ describe('NGRX Reducers: Command', () => {
       jasmine.clock().mockDate(baseDate);
 
       const command = {
-        text: 'chris test',
+        text: 'resume test',
         initializedOn: new Date()
       } as InitializedCommand;
 
-      expect(reducer(commandState, new CommandInitiated('chris test'))).toEqual({
+      expect(reducer(commandState, new CommandInitiated('resume test'))).toEqual({
         ...commandState,
         initializedCommand: command,
         history: [command]

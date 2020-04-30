@@ -7,15 +7,15 @@ import {
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import * as fromCli from '../cli/store';
-import * as fromChris from './chris/chris.reducers';
+import * as fromResume from './resume/resume.reducers';
 
 export interface AppState {
-  chris: fromChris.ChrisState;
+  resume: fromResume.ResumeState;
   cli?: fromCli.CliState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  chris: fromChris.reducer
+  resume: fromResume.reducer
 };
 
 
