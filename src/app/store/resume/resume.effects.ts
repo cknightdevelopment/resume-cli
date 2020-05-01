@@ -1,13 +1,15 @@
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { map, mergeMap, tap, filter, switchMap } from 'rxjs/operators';
 import { LoadStaticData, LoadStaticDataSuccess, ResumeActionTypes } from './resume.actions';
 import { ResumeService } from 'src/app/core/resume/resume.service';
 import { CONSTANTS } from 'src/app/models/constants';
+import { Router, ResolveStart } from '@angular/router';
 
 @Injectable()
 export class ResumeEffects {
-  constructor(private actions$: Actions, private resumeDataSvc: ResumeService) { }
+  constructor(private actions$: Actions, private resumeDataSvc: ResumeService, private router: Router) {
+  }
 
   @Effect()
   init$ = this.actions$.pipe(
@@ -17,7 +19,18 @@ export class ResumeEffects {
 
   @Effect() loadStaticData$ = this.actions$.pipe(
     ofType(ResumeActionTypes.LoadStaticData),
-    mergeMap(() => this.resumeDataSvc.getData()),
+    mergeMap(() => {
+      return this.router.events.pipe(
+        filter(e => e instanceof ResolveStart),
+        map((e: ResolveStart) => {
+          const matchingParamKey = Object.keys(e.state.root.queryParams)
+            .find(key => key.toLowerCase() === CONSTANTS.QUERY_STRING_PARAMS.RESUME_DATA_URL.toLowerCase());
+
+          return matchingParamKey && e.state.root.queryParams[matchingParamKey];
+        })
+      );
+    }),
+    mergeMap(resumeDataUrl => this.resumeDataSvc.getData(resumeDataUrl)),
     tap(data => {
       // set cli name in constants
       let cliName = data && data.cliName && data.cliName.trim();

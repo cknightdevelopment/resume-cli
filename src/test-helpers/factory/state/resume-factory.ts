@@ -7,7 +7,7 @@ export function resumeState(override?: Partial<ResumeState>): ResumeState {
   return _mergeWith({
     facts: ['fact1', 'fact2'],
     contact: contactModel(),
-    education: educationModel(),
+    education: [educationModel()],
     help: helpModel(),
     issue: issueModel(),
     links: [linkModel()],

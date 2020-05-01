@@ -20,11 +20,11 @@ describe('EducationComponent', () => {
     const output = fixture.debugElement.query(By.css(`${SELECTORS.TERMINAL_OUTPUT}`));
     return output
       ? {
-        logo: output.query(By.css('.college img')),
-        location: output.query(By.css('.college--location')),
-        dates: output.query(By.css('.college--dates')),
-        highlights: output.queryAll(By.css('.college--highlights li')),
-        other: output.queryAll(By.css('.college--other ul li')),
+        logo: output.query(By.css('.education-item img')),
+        location: output.query(By.css('.education-item--location')),
+        dates: output.query(By.css('.education-item--dates')),
+        highlights: output.queryAll(By.css('.education-item--highlights li')),
+        other: output.queryAll(By.css('.education-item--other ul li')),
       }
       : null;
   }
@@ -62,20 +62,20 @@ describe('EducationComponent', () => {
 
   it('should display output for education', () => {
     const edu = factory.educationModel();
-    mockCommandFacade.commandData.education$.next(edu);
+    mockCommandFacade.commandData.education$.next({ education: [edu] });
 
     fixture.detectChanges();
 
     const elements = getElements();
-    expect(elements.logo.nativeElement.getAttribute('src')).toEqual(edu.college.logo);
-    expect(elements.logo.nativeElement.getAttribute('alt')).toEqual(edu.college.name);
-    expect(elements.location.nativeElement.innerText).toEqual(edu.college.location);
-    expect(elements.dates.nativeElement.innerText).toEqual(`${edu.college.start} - ${edu.college.end}`);
-    expect(elements.highlights[0].nativeElement.innerText).toEqual(edu.college.degree);
-    edu.college.highlights.forEach((highlight, i) => {
+    expect(elements.logo.nativeElement.getAttribute('src')).toEqual(edu.logo);
+    expect(elements.logo.nativeElement.getAttribute('alt')).toEqual(edu.name);
+    expect(elements.location.nativeElement.innerText).toEqual(edu.location);
+    expect(elements.dates.nativeElement.innerText).toEqual(`${edu.start} - ${edu.end}`);
+    expect(elements.highlights[0].nativeElement.innerText).toEqual(edu.degree);
+    edu.highlights.forEach((highlight, i) => {
       expect(elements.highlights[i + 1].nativeElement.innerText).toEqual(highlight);
     });
-    edu.college.other.forEach((o, i) => {
+    edu.other.forEach((o, i) => {
       expect(elements.other[i].nativeElement.innerText).toEqual(o);
     });
   });

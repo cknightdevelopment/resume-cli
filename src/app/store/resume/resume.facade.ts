@@ -11,7 +11,7 @@ import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactMode
 @Injectable()
 export class ResumeFacade {
   facts$: Observable<string[]> = this.store.select(selectFacts);
-  education$: Observable<EducationModel> = this.store.select(selectEducation);
+  education$: Observable<EducationModel[]> = this.store.select(selectEducation);
   skills$: Observable<SkillSetModel[]> = this.store.select(selectSkills);
   links$: Observable<LinkModel[]> = this.store.select(selectLinks);
   workHistory$: Observable<WorkHistoryModel[]> = this.store.select(selectWorkHistory);

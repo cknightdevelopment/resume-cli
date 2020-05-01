@@ -5,7 +5,6 @@ import { CommandFacade } from '../../store/command/command.facade';
 import { EducationExecuted } from '../../store/command/command.actions';
 import { filter, take } from 'rxjs/operators';
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
-import { CollegeModel } from 'src/app/models/resume/resume-data.model';
 
 @Component({
   selector: 'app-education',
@@ -17,10 +16,6 @@ import { CollegeModel } from 'src/app/models/resume/resume-data.model';
 export class EducationComponent implements CommandComponent<EducationInputParams>, OnInit {
   @Input() params: EducationInputParams;
   data: EducationExecutedModel;
-
-  get college(): CollegeModel {
-    return this.data && this.data.college;
-  }
 
   constructor(private facade: CommandFacade) { }
 

@@ -53,7 +53,7 @@ export class CommandEffects implements OnInitEffects {
     ofType<EducationExecuted>(CommandActionTypes.EducationExecuted),
     withLatestFrom(this.resumeFacade.education$),
     map(([action, education]) => {
-      return new EducationExecutedSuccess({ college: education.college });
+      return new EducationExecutedSuccess({ education });
     })
   );
 

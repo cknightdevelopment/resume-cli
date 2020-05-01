@@ -10,6 +10,7 @@ import { InitializedCommand } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
+import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
 
 describe('NGRX Facade: Command', () => {
   let appState: AppState;
@@ -94,18 +95,18 @@ describe('NGRX Facade: Command', () => {
   });
 
   it('should get executed education data', () => {
-    const edu = educationModel();
+    const education = { education: [educationModel()] } as EducationExecutedModel;
     mockStore.setState(factory.appState({
       cli: factory.cliState({
         command: factory.commandState({
           executed: {
-            education: edu
+            education
           }
         })
       })
     }));
 
-    const expected = cold('a', { a: edu });
+    const expected = cold('a', { a: education });
     expect(facade.commandData.education$).toBeObservable(expected);
   });
 

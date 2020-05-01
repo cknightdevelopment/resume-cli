@@ -4,7 +4,6 @@ import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function educationModel(override?: Partial<EducationModel>): EducationModel {
   return _mergeWith({
-    college: {
       name: 'test name',
       url: 'test url',
       logo: 'test logo',
@@ -14,6 +13,5 @@ export function educationModel(override?: Partial<EducationModel>): EducationMod
       degree: 'test degree',
       highlights: ['test highlight 1', 'test highlight 2'],
       other: ['test other 1', 'test other 2']
-    }
   } as EducationModel, override, replaceArrayCustomizer);
 }

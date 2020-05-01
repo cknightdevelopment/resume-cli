@@ -7,6 +7,7 @@ import { CommandState } from './command.reducers';
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
+import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
 
 describe('NGRX Reducers: Command', () => {
   let commandState: CommandState;
@@ -148,12 +149,12 @@ describe('NGRX Reducers: Command', () => {
 
   describe('education', () => {
     it('should clear executed education state when education is executed', () => {
-      commandState.executed = { education: educationModel() };
+      commandState.executed = { education: { education: [educationModel()] } };
       expect(reducer(commandState, new EducationExecuted({})).executed.education).toBeNull();
     });
 
     it('should set executed education on successful education execution', () => {
-      const payload = educationModel();
+      const payload = { education: [educationModel()] } as EducationExecutedModel;
       const returnedState = reducer(commandState, new EducationExecutedSuccess(payload));
 
       expect(returnedState.executed.education).toEqual(payload);

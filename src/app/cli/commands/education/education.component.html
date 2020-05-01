@@ -1,21 +1,21 @@
-<app-terminal-output *ngIf="college">
-  <div class="college">
-    <img [src]="college.logo" [alt]="college.name" height="36px" />
+<app-terminal-output *ngIf="data?.education?.length">
+  <div class="education-item" *ngFor="let edu of data.education">
+    <img [src]="edu.logo" [alt]="edu.name" height="36px" />
     <div class="mt10">
-      <div class="college--top-level">
-        <a class="college--link" [href]="college.url" target="_blank">{{college.name}}</a>
-        <span class="college--location">{{college.location}}</span>
-        <span class="college--dates">{{college.start}} - {{college.end}}</span>
+      <div class="education-item--top-level">
+        <a class="education-item--link" [href]="edu.url" target="_blank">{{edu.name}}</a>
+        <span class="education-item--location">{{edu.location}}</span>
+        <span class="education-item--dates">{{edu.start}} - {{edu.end}}</span>
       </div>
-      <ul class="college--highlights">
-        <li>{{college.degree}}</li>
-        <li *ngFor="let highlight of college.highlights">{{highlight}}</li>
+      <ul class="education-item--highlights">
+        <li>{{edu.degree}}</li>
+        <li *ngFor="let highlight of edu.highlights">{{highlight}}</li>
       </ul>
     </div>
-    <div *ngIf="college.other" class="college--other">
+    <div *ngIf="edu.other" class="education-item--other">
       Additional Information
       <ul>
-        <li *ngFor="let item of college.other">{{item}}</li>
+        <li *ngFor="let item of edu.other">{{item}}</li>
       </ul>
     </div>
   </div>

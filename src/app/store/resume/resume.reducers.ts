@@ -4,7 +4,7 @@ import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactMode
 
 export interface ResumeState {
   facts: string[];
-  education: EducationModel;
+  education: EducationModel[];
   skills: SkillSetModel[];
   links: LinkModel[];
   workHistory: WorkHistoryModel[];
@@ -15,7 +15,7 @@ export interface ResumeState {
 
 export const intitalState: ResumeState = {
   facts: [],
-  education: null,
+  education: [],
   skills: [],
   links: [],
   workHistory: [],

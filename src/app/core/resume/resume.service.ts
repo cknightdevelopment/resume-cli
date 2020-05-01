@@ -11,7 +11,7 @@ export class ResumeService {
   constructor(private http: HttpClient) {
   }
 
-  getData(): Observable<ResumeDataModel> {
-    return this.http.get<ResumeDataModel>(environment.dataFile);
+  getData(resumeUrl?: string): Observable<ResumeDataModel> {
+    return this.http.get<ResumeDataModel>(resumeUrl || environment.exampleResumeUrl);
   }
 }

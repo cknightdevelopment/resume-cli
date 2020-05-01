@@ -30,12 +30,23 @@ describe('ResumeService', () => {
     expect(resumeSvc).toBeTruthy();
   });
 
-  it('should get data from local JSON file', () => {
+  it('should get data from local example resume JSON file when none explicitly provided', () => {
+    const response = { facts: ['Fact1', 'Fact2'] } as ResumeDataModel;
+    const resumeDataUrl = 'http://resume.com/data.json';
+
+    resumeSvc.getData(resumeDataUrl).subscribe(data => expect(data).toEqual(response));
+
+    const req = httpMock.expectOne(resumeDataUrl);
+    expect(req.request.method).toEqual('GET');
+    req.flush(response);
+  });
+
+  it('should get data from local example resume JSON file when none explicitly provided', () => {
     const response = { facts: ['Fact1', 'Fact2'] } as ResumeDataModel;
 
     resumeSvc.getData().subscribe(data => expect(data).toEqual(response));
 
-    const req = httpMock.expectOne(environment.dataFile);
+    const req = httpMock.expectOne(environment.exampleResumeUrl);
     expect(req.request.method).toEqual('GET');
     req.flush(response);
   });

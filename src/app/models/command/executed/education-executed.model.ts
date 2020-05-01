@@ -1,5 +1,5 @@
-import { CollegeModel } from '../../resume/resume-data.model';
+import { EducationModel } from '../../resume/resume-data.model';
 
 export interface EducationExecutedModel {
-  college: CollegeModel;
+  education: EducationModel[];
 }

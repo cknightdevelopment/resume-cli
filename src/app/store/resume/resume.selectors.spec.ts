@@ -17,7 +17,7 @@ describe('NGRX Selectors: Resume', () => {
   });
 
   it('should select education', () => {
-    appState.resume.education = educationModel();
+    appState.resume.education = [educationModel()];
     expect(selectors.selectEducation(appState)).toEqual(appState.resume.education);
   });
 

@@ -1,7 +1,7 @@
 export interface ResumeDataModel {
   cliName: string;
   facts: string[];
-  education: EducationModel;
+  education: EducationModel[];
   skills: SkillSetModel[];
   links: LinkModel[];
   workHistory: WorkHistoryModel[];
@@ -11,10 +11,6 @@ export interface ResumeDataModel {
 }
 
 export interface EducationModel {
-  college: CollegeModel;
-}
-
-export interface CollegeModel {
   name: string;
   url: string;
   logo: string;
@@ -62,15 +58,7 @@ export class IssueModel {
 }
 
 export class HelpModel {
-  sourceCodeUrl: string;
-  buildStatus: CodeStatusModel;
-  coverageStatus: CodeStatusModel;
   commands: CommandHelpModel[];
-}
-
-export class CodeStatusModel {
-  linkUrl: string;
-  imgUrl: string;
 }
 
 export class CommandHelpModel {

@@ -14,7 +14,7 @@ describe('NGRX Reducers: Resume', () => {
   it('should perform full data reset of static data', () => {
     const data = factory.resumeState({
       facts: ['test fact'],
-      education: educationModel(),
+      education: [educationModel()],
       skills: [skillSetModel()],
       links: [linkModel()],
       workHistory: [workHistoryModel()],

@@ -47,9 +47,9 @@ describe('NGRX Selectors: Command', () => {
   });
 
   it('should select executed education data', () => {
-    const edu = educationModel();
+    const edu = [educationModel()];
     appState.cli.command.executed = {
-      education: edu
+      education: { education: edu }
     };
 
     expect(selectors.selectEducationExecutionData(appState)).toEqual(appState.cli.command.executed.education);

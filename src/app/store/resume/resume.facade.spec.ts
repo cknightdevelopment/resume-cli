@@ -47,7 +47,7 @@ describe('NGRX Facade: Resume', () => {
   });
 
   it('should get education from store', () => {
-    const edu = educationModel();
+    const edu = [educationModel()];
     mockStore.setState(factory.appState({
       resume: factory.resumeState({
         education: edu

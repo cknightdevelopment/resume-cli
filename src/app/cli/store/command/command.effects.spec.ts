@@ -38,7 +38,7 @@ class MockCommandFacade {
 
 class MockResumeFacade {
   data = {
-    education: factory.educationModel(),
+    education: [factory.educationModel()],
     facts: ['Fact1', 'Fact2', 'Fact3'],
     skills: [factory.skillSetModel()],
     links: [factory.linkModel()],
@@ -194,7 +194,7 @@ describe('NGRX Effects: Command', () => {
   describe('education$', () => {
     it('should get education data from facade', () => {
       actions$ = cold('a', { a: new EducationExecuted({}) });
-      const expected = cold('a', { a: new EducationExecutedSuccess(mockResumeFacade.data.education) });
+      const expected = cold('a', { a: new EducationExecutedSuccess({ education: mockResumeFacade.data.education}) });
 
       expect(effects.education$).toBeObservable(expected);
     });

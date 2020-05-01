@@ -1,11 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material';
-import { TextFieldModule } from '@angular/cdk/text-field';
 import { TerminalFacade } from 'src/app/cli/store/terminal/terminal.facade';
-import { provideMockStore } from '@ngrx/store/testing';
 import { appState, cliState } from './factory/state';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StoreModule } from '@ngrx/store';
