@@ -10,6 +10,9 @@ export interface ResumeDataModel {
   help: HelpModel;
 }
 
+export interface CustomizableResumeDataModel extends Omit<ResumeDataModel, 'issue' | 'help'> {
+}
+
 export interface EducationModel {
   name: string;
   url: string;
@@ -58,7 +61,15 @@ export class IssueModel {
 }
 
 export class HelpModel {
+  sourceCodeUrl: string;
+  buildStatus: CodeStatusModel;
+  coverageStatus: CodeStatusModel;
   commands: CommandHelpModel[];
+}
+
+export class CodeStatusModel {
+  linkUrl: string;
+  imgUrl: string;
 }
 
 export class CommandHelpModel {

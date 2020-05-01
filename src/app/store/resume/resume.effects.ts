@@ -46,8 +46,8 @@ export class ResumeEffects {
       links: data.links,
       workHistory: data.workHistory,
       contact: data.contact,
-      issue: data.issue,
-      help: data.help
+      issue: CONSTANTS.ISSUE,
+      help: CONSTANTS.HELP
     }))
   );
 }

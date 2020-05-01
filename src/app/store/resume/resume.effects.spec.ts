@@ -7,11 +7,11 @@ import { ResumeEffects } from './resume.effects';
 import { LoadStaticData, LoadStaticDataSuccess } from './resume.actions';
 import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { ResumeService } from 'src/app/core/resume/resume.service';
-import { ResumeDataModel } from 'src/app/models/resume/resume-data.model';
 import { educationModel, helpModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 import { Router, Event, ResolveStart } from '@angular/router';
 import { CONSTANTS } from 'src/app/models/constants';
+import { CustomizableResumeDataModel } from 'src/app/models/resume/resume-data.model';
 
 class MockRouter {
   events = new ReplaySubject<Event>(1);
@@ -39,10 +39,8 @@ class MockResumeService {
   links = [linkModel()];
   workHistory = [workHistoryModel()];
   contact = contactModel();
-  issue = issueModel();
-  help = helpModel();
 
-  getData(resumeDataUrl: string): Observable<ResumeDataModel> {
+  getData(resumeDataUrl: string): Observable<CustomizableResumeDataModel> {
     return of({
       cliName: this.cliName,
       facts: this.facts,
@@ -50,9 +48,7 @@ class MockResumeService {
       skills: this.skills,
       links: this.links,
       workHistory: this.workHistory,
-      contact: this.contact,
-      issue: this.issue,
-      help: this.help
+      contact: this.contact
     });
   }
 }
@@ -104,8 +100,8 @@ describe('NGRX Effects: Resume', () => {
         links: resumeSvc.links,
         workHistory: resumeSvc.workHistory,
         contact: resumeSvc.contact,
-        issue: resumeSvc.issue,
-        help: resumeSvc.help
+        issue: CONSTANTS.ISSUE,
+        help: CONSTANTS.HELP
       })
     });
 
@@ -126,8 +122,8 @@ describe('NGRX Effects: Resume', () => {
         links: resumeSvc.links,
         workHistory: resumeSvc.workHistory,
         contact: resumeSvc.contact,
-        issue: resumeSvc.issue,
-        help: resumeSvc.help
+        issue: CONSTANTS.ISSUE,
+        help: CONSTANTS.HELP
       })
     });
 
@@ -148,8 +144,8 @@ describe('NGRX Effects: Resume', () => {
         links: resumeSvc.links,
         workHistory: resumeSvc.workHistory,
         contact: resumeSvc.contact,
-        issue: resumeSvc.issue,
-        help: resumeSvc.help
+        issue: CONSTANTS.ISSUE,
+        help: CONSTANTS.HELP
       })
     });
 

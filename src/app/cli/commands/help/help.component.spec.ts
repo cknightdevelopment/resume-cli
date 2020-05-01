@@ -81,17 +81,17 @@ describe('HelpComponent', () => {
 
     const elements = getElements();
 
-    expect(elements.links.buildStatus.nativeElement.getAttribute('href')).toEqual(CONSTANTS.BUILD_STATUS.LINK_URL);
+    expect(elements.links.buildStatus.nativeElement.getAttribute('href')).toEqual(help.buildStatus.linkUrl);
     const buildStatusImg = elements.links.buildStatus.query(By.css('img'));
-    expect(buildStatusImg.nativeElement.getAttribute('src')).toEqual(CONSTANTS.BUILD_STATUS.IMG_URL);
+    expect(buildStatusImg.nativeElement.getAttribute('src')).toEqual(help.buildStatus.imgUrl);
     expect(buildStatusImg.nativeElement.getAttribute('alt')).toEqual('Build Status');
 
-    expect(elements.links.coverageStatus.nativeElement.getAttribute('href')).toEqual(CONSTANTS.COVERAGE_STATUS.LINK_URL);
+    expect(elements.links.coverageStatus.nativeElement.getAttribute('href')).toEqual(help.coverageStatus.linkUrl);
     const coverageStatusImg = elements.links.coverageStatus.query(By.css('img'));
-    expect(coverageStatusImg.nativeElement.getAttribute('src')).toEqual(CONSTANTS.COVERAGE_STATUS.IMG_URL);
+    expect(coverageStatusImg.nativeElement.getAttribute('src')).toEqual(help.coverageStatus.imgUrl);
     expect(coverageStatusImg.nativeElement.getAttribute('alt')).toEqual('Coverage Status');
 
-    expect(elements.links.sourceCode.nativeElement.getAttribute('href')).toEqual(CONSTANTS.SOURCE_CODE_URL);
+    expect(elements.links.sourceCode.nativeElement.getAttribute('href')).toEqual(help.sourceCodeUrl);
     expect(elements.links.sourceCode.nativeElement.innerText).toEqual('View Source Code');
     const sourceCodeIconClasses = elements.links.sourceCode.query(By.css('i')).nativeElement.classList;
     expect(sourceCodeIconClasses).toContain('fab');
