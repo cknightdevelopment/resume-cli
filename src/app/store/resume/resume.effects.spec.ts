@@ -1,17 +1,17 @@
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable, of, Subject, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { Action } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { ResumeEffects } from './resume.effects';
-import { LoadStaticData, LoadStaticDataSuccess } from './resume.actions';
+import { LoadResumeData, LoadResumeDataSuccess } from './resume.actions';
 import { ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { ResumeService } from 'src/app/core/resume/resume.service';
-import { educationModel, helpModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
+import { educationModel, linkModel, workHistoryModel, contactModel, issueModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 import { Router, Event, ResolveStart } from '@angular/router';
 import { CONSTANTS } from 'src/app/models/constants';
-import { CustomizableResumeDataModel } from 'src/app/models/resume/resume-data.model';
+import { CustomizableResumeDataModel, InitHelpTypes, CliOptionsModel } from 'src/app/models/resume/resume-data.model';
 
 class MockRouter {
   events = new ReplaySubject<Event>(1);
@@ -28,7 +28,10 @@ class MockRouter {
 }
 
 class MockResumeService {
-  cliName: 'test';
+  options = {
+    cliName: 'test',
+    initHelp: InitHelpTypes.Always
+  } as CliOptionsModel;
   facts = [
     'Resume does Crossfit.',
     'Resume went to music school for bass guitar.',
@@ -42,7 +45,7 @@ class MockResumeService {
 
   getData(resumeDataUrl: string): Observable<CustomizableResumeDataModel> {
     return of({
-      cliName: this.cliName,
+      options: this.options,
       facts: this.facts,
       education: this.edu,
       skills: this.skills,
@@ -78,13 +81,13 @@ describe('NGRX Effects: Resume', () => {
 
   it('should dispatch load static data on root effects init', () => {
     actions$ = cold('a', { a: { type: ROOT_EFFECTS_INIT } });
-    const expected = cold('a', { a: new LoadStaticData() });
+    const expected = cold('a', { a: new LoadResumeData() });
 
     expect(effects.init$).toBeObservable(expected);
   });
 
   it('should load static data after router emits resolve start event', () => {
-    actions$ = cold('a', { a: new LoadStaticData() });
+    actions$ = cold('a', { a: new LoadResumeData() });
     const preEventExpected = cold('-');
 
     expect(effects.loadStaticData$).toBeObservable(preEventExpected);
@@ -93,7 +96,7 @@ describe('NGRX Effects: Resume', () => {
     router.emitResolveStartEvent();
 
     const expected = cold('a', {
-      a: new LoadStaticDataSuccess({
+      a: new LoadResumeDataSuccess({
         facts: resumeSvc.facts,
         education: resumeSvc.edu,
         skills: resumeSvc.skills,
@@ -113,9 +116,9 @@ describe('NGRX Effects: Resume', () => {
     const resumeDataUrl = 'http://test.com/data.json';
     router.emitResolveStartEvent(CONSTANTS.QUERY_STRING_PARAMS.RESUME_DATA_URL, resumeDataUrl);
 
-    actions$ = cold('a', { a: new LoadStaticData() });
+    actions$ = cold('a', { a: new LoadResumeData() });
     const expected = cold('a', {
-      a: new LoadStaticDataSuccess({
+      a: new LoadResumeDataSuccess({
         facts: resumeSvc.facts,
         education: resumeSvc.edu,
         skills: resumeSvc.skills,
@@ -135,9 +138,9 @@ describe('NGRX Effects: Resume', () => {
     const resumeDataUrl = 'http://test.com/data.json';
     router.emitResolveStartEvent(CONSTANTS.QUERY_STRING_PARAMS.RESUME_DATA_URL.toUpperCase(), resumeDataUrl);
 
-    actions$ = cold('a', { a: new LoadStaticData() });
+    actions$ = cold('a', { a: new LoadResumeData() });
     const expected = cold('a', {
-      a: new LoadStaticDataSuccess({
+      a: new LoadResumeDataSuccess({
         facts: resumeSvc.facts,
         education: resumeSvc.edu,
         skills: resumeSvc.skills,
@@ -151,5 +154,123 @@ describe('NGRX Effects: Resume', () => {
 
     expect(effects.loadStaticData$).toBeObservable(expected);
     expect(resumeSvc.getData).toHaveBeenCalledWith(resumeDataUrl);
+  });
+
+  describe('setting constants for cli options', () => {
+    it('should assign cli options name & init help to true when configured', () => {
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(CONSTANTS.CLI_OPTIONS.NAME).toEqual(resumeSvc.options.cliName);
+        expect(CONSTANTS.CLI_OPTIONS.INIT_HELP).toEqual(true);
+      });
+    });
+
+    it('should assign cli options init help to false when configured to never', () => {
+      resumeSvc.options.initHelp = InitHelpTypes.Never;
+
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(CONSTANTS.CLI_OPTIONS.INIT_HELP).toEqual(false);
+      });
+    });
+
+    it('should assign cli options init help to true when configured to first and storage returns falsy', () => {
+      spyOn(localStorage, 'getItem').and.returnValue('');
+      resumeSvc.options.initHelp = InitHelpTypes.First;
+
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HELP_INIT());
+        expect(CONSTANTS.CLI_OPTIONS.INIT_HELP).toEqual(true);
+      });
+    });
+
+    it('should assign cli options init help to false when configured to first and storage returns truthy', () => {
+      spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(true));
+      resumeSvc.options.initHelp = InitHelpTypes.First;
+
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HELP_INIT());
+        expect(CONSTANTS.CLI_OPTIONS.INIT_HELP).toEqual(false);
+      });
+    });
+
+    it('should not assign cli options name when not configured', () => {
+      const origCliName = JSON.parse(JSON.stringify(CONSTANTS.CLI_OPTIONS.NAME)) as string;
+      resumeSvc.options.cliName = null;
+
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(CONSTANTS.CLI_OPTIONS.NAME).toEqual(origCliName);
+      });
+    });
+
+    it('should not assign cli options init help when not configured', () => {
+      const origInitHelp = JSON.parse(JSON.stringify(CONSTANTS.CLI_OPTIONS.INIT_HELP)) as boolean;
+      resumeSvc.options.initHelp = null;
+
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(CONSTANTS.CLI_OPTIONS.INIT_HELP).toEqual(origInitHelp);
+      });
+    });
+
+    it('should not assign cli options name nor init help when not configured', () => {
+      const origCliName = JSON.parse(JSON.stringify(CONSTANTS.CLI_OPTIONS.NAME)) as string;
+      const origInitHelp = JSON.parse(JSON.stringify(CONSTANTS.CLI_OPTIONS.INIT_HELP)) as boolean;
+      resumeSvc.options = null;
+
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(CONSTANTS.CLI_OPTIONS.NAME).toEqual(origCliName);
+        expect(CONSTANTS.CLI_OPTIONS.INIT_HELP).toEqual(origInitHelp);
+      });
+    });
+
+    it('should assign cli options name to first item when split by space', () => {
+      resumeSvc.options.cliName = 'test space';
+
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(CONSTANTS.CLI_OPTIONS.NAME).toEqual('test');
+      });
+    });
+
+    it('should assign cli options name to trimmed value', () => {
+      resumeSvc.options.cliName = '   trim    ';
+
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe(() => {
+        expect(CONSTANTS.CLI_OPTIONS.NAME).toEqual('trim');
+      });
+    });
   });
 });

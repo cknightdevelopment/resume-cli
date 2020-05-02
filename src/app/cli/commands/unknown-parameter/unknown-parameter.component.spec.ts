@@ -41,7 +41,7 @@ describe('UnknownParameterComponent', () => {
     const elements = getElements();
     expect(elements.output.nativeElement.classList).toContain('command-output-text--error');
     expect(elements.output.nativeElement.innerText).toEqual(
-      `${CONSTANTS.CLI_NAME}: '${component.params.paramName}' is not a parameter for ${component.params.command} command`
+      `${CONSTANTS.CLI_OPTIONS.NAME}: '${component.params.paramName}' is not a parameter for ${component.params.command} command`
     );
   });
 });

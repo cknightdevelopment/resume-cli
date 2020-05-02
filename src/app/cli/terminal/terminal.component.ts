@@ -12,6 +12,7 @@ import { ParseStatus } from 'src/app/models/command/parse-status.model';
 import { CONSTANTS } from 'src/app/models/constants';
 import { CommandNames } from 'src/app/models/command/command-names.model';
 import { createCommandText } from 'src/app/command-text.util';
+import { InitHelpTypes } from 'src/app/models/resume/resume-data.model';
 
 @Component({
   selector: 'app-terminal',
@@ -50,7 +51,10 @@ export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
       distinctUntilChanged((x, y) => x.length === y.length)
     );
 
-    this.initiateCommand(createCommandText(CommandNames.Help));
+    if (CONSTANTS.CLI_OPTIONS.INIT_HELP) {
+      this.initiateCommand(createCommandText(CommandNames.Help));
+      localStorage.setItem(CONSTANTS.STORAGE_KEYS.HELP_INIT(), JSON.stringify(true));
+    }
   }
 
   initiateCommand(text: string) {

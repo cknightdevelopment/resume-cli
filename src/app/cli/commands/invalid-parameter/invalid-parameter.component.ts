@@ -14,7 +14,7 @@ export class InvalidParameterComponent implements CommandComponent<InvalidParame
   @Input() params: InvalidParameterInputParams;
 
   get message() {
-    return `${CONSTANTS.CLI_NAME}: Invalid parameter syntax: '${this.params.paramName}'`;
+    return `${CONSTANTS.CLI_OPTIONS.NAME}: Invalid parameter syntax: '${this.params.paramName}'`;
   }
 
   constructor() { }

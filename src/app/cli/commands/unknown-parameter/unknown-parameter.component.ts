@@ -14,7 +14,7 @@ export class UnknownParameterComponent implements CommandComponent<UnknownParame
   @Input() params: UnknownParameterInputParams;
 
   get message() {
-    return `${CONSTANTS.CLI_NAME}: '${this.params.paramName}' is not a parameter for ${this.params.command} command`;
+    return `${CONSTANTS.CLI_OPTIONS.NAME}: '${this.params.paramName}' is not a parameter for ${this.params.command} command`;
   }
 
   constructor() { }

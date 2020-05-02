@@ -40,7 +40,7 @@ describe('InvalidParameterComponent', () => {
     const elements = getElements();
     expect(elements.output.nativeElement.classList).toContain('command-output-text--error');
     expect(elements.output.nativeElement.innerText).toEqual(
-      `${CONSTANTS.CLI_NAME}: Invalid parameter syntax: '${component.params.paramName}'`
+      `${CONSTANTS.CLI_OPTIONS.NAME}: Invalid parameter syntax: '${component.params.paramName}'`
     );
   });
 });

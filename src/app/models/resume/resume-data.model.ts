@@ -1,5 +1,7 @@
+import { CommandNames } from '../command/command-names.model';
+
 export interface ResumeDataModel {
-  cliName: string;
+  options: CliOptionsModel;
   facts: string[];
   education: EducationModel[];
   skills: SkillSetModel[];
@@ -8,6 +10,17 @@ export interface ResumeDataModel {
   contact: ContactModel;
   issue: IssueModel;
   help: HelpModel;
+}
+
+export interface CliOptionsModel {
+  cliName: string;
+  initHelp: InitHelpTypes;
+}
+
+export enum InitHelpTypes {
+  Always = 'always',
+  Never = 'never',
+  First = 'first'
 }
 
 export interface CustomizableResumeDataModel extends Omit<ResumeDataModel, 'issue' | 'help'> {

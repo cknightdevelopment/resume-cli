@@ -15,8 +15,8 @@ export class UnknownCommandComponent implements CommandComponent<UnknownCommandI
   @Input() params: UnknownCommandInputParams;
 
   get message() {
-    return `${CONSTANTS.CLI_NAME}: '${this.params.commandText}' is not a ${CONSTANTS.CLI_NAME} command. `
-      + `See '${CONSTANTS.CLI_NAME} ${CommandNames.Help}'.`;
+    return `${CONSTANTS.CLI_OPTIONS.NAME}: '${this.params.commandText}' is not a ${CONSTANTS.CLI_OPTIONS.NAME} command. `
+      + `See '${CONSTANTS.CLI_OPTIONS.NAME} ${CommandNames.Help}'.`;
   }
 
   constructor() { }

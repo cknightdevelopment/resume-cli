@@ -14,7 +14,7 @@ export class InvalidArgumentComponent implements CommandComponent<InvalidArgumen
   @Input() params: InvalidArgumentInputParams;
 
   get message() {
-    return `${CONSTANTS.CLI_NAME}: invalid argument of '${this.params.value || ''}' `
+    return `${CONSTANTS.CLI_OPTIONS.NAME}: invalid argument of '${this.params.value || ''}' `
       + `for parameter '${this.params.paramName}': ${this.params.reason}`;
   }
 

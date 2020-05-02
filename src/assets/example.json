@@ -1,5 +1,8 @@
 {
-  "cliName": "seinfeld",
+  "options": {
+    "cliName": "george",
+    "initHelp": "first"
+  },
   "facts": [
     "I was born in Cleveland, OH",
     "I compete semi-competitively in CrossFit competitions",
@@ -48,7 +51,7 @@
   ],
   "education": [
     {
-      "name": "Berklee College of Music",
+      "name": "JFK High School",
       "url": "https://www.berklee.edu",
       "logo": "assets/images/berklee.png",
       "location": "Boston, MA",

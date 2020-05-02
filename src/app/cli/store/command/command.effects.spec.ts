@@ -13,6 +13,7 @@ import { ResumeFacade } from 'src/app/store/resume/resume.facade';
 import { CONSTANTS } from 'src/app/models/constants';
 import { InitializedCommand } from './command.reducers';
 import { InitializedCommandStorage } from 'src/app/models/command/initialized-command-storage.model';
+import { LoadResumeDataSuccess } from 'src/app/store/resume/resume.actions';
 
 class MockCommandService {
   facts = ['Fact1', 'Fact2'];
@@ -87,7 +88,7 @@ describe('NGRX Effects: Command', () => {
     expect(effects).toBeTruthy();
   });
 
-  describe('ngrxOnInitEffects', () => {
+  describe('resumeDataLoaded$', () => {
     it('should get command history from local storage', () => {
       const date = new Date(2019, 0, 1);
       const storageHistory = [
@@ -95,30 +96,35 @@ describe('NGRX Effects: Command', () => {
       ] as InitializedCommandStorage[];
       spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(storageHistory));
 
-      const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
+      actions$ = cold('a', { a: new LoadResumeDataSuccess(null) });
+      const expected = cold('a', {
+        a: new CommandEffectsInit([
+          { text: 'test', initializedOn: date }
+        ])
+      });
 
+      expect(effects.resumeDataLoaded$).toBeObservable(expected);
       expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY());
-      expect(actionResult).toEqual(new CommandEffectsInit([
-        { text: 'test', initializedOn: date }
-      ]));
     });
 
     it('should not error when JSON data for local storage entry is malformed', () => {
       const badStorageHistory = '!@#$%^&*() BAD JSON DATA !@#$%^&*()';
       spyOn(localStorage, 'getItem').and.returnValue(badStorageHistory);
 
-      const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
+      actions$ = cold('a', { a: new LoadResumeDataSuccess(null) });
+      const expected = cold('a', { a: new CommandEffectsInit([]) });
 
-      expect(actionResult).toEqual(new CommandEffectsInit([]));
+      expect(effects.resumeDataLoaded$).toBeObservable(expected);
     });
 
     it('should not error when JSON data for local storage entry is not an array', () => {
       const nonArrayStorageHistory = { a: 'not an array' };
       spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(nonArrayStorageHistory));
 
-      const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
+      actions$ = cold('a', { a: new LoadResumeDataSuccess(null) });
+      const expected = cold('a', { a: new CommandEffectsInit([]) });
 
-      expect(actionResult).toEqual(new CommandEffectsInit([]));
+      expect(effects.resumeDataLoaded$).toBeObservable(expected);
     });
 
     it('should filter out storage history items that are falsy, have falsy command text, or invalid dates', () => {
@@ -131,12 +137,15 @@ describe('NGRX Effects: Command', () => {
       ] as InitializedCommandStorage[];
       spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(storageHistory));
 
-      const actionResult = effects.ngrxOnInitEffects() as CommandEffectsInit;
+      actions$ = cold('a', { a: new LoadResumeDataSuccess(null) });
+      const expected = cold('a', {
+        a: new CommandEffectsInit([
+          { text: 'test', initializedOn: date }
+        ])
+      });
 
+      expect(effects.resumeDataLoaded$).toBeObservable(expected);
       expect(localStorage.getItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY());
-      expect(actionResult).toEqual(new CommandEffectsInit([
-        { text: 'test', initializedOn: date }
-      ]));
     });
   });
 
@@ -194,7 +203,7 @@ describe('NGRX Effects: Command', () => {
   describe('education$', () => {
     it('should get education data from facade', () => {
       actions$ = cold('a', { a: new EducationExecuted({}) });
-      const expected = cold('a', { a: new EducationExecutedSuccess({ education: mockResumeFacade.data.education}) });
+      const expected = cold('a', { a: new EducationExecutedSuccess({ education: mockResumeFacade.data.education }) });
 
       expect(effects.education$).toBeObservable(expected);
     });

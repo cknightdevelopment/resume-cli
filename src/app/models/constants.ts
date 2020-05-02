@@ -1,4 +1,4 @@
-import { HelpModel, IssueModel } from './resume/resume-data.model';
+import { HelpModel, IssueModel, InitHelpTypes } from './resume/resume-data.model';
 
 export const CONSTANTS = {
   KEY_CODES: {
@@ -8,7 +8,10 @@ export const CONSTANTS = {
     ENTER: 'Enter',
     BACKSPACE: 'Backspace',
   },
-  CLI_NAME: 'resume',
+  CLI_OPTIONS: {
+    NAME: 'resume',
+    INIT_HELP: true,
+  },
   COMMAND: {
     PARAM_PREFIX: '--',
     PARAM_KEY_VALUE_SEPARATOR: '=',
@@ -23,7 +26,8 @@ export const CONSTANTS = {
     RESUME_DATA_URL: 'resumeDataUrl'
   },
   STORAGE_KEYS: {
-    HISTORY: () => `resume:${CONSTANTS.CLI_NAME}:history`
+    HISTORY: () => `resume:${CONSTANTS.CLI_OPTIONS.NAME}:history`,
+    HELP_INIT: () => `resume:${CONSTANTS.CLI_OPTIONS.NAME}:help-init`,
   },
   ISSUE: {
     url: 'https://github.com/cknightdevelopment/resume/issues/new'

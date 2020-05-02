@@ -1,7 +1,7 @@
 import * as factory from 'src/test-helpers/factory/state';
 import { NoopAction } from 'src/test-helpers/noop-action';
 import { ResumeState, reducer, intitalState } from './resume.reducers';
-import { LoadStaticDataSuccess } from './resume.actions';
+import { LoadResumeDataSuccess } from './resume.actions';
 import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
 import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-factory';
 
@@ -22,7 +22,7 @@ describe('NGRX Reducers: Resume', () => {
       issue: issueModel(),
       help: helpModel()
     });
-    expect(reducer(intitalState, new LoadStaticDataSuccess(data))).toEqual(jasmine.objectContaining<ResumeState>({
+    expect(reducer(intitalState, new LoadResumeDataSuccess(data))).toEqual(jasmine.objectContaining<ResumeState>({
       facts: data.facts,
       education: data.education,
       skills: data.skills,

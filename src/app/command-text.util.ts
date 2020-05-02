@@ -2,7 +2,7 @@ import { KeyValuePair } from 'src/app/models/key-value-pair.model';
 import { CONSTANTS } from 'src/app/models/constants';
 
 export function createCommandText(commandName?: string, params?: KeyValuePair<string>) {
-  let commandText = `${CONSTANTS.CLI_NAME}`;
+  let commandText = `${CONSTANTS.CLI_OPTIONS.NAME}`;
 
   if (commandName) {
     commandText += ` ${commandName}`;

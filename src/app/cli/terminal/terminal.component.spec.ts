@@ -16,6 +16,7 @@ import { CommandParserService } from 'src/app/core/command/command-parser/comman
 import { convertPropertyToGetterSetter } from 'src/test-helpers/dom-events';
 import { createCommandText } from 'src/app/command-text.util';
 import { CommandNames } from 'src/app/models/command/command-names.model';
+import { CONSTANTS } from 'src/app/models/constants';
 
 class MockCommandParserService {
   static parsedCommandToReturn = {
@@ -46,7 +47,7 @@ describe('TerminalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         TestModule
       ],
@@ -59,7 +60,7 @@ describe('TerminalComponent', () => {
         TerminalPromptComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -70,118 +71,139 @@ describe('TerminalComponent', () => {
     mockCommandParserSvc = TestBed.get(CommandParserService);
 
     spyOn(mockCommandFacade, 'dispatch');
-
-    fixture.detectChanges();
+    spyOn(localStorage, 'setItem');
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-    expect(TerminalPromptComponent).toBeTruthy();
-  });
-
-  it('should apply provided ng styles to terminal', () => {
-    const { terminal } = getElements();
-    expect(terminal.styles).toEqual(jasmine.objectContaining({
-      'background-color': 'black',
-      color: 'white',
-      'caret-color': 'white',
-      'font-family': 'Arial',
-      'font-size': '15px'
-    }));
-  });
-
-  it('should initiate help command on init', () => {
-    fixture.detectChanges();
-    expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated(createCommandText(CommandNames.Help)));
-  });
-
-  it('should initiate command when prompt emits', () => {
-    const commandText = createCommandText('test');
-    promptComponent.commandInitiated.emit(commandText);
-
-    fixture.detectChanges();
-
-    expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated(commandText));
-  });
-
-  describe('history$', () => {
-    it('should pass along history changes to prompt component', () => {
-      const history = [{ text: 'test', initializedOn: new Date() }] as InitializedCommand[];
-      mockCommandFacade.history$.next(history);
+  describe('help init', () => {
+    it('should initiate help command and set localstorage on init if configured', () => {
+      CONSTANTS.CLI_OPTIONS.INIT_HELP = true;
       fixture.detectChanges();
 
-      expect(promptComponent.history).toEqual(history);
+      expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated(createCommandText(CommandNames.Help)));
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        CONSTANTS.STORAGE_KEYS.HELP_INIT(),
+        JSON.stringify(true)
+      );
     });
 
-    it('should not pass along history changes to prompt component when history length has not changed', () => {
-      const expectedHistory = [{ text: 'test', initializedOn: new Date() }] as InitializedCommand[];
-      mockCommandFacade.history$.next(expectedHistory);
+    it('should not initiate help command nor set localstorage on init if not configured', () => {
+      CONSTANTS.CLI_OPTIONS.INIT_HELP = false;
       fixture.detectChanges();
 
-      mockCommandFacade.history$.next([{ text: 'test2', initializedOn: new Date() }]);
-      fixture.detectChanges();
-
-      expect(promptComponent.history).toEqual(expectedHistory);
+      expect(mockCommandFacade.dispatch).not.toHaveBeenCalled();
+      expect(localStorage.setItem).not.toHaveBeenCalled();
     });
   });
 
-  describe('initialized commands', () => {
-    it('should create terminal command output component for each initialized command with parsed result', () => {
-      spyOn(mockCommandParserSvc, 'parseCommand').and.callThrough();
-
-      const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
-      mockCommandFacade.initializedCommand$.next(initializedCommand);
+  describe('all others', () => {
+    beforeEach(() => {
       fixture.detectChanges();
-
-      const elements = getElements();
-      expect(mockCommandParserSvc.parseCommand).toHaveBeenCalledWith('test');
-      expect(component.commands).toEqual([{
-        initialized: initializedCommand,
-        parsed: MockCommandParserService.parsedCommandToReturn
-      }]);
-      expect(elements.commandOutputs.length).toEqual(1);
     });
 
-    it('should scroll to bottom of terminal after initialized command fired in next browser turn', fakeAsync(() => {
-      spyOn(mockCommandParserSvc, 'parseCommand').and.callThrough();
+    it('should create', () => {
+      expect(component).toBeTruthy();
+      expect(TerminalPromptComponent).toBeTruthy();
+    });
 
-      const elements = getElements();
-      // do this so that we can control how things are set and make it testable
-      convertPropertyToGetterSetter(elements.terminal.nativeElement, 'scrollTop', 0);
+    it('should apply provided ng styles to terminal', () => {
+      const { terminal } = getElements();
+      expect(terminal.styles).toEqual(jasmine.objectContaining({
+        'background-color': 'black',
+        color: 'white',
+        'caret-color': 'white',
+        'font-family': 'Arial',
+        'font-size': '15px'
+      }));
+    });
 
-      const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
-      mockCommandFacade.initializedCommand$.next(initializedCommand);
+    it('should initiate command when prompt emits', () => {
+      const commandText = createCommandText('test');
+      promptComponent.commandInitiated.emit(commandText);
+
       fixture.detectChanges();
 
-      expect(elements.terminal.nativeElement.scrollTop).toEqual(0);
-      tick();
-      expect(elements.terminal.nativeElement.scrollTop).toEqual(elements.terminal.nativeElement.scrollHeight);
-    }));
+      expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated(commandText));
+    });
 
-    it('should clear terminal command command output when initialized command with status of clear', () => {
-      spyOn(mockCommandParserSvc, 'parseCommand').and.returnValue({
-        status: ParseStatus.Clear
+    describe('history$', () => {
+      it('should pass along history changes to prompt component', () => {
+        const history = [{ text: 'test', initializedOn: new Date() }] as InitializedCommand[];
+        mockCommandFacade.history$.next(history);
+        fixture.detectChanges();
+
+        expect(promptComponent.history).toEqual(history);
       });
 
-      // add one item to the commands, so we can test that it gets cleared
-      component.commands = [{ initialized: {} as any, parsed: {} as any }];
-      fixture.detectChanges();
+      it('should not pass along history changes to prompt component when history length has not changed', () => {
+        const expectedHistory = [{ text: 'test', initializedOn: new Date() }] as InitializedCommand[];
+        mockCommandFacade.history$.next(expectedHistory);
+        fixture.detectChanges();
 
-      const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
-      mockCommandFacade.initializedCommand$.next(initializedCommand);
-      fixture.detectChanges();
+        mockCommandFacade.history$.next([{ text: 'test2', initializedOn: new Date() }]);
+        fixture.detectChanges();
 
-      const elements = getElements();
-      expect(component.commands).toEqual([]);
-      expect(elements.commandOutputs.length).toEqual(0);
+        expect(promptComponent.history).toEqual(expectedHistory);
+      });
     });
 
-    it('should not create terminal command output component for falsy initialized command', () => {
-      mockCommandFacade.initializedCommand$.next(null);
-      fixture.detectChanges();
+    describe('initialized commands', () => {
+      it('should create terminal command output component for each initialized command with parsed result', () => {
+        spyOn(mockCommandParserSvc, 'parseCommand').and.callThrough();
 
-      const elements = getElements();
-      expect(elements.commandOutputs.length).toEqual(0);
+        const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+        mockCommandFacade.initializedCommand$.next(initializedCommand);
+        fixture.detectChanges();
+
+        const elements = getElements();
+        expect(mockCommandParserSvc.parseCommand).toHaveBeenCalledWith('test');
+        expect(component.commands).toEqual([{
+          initialized: initializedCommand,
+          parsed: MockCommandParserService.parsedCommandToReturn
+        }]);
+        expect(elements.commandOutputs.length).toEqual(1);
+      });
+
+      it('should scroll to bottom of terminal after initialized command fired in next browser turn', fakeAsync(() => {
+        spyOn(mockCommandParserSvc, 'parseCommand').and.callThrough();
+
+        const elements = getElements();
+        // do this so that we can control how things are set and make it testable
+        convertPropertyToGetterSetter(elements.terminal.nativeElement, 'scrollTop', 0);
+
+        const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+        mockCommandFacade.initializedCommand$.next(initializedCommand);
+        fixture.detectChanges();
+
+        expect(elements.terminal.nativeElement.scrollTop).toEqual(0);
+        tick();
+        expect(elements.terminal.nativeElement.scrollTop).toEqual(elements.terminal.nativeElement.scrollHeight);
+      }));
+
+      it('should clear terminal command command output when initialized command with status of clear', () => {
+        spyOn(mockCommandParserSvc, 'parseCommand').and.returnValue({
+          status: ParseStatus.Clear
+        });
+
+        // add one item to the commands, so we can test that it gets cleared
+        component.commands = [{ initialized: {} as any, parsed: {} as any }];
+        fixture.detectChanges();
+
+        const initializedCommand = { text: 'test', initializedOn: new Date() } as InitializedCommand;
+        mockCommandFacade.initializedCommand$.next(initializedCommand);
+        fixture.detectChanges();
+
+        const elements = getElements();
+        expect(component.commands).toEqual([]);
+        expect(elements.commandOutputs.length).toEqual(0);
+      });
+
+      it('should not create terminal command output component for falsy initialized command', () => {
+        mockCommandFacade.initializedCommand$.next(null);
+        fixture.detectChanges();
+
+        const elements = getElements();
+        expect(elements.commandOutputs.length).toEqual(0);
+      });
     });
   });
 });

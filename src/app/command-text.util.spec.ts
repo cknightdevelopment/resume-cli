@@ -45,20 +45,21 @@ describe('command text util', () => {
 
   describe('createCommandText', () => {
     it('should return cli name when no command or parameters provided', () => {
-      expect(createCommandText()).toEqual(CONSTANTS.CLI_NAME);
+      expect(createCommandText()).toEqual(CONSTANTS.CLI_OPTIONS.NAME);
     });
 
     it('should return cli name and command name when only command is provided', () => {
-      expect(createCommandText('test')).toEqual(`${CONSTANTS.CLI_NAME} test`);
+      expect(createCommandText('test')).toEqual(`${CONSTANTS.CLI_OPTIONS.NAME} test`);
     });
 
     it('should return full command when when command and arguments are provided', () => {
-      expect(createCommandText('test', { key: 'value' }))
-        .toEqual(`${CONSTANTS.CLI_NAME} test ${CONSTANTS.COMMAND.PARAM_PREFIX}key${CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}value`);
+      expect(createCommandText('test', { key: 'value' })).toEqual(
+        `${CONSTANTS.CLI_OPTIONS.NAME} test ${CONSTANTS.COMMAND.PARAM_PREFIX}key${CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}value`
+      );
     });
 
     it('should ignore parameters if no command is provided', () => {
-      expect(createCommandText(null, { key: 'value' })).toEqual(CONSTANTS.CLI_NAME);
+      expect(createCommandText(null, { key: 'value' })).toEqual(CONSTANTS.CLI_OPTIONS.NAME);
     });
   });
 });

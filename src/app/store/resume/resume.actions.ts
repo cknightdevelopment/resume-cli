@@ -2,19 +2,19 @@ import { Action } from '@ngrx/store';
 import { ResumeState } from './resume.reducers';
 
 export enum ResumeActionTypes {
-  LoadStaticData = '[Resume] Load Static Data',
-  LoadStaticDataSuccess = '[Resume] Load Static Data Success',
-  LoadStaticDataError = '[Resume] Load Static Data Error',
+  LoadResumeData = '[Resume] Load Resume Data',
+  LoadResumeDataSuccess = '[Resume] Load Resume Data Success',
+  LoadResumeDataError = '[Resume] Load Resume Data Error',
 }
 
-export class LoadStaticData implements Action {
-  readonly type = ResumeActionTypes.LoadStaticData;
+export class LoadResumeData implements Action {
+  readonly type = ResumeActionTypes.LoadResumeData;
 }
 
-export class LoadStaticDataSuccess implements Action {
-  readonly type = ResumeActionTypes.LoadStaticDataSuccess;
+export class LoadResumeDataSuccess implements Action {
+  readonly type = ResumeActionTypes.LoadResumeDataSuccess;
   constructor(public payload: ResumeState) {}
 }
 
-export type ResumeAction = LoadStaticData
-  | LoadStaticDataSuccess;
+export type ResumeAction = LoadResumeData
+  | LoadResumeDataSuccess;

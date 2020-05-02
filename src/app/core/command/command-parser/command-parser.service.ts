@@ -65,7 +65,7 @@ export class CommandParserService {
     // if no command besides whitespace
     if (!commandParts || !commandParts.length) {
       return { empty: true };
-    } else if (!ciEquals(commandParts[0], CONSTANTS.CLI_NAME)) {
+    } else if (!ciEquals(commandParts[0], CONSTANTS.CLI_OPTIONS.NAME)) {
       return CONSTANTS.COMMAND.CLEAR_COMMANDS.some(x => ciEquals(commandParts[0], x))
         ? { clear: true } as PreParsedCommand
         : { unknownCli: true, unknownCliName: commandParts[0] } as PreParsedCommand;

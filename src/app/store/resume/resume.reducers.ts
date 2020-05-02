@@ -26,7 +26,7 @@ export const intitalState: ResumeState = {
 
 export function reducer(state = intitalState, action: ResumeAction): ResumeState {
   switch (action.type) {
-    case ResumeActionTypes.LoadStaticDataSuccess:
+    case ResumeActionTypes.LoadResumeDataSuccess:
       return {
         ...state,
         ...action.payload

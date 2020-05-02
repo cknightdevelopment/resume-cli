@@ -43,7 +43,7 @@ describe('InvalidParameterComponent', () => {
     const elements = getElements();
     expect(elements.output.nativeElement.classList).toContain('command-output-text--error');
     expect(elements.output.nativeElement.innerText).toEqual(
-      `${CONSTANTS.CLI_NAME}: invalid argument of '${component.params.value}' `
+      `${CONSTANTS.CLI_OPTIONS.NAME}: invalid argument of '${component.params.value}' `
         + `for parameter '${component.params.paramName}': ${component.params.reason}`
     );
   });
@@ -55,7 +55,7 @@ describe('InvalidParameterComponent', () => {
     const elements = getElements();
     expect(elements.output.nativeElement.classList).toContain('command-output-text--error');
     expect(elements.output.nativeElement.innerText).toEqual(
-      `${CONSTANTS.CLI_NAME}: invalid argument of '' `
+      `${CONSTANTS.CLI_OPTIONS.NAME}: invalid argument of '' `
         + `for parameter '${component.params.paramName}': ${component.params.reason}`
     );
   });

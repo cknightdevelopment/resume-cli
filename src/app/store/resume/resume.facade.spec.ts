@@ -3,7 +3,7 @@ import { AppState } from 'src/app/store';
 import { TestBed } from '@angular/core/testing';
 import { ResumeFacade } from './resume.facade';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { LoadStaticData } from './resume.actions';
+import { LoadResumeData } from './resume.actions';
 import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { educationModel, linkModel, workHistoryModel, contactModel, issueModel, helpModel } from 'src/test-helpers/factory/models';
@@ -30,7 +30,7 @@ describe('NGRX Facade: Resume', () => {
 
   it('should dispatch actions', () => {
     spyOn(mockStore, 'dispatch');
-    const action = new LoadStaticData();
+    const action = new LoadResumeData();
     facade.dispatch(action);
     expect(mockStore.dispatch).toHaveBeenCalledWith(action);
   });

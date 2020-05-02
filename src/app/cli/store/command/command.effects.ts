@@ -6,20 +6,44 @@ import { withLatestFrom, map, tap } from 'rxjs/operators';
 import { CommandService } from 'src/app/core/command/command.service';
 import { CommandFacade } from './command.facade';
 import { ResumeFacade } from 'src/app/store/resume/resume.facade';
-import { Action } from '@ngrx/store';
 import { CONSTANTS } from 'src/app/models/constants';
 import { InitializedCommandStorage } from 'src/app/models/command/initialized-command-storage.model';
 import { InitializedCommand } from './command.reducers';
 import { isValidDate } from 'src/app/util';
+import { ResumeActionTypes, LoadResumeDataSuccess } from 'src/app/store/resume/resume.actions';
 
 @Injectable()
-export class CommandEffects implements OnInitEffects {
+export class CommandEffects {
   constructor(
     private actions$: Actions,
     private resumeFacade: ResumeFacade,
     private commandFacade: CommandFacade,
     private commandSvc: CommandService
   ) { }
+
+  @Effect() resumeDataLoaded$ = this.actions$.pipe(
+    ofType<LoadResumeDataSuccess>(ResumeActionTypes.LoadResumeDataSuccess),
+    map(() => {
+      let history = [] as InitializedCommand[];
+
+      try {
+        const raw = localStorage.getItem(CONSTANTS.STORAGE_KEYS.HISTORY());
+        const parseResult = JSON.parse(raw) as InitializedCommandStorage[];
+
+        if (Array.isArray(parseResult)) {
+          history = parseResult
+            .filter(item => !!item)
+            .map(item => ({
+              text: item.text,
+              initializedOn: new Date(item.initializedOnEpoch)
+            }))
+            .filter(x => !!x.text && isValidDate(x.initializedOn));
+        }
+      } catch (error) {
+      }
+      return new CommandEffectsInit(history);
+    }),
+  );
 
   @Effect({ dispatch: false }) commandInitiated$ = this.actions$.pipe(
     ofType<CommandInitiated>(CommandActionTypes.CommandInitiated),
@@ -104,26 +128,4 @@ export class CommandEffects implements OnInitEffects {
       return new HelpExecutedSuccess({ help });
     })
   );
-
-  ngrxOnInitEffects(): Action {
-    let history = [] as InitializedCommand[];
-
-    try {
-      const raw = localStorage.getItem(CONSTANTS.STORAGE_KEYS.HISTORY());
-      const parseResult = JSON.parse(raw) as InitializedCommandStorage[];
-
-      if (Array.isArray(parseResult)) {
-        history = parseResult
-          .filter(item => !!item)
-          .map(item => ({
-            text: item.text,
-            initializedOn: new Date(item.initializedOnEpoch)
-          }))
-          .filter(x => !!x.text && isValidDate(x.initializedOn));
-      }
-    } catch (error) {
-    }
-
-    return new CommandEffectsInit(history);
-  }
 }
