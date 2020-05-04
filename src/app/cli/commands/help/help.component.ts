@@ -5,7 +5,7 @@ import { HelpExecutedModel } from 'src/app/models/command/executed/help-executed
 import { CommandFacade } from '../../store/command/command.facade';
 import { HelpExecuted } from '../../store/command/command.actions';
 import { filter, take } from 'rxjs/operators';
-import { ArgumentHelpModel } from 'src/app/models/resume/resume-data.model';
+import { ArgumentHelpModel, CommandHelpModel } from 'src/app/models/resume/resume-data.model';
 import { CONSTANTS } from 'src/app/models/constants';
 
 @Component({
@@ -30,8 +30,15 @@ export class HelpComponent implements CommandComponent<HelpInputParams>, OnInit 
     ).subscribe(x => this.data = x);
   }
 
-  sort(data: any[]) {
-    return (data || []).slice().sort((a, b) => a.name > b.name ? 1 : -1);
+  filterCommandsAndSort(data: CommandHelpModel[]) {
+    const filtered = (data || []).slice()
+      .filter(x => CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS[x.name]);
+    return this.sort(filtered) as CommandHelpModel[];
+  }
+
+  sort(data: (CommandHelpModel | ArgumentHelpModel)[]) {
+    return (data || []).slice()
+      .sort((a, b) => a.name > b.name ? 1 : -1);
   }
 
   secondaryInfo(argument: ArgumentHelpModel) {

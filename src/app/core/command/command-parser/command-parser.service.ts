@@ -66,7 +66,7 @@ export class CommandParserService {
     if (!commandParts || !commandParts.length) {
       return { empty: true };
     } else if (!ciEquals(commandParts[0], CONSTANTS.CLI_OPTIONS.NAME)) {
-      return CONSTANTS.COMMAND.CLEAR_COMMANDS.some(x => ciEquals(commandParts[0], x))
+      return CONSTANTS.COMMAND_SYNTAX.CLEAR_COMMANDS.some(x => ciEquals(commandParts[0], x))
         ? { clear: true } as PreParsedCommand
         : { unknownCli: true, unknownCliName: commandParts[0] } as PreParsedCommand;
     } else if (commandParts.length < 2) {
@@ -85,8 +85,18 @@ export class CommandParserService {
   public getCommandInputData(preParsedCommand: ValidPreParsedCommand): ParsedCommandInput {
     const inputParams = this.getCommandInputParams(preParsedCommand.params);
     let parseFunc: () => ParsedCommandInput;
+    const unknownCommandResult = {
+      status: ParseStatus.UnknownCommand,
+      componentType: UnknownCommandComponent,
+      params: { commandText: preParsedCommand.name || '' }
+    } as ParsedCommandInput;
+    const lowercaseCommandName = preParsedCommand.name && preParsedCommand.name.toLowerCase();
 
-    switch (preParsedCommand.name && preParsedCommand.name.toLowerCase()) {
+    if (!CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS[lowercaseCommandName]) {
+      return unknownCommandResult;
+    }
+
+    switch (lowercaseCommandName) {
       case CommandNames.Random:
         parseFunc = () => this.parseCommandInput(
           this.buildCommandInput(inputParams.valid, new RandomInputParamsValidator()), CommandNames.Random, RandomCommandComponent
@@ -116,11 +126,8 @@ export class CommandParserService {
         parseFunc = () => this.parseCommandInput(this.buildCommandInput(inputParams.valid), CommandNames.Help, HelpComponent);
         break;
       default:
-        return {
-          status: ParseStatus.UnknownCommand,
-          componentType: UnknownCommandComponent,
-          params: { commandText: preParsedCommand.name || '' }
-        };
+        // active command check should already take care of this, but just in case
+        return unknownCommandResult;
     }
 
     // perform this check after validating command name is known, as that takes precedence
@@ -179,9 +186,9 @@ export class CommandParserService {
 
     (paramsData || [])
       .forEach(param => {
-        if (param && param.startsWith(CONSTANTS.COMMAND.PARAM_PREFIX)) {
-          const indexOfEquals = param.indexOf(CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR);
-          const key = param.substring(CONSTANTS.COMMAND.PARAM_PREFIX.length, indexOfEquals >= 0 ? indexOfEquals : undefined);
+        if (param && param.startsWith(CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX)) {
+          const indexOfEquals = param.indexOf(CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR);
+          const key = param.substring(CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX.length, indexOfEquals >= 0 ? indexOfEquals : undefined);
           const value = indexOfEquals >= 0 ? param.substring(indexOfEquals + 1) : null;
           result.valid[key] = value;
         } else {
@@ -238,7 +245,7 @@ export class CommandParserService {
 
   private getFirstNonEscapedDoubleQuoteIndex(val: string): number {
     return val.split('').findIndex((char, i) => {
-      return char === CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER && val[i - 1] !== '\\';
+      return char === CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER && val[i - 1] !== '\\';
     });
   }
 
@@ -289,14 +296,14 @@ export class CommandParserService {
         const slice = paramParts.slice(group.startPartIndex, group.endPartIndex + 1);
         let mergedString = slice.join(' ');
 
-        if (!mergedString.startsWith(CONSTANTS.COMMAND.PARAM_PREFIX)) {
+        if (!mergedString.startsWith(CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX)) {
           return paramParts;
         }
 
         mergedString = mergedString
           // remove leading quote after equal sign
           // tslint:disable-next-line: max-line-length
-          .replace(`${CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}${CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}`, CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR)
+          .replace(`${CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR}${CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER}`, CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR)
           // substring to not include the trailing quote
           .substring(0, mergedString.length - 2);
 
@@ -308,7 +315,8 @@ export class CommandParserService {
           // replace any escaped quotes with simple quotes
           .replace(new RegExp(/\\/, 'g'), uuid)
           .replace(
-            new RegExp(`${uuid}${CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}`, 'g'), CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER
+            // tslint:disable-next-line: max-line-length
+            new RegExp(`${uuid}${CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER}`, 'g'), CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER
           )
           .replace(new RegExp(uuid, 'g'), '\\')
           // .replace(/\\"/g, '"')

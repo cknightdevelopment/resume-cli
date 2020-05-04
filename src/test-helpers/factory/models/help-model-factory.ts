@@ -1,6 +1,7 @@
 import { mergeWith as _mergeWith } from 'lodash';
 import { HelpModel } from 'src/app/models/resume/resume-data.model';
 import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
+import { CommandNames } from 'src/app/models/command/command-names.model';
 
 export function helpModel(override?: Partial<HelpModel>): HelpModel {
   return _mergeWith({
@@ -15,7 +16,7 @@ export function helpModel(override?: Partial<HelpModel>): HelpModel {
     },
     commands: [
       {
-        name: 'command name 1',
+        name: CommandNames.Random,
         description: 'command description 1',
         arguments: [
           {
@@ -32,7 +33,7 @@ export function helpModel(override?: Partial<HelpModel>): HelpModel {
         ]
       },
       {
-        name: 'command name 2',
+        name: CommandNames.WorkHistory,
         description: 'command description 2',
         arguments: [
           {

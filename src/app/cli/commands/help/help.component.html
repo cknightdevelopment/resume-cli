@@ -16,23 +16,23 @@
     <div class="example-command">
       <span class="example-command--cli">{{CONSTANTS.CLI_OPTIONS.NAME}} </span>
       <span class="example-command--command">command_name </span>
-      <span class="example-command--argument">{{CONSTANTS.COMMAND.PARAM_PREFIX}}argument_name</span>
+      <span class="example-command--argument">{{CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}}argument_name</span>
     </div>
     <div class="example-command">
       <span class="example-command--cli">{{CONSTANTS.CLI_OPTIONS.NAME}} </span>
       <span class="example-command--command">command_name </span>
-      <span class="example-command--argument">{{CONSTANTS.COMMAND.PARAM_PREFIX}}argument_name{{CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}}argument_value</span>
+      <span class="example-command--argument">{{CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}}argument_name{{CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR}}argument_value</span>
     </div>
     <div class="example-command">
       <span class="example-command--cli">{{CONSTANTS.CLI_OPTIONS.NAME}} </span>
       <span class="example-command--command">command_name </span>
-      <span class="example-command--argument">{{CONSTANTS.COMMAND.PARAM_PREFIX}}argument_name{{CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}}{{CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}}spaced and \"quoted\" argument value{{CONSTANTS.COMMAND.PARAM_VALUE_SPACE_SURROUNDER}}</span>
+      <span class="example-command--argument">{{CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}}argument_name{{CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR}}{{CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER}}spaced and \"quoted\" argument value{{CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER}}</span>
     </div>
   </div>
 
   <div class="commands-help-container">
     <h4 class="mt0">Commands</h4>
-    <div class="command-help-container ml20" *ngFor="let command of sort(data.help.commands)">
+    <div class="command-help-container ml20" *ngFor="let command of filterCommandsAndSort(data.help.commands)">
       <div class="command-help">
         <strong class="command-help--name">{{command.name}}</strong>
         <div class="command-help--description">
@@ -40,7 +40,7 @@
           <div class="arguments-help-container" *ngIf="command?.arguments?.length">
             <!-- <div class="arguments-help-container--title">Arguments</div> -->
             <div class="argument-help" *ngFor="let argument of sort(command.arguments)">
-              <span class="argument-help--name">{{CONSTANTS.COMMAND.PARAM_PREFIX}}{{argument.name}}</span>
+              <span class="argument-help--name">{{CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}}{{argument.name}}</span>
               <span class="argument-help--description">{{argument.description}} {{secondaryInfo(argument)}}</span>
             </div>
           </div>

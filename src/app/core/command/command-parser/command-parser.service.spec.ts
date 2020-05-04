@@ -33,6 +33,7 @@ import { ContactInputParams } from 'src/app/models/command/input/contact-input-p
 import { IssueComponent } from 'src/app/cli/commands/issue/issue.component';
 import { IssueInputParams } from 'src/app/models/command/input/issue-input-params.model';
 import { HelpInputParams } from 'src/app/models/command/input/help-input-params.model';
+import { enableAllCommands } from 'src/test-helpers/dom-events';
 
 describe('CommandParserService', () => {
   let parserSvc: CommandParserService;
@@ -45,6 +46,7 @@ describe('CommandParserService', () => {
     });
 
     parserSvc = TestBed.get(CommandParserService);
+    enableAllCommands();
   });
 
   it('should be created', () => {
@@ -127,7 +129,7 @@ describe('CommandParserService', () => {
     });
 
     it('should return clear when clear command passed in (non-main cli command)', () => {
-      CONSTANTS.COMMAND.CLEAR_COMMANDS.forEach(cmd => {
+      CONSTANTS.COMMAND_SYNTAX.CLEAR_COMMANDS.forEach(cmd => {
         expect(parserSvc.getPreParsedCommandData(cmd)).toEqual({ clear: true } as PreParsedCommand);
       });
     });
@@ -212,6 +214,16 @@ describe('CommandParserService', () => {
         status: ParseStatus.UnknownCommand,
         componentType: UnknownCommandComponent,
         params: { commandText: 'UNKNOWNCOMMAND' } as UnknownCommandInputParams
+      } as ParsedCommandInput);
+    });
+
+    it('should return unknown command when provided command is disabled', () => {
+      CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.random = false;
+      const result = parserSvc.getCommandInputData({ name: CommandNames.Random });
+      expect(result).toEqual({
+        status: ParseStatus.UnknownCommand,
+        componentType: UnknownCommandComponent,
+        params: { commandText: CommandNames.Random } as UnknownCommandInputParams
       } as ParsedCommandInput);
     });
 

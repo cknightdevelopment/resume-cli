@@ -1,5 +1,5 @@
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject, throwError } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { Action } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
@@ -12,6 +12,7 @@ import { skillSetModel } from 'src/test-helpers/factory/models/skill-set-model-f
 import { Router, Event, ResolveStart } from '@angular/router';
 import { CONSTANTS } from 'src/app/models/constants';
 import { CustomizableResumeDataModel, InitHelpTypes, CliOptionsModel } from 'src/app/models/resume/resume-data.model';
+import { environment } from 'src/environments/environment';
 
 class MockRouter {
   events = new ReplaySubject<Event>(1);
@@ -42,8 +43,14 @@ class MockResumeService {
   links = [linkModel()];
   workHistory = [workHistoryModel()];
   contact = contactModel();
+  throwError = false;
+  error = { message: 'boo!' };
 
   getData(resumeDataUrl: string): Observable<CustomizableResumeDataModel> {
+    if (this.throwError) {
+      return throwError(this.error);
+    }
+
     return of({
       options: this.options,
       facts: this.facts,
@@ -57,6 +64,7 @@ class MockResumeService {
 }
 
 let actions$: Observable<Action>;
+const testResumeDataUrl = 'http://test.com/data.json';
 
 describe('NGRX Effects: Resume', () => {
   let effects: ResumeEffects;
@@ -109,12 +117,11 @@ describe('NGRX Effects: Resume', () => {
     });
 
     expect(effects.loadStaticData$).toBeObservable(expected);
-    expect(resumeSvc.getData).toHaveBeenCalledWith(undefined);
+    expect(resumeSvc.getData).toHaveBeenCalledWith(environment.exampleResumeUrl);
   });
 
   it('should load static data from custom resume data url set in query string parameter', () => {
-    const resumeDataUrl = 'http://test.com/data.json';
-    router.emitResolveStartEvent(CONSTANTS.QUERY_STRING_PARAMS.RESUME_DATA_URL, resumeDataUrl);
+    router.emitResolveStartEvent(CONSTANTS.QUERY_STRING_PARAMS.RESUME_DATA_URL, testResumeDataUrl);
 
     actions$ = cold('a', { a: new LoadResumeData() });
     const expected = cold('a', {
@@ -131,12 +138,11 @@ describe('NGRX Effects: Resume', () => {
     });
 
     expect(effects.loadStaticData$).toBeObservable(expected);
-    expect(resumeSvc.getData).toHaveBeenCalledWith(resumeDataUrl);
+    expect(resumeSvc.getData).toHaveBeenCalledWith(testResumeDataUrl);
   });
 
   it('should load static data from custom resume data url set in query string parameter, and be case insensitive', () => {
-    const resumeDataUrl = 'http://test.com/data.json';
-    router.emitResolveStartEvent(CONSTANTS.QUERY_STRING_PARAMS.RESUME_DATA_URL.toUpperCase(), resumeDataUrl);
+    router.emitResolveStartEvent(CONSTANTS.QUERY_STRING_PARAMS.RESUME_DATA_URL.toUpperCase(), testResumeDataUrl);
 
     actions$ = cold('a', { a: new LoadResumeData() });
     const expected = cold('a', {
@@ -153,10 +159,61 @@ describe('NGRX Effects: Resume', () => {
     });
 
     expect(effects.loadStaticData$).toBeObservable(expected);
-    expect(resumeSvc.getData).toHaveBeenCalledWith(resumeDataUrl);
+    expect(resumeSvc.getData).toHaveBeenCalledWith(testResumeDataUrl);
+  });
+
+  it('should alert & console error when error occurs while getting resume data; return empty non-static resume data properties', () => {
+    resumeSvc.throwError = true;
+    spyOn(window, 'alert');
+    spyOn(console, 'error');
+    router.emitResolveStartEvent(CONSTANTS.QUERY_STRING_PARAMS.RESUME_DATA_URL.toUpperCase(), testResumeDataUrl);
+
+    actions$ = cold('a', { a: new LoadResumeData() });
+    const expected = cold('a', {
+      a: new LoadResumeDataSuccess({
+        facts: undefined,
+        education: undefined,
+        skills: undefined,
+        links: undefined,
+        workHistory: undefined,
+        contact: undefined,
+        issue: CONSTANTS.ISSUE,
+        help: CONSTANTS.HELP
+      })
+    });
+    const expectedErrorMessage = CONSTANTS.ERROR_MESSAGES.GET_RESUME_DATA(testResumeDataUrl);
+
+    expect(effects.loadStaticData$).toBeObservable(expected);
+    expect(resumeSvc.getData).toHaveBeenCalledWith(testResumeDataUrl);
+    expect(window.alert).toHaveBeenCalledWith(expectedErrorMessage);
+    expect(console.error).toHaveBeenCalledWith(expectedErrorMessage, resumeSvc.error);
   });
 
   describe('setting constants for cli options', () => {
+    it('should disable commands without data', () => {
+      resumeSvc.edu = null;
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe((data) => {
+        expect(CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.education).toBeFalsy();
+        expect(data.payload.education).toEqual(null);
+      });
+    });
+
+    it('should disable commands when data is empty array', () => {
+      resumeSvc.edu = [];
+      router.emitResolveStartEvent();
+
+      actions$ = cold('a', { a: new LoadResumeData() });
+
+      effects.loadStaticData$.subscribe((data) => {
+        expect(CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.education).toBeFalsy();
+        expect(data.payload.education).toEqual([]);
+      });
+    });
+
     it('should assign cli options name & init help to true when configured', () => {
       router.emitResolveStartEvent();
 

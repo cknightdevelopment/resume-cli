@@ -34,7 +34,7 @@ export function createParameterText(key: string, value?: string): string {
     return '';
   }
 
-  const valueText = value ? `${CONSTANTS.COMMAND.PARAM_KEY_VALUE_SEPARATOR}${value}` : '';
+  const valueText = value ? `${CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR}${value}` : '';
 
-  return `${CONSTANTS.COMMAND.PARAM_PREFIX}${key}${valueText}`;
+  return `${CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}${key}${valueText}`;
 }

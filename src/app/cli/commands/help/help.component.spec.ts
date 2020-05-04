@@ -10,6 +10,8 @@ import { By } from '@angular/platform-browser';
 import { SELECTORS } from 'src/test-helpers/common-selectors';
 import { helpModel } from 'src/test-helpers/factory/models';
 import { CONSTANTS } from 'src/app/models/constants';
+import { CommandNames } from 'src/app/models/command/command-names.model';
+import { enableAllCommands } from 'src/test-helpers/dom-events';
 
 describe('HelpComponent', () => {
   let component: HelpComponent;
@@ -61,6 +63,8 @@ describe('HelpComponent', () => {
     component.params = {};
     mockCommandFacade = TestBed.get(CommandFacade);
     dispatchSpy = spyOn(mockCommandFacade, 'dispatch');
+
+    enableAllCommands();
 
     fixture.detectChanges();
   });
@@ -132,9 +136,9 @@ describe('HelpComponent', () => {
   it('should display commands in alphabetical order', () => {
     const help = helpModel({
       commands: [
-        { name: 'Z', description: 'test' },
-        { name: 'Y', description: 'test' },
-        { name: 'X', description: 'test' },
+        { name: CommandNames.WorkHistory, description: 'test' },
+        { name: CommandNames.Random, description: 'test' },
+        { name: CommandNames.Education, description: 'test' },
       ]
     });
 
@@ -142,9 +146,9 @@ describe('HelpComponent', () => {
     fixture.detectChanges();
 
     const elements = getElements();
-    expect(elements.commands[0].name.nativeNode.innerText).toEqual('X');
-    expect(elements.commands[1].name.nativeNode.innerText).toEqual('Y');
-    expect(elements.commands[2].name.nativeNode.innerText).toEqual('Z');
+    expect(elements.commands[0].name.nativeNode.innerText).toEqual(CommandNames.Education);
+    expect(elements.commands[1].name.nativeNode.innerText).toEqual(CommandNames.Random);
+    expect(elements.commands[2].name.nativeNode.innerText).toEqual(CommandNames.WorkHistory);
   });
 
   it('should display command argument(s) help info', () => {
@@ -157,7 +161,7 @@ describe('HelpComponent', () => {
     elements.commands.forEach((command, commandi) => {
       command.arguments.forEach((argument, argumenti) => {
         const argumentData = help.commands[commandi].arguments[argumenti];
-        expect(argument.name.nativeElement.innerText).toEqual(`${CONSTANTS.COMMAND.PARAM_PREFIX}${argumentData.name}`);
+        expect(argument.name.nativeElement.innerText).toEqual(`${CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}${argumentData.name}`);
 
         // see helpModel() for how argument data is set to support these checks by index
         if (argumenti === 0) {
@@ -170,11 +174,28 @@ describe('HelpComponent', () => {
     });
   });
 
+  it('should not display help information for non-active commands', () => {
+    const help = helpModel();
+    mockCommandFacade.commandData.help$.next({ help });
+    fixture.detectChanges();
+
+    let elements = getElements();
+    let randomCommandElement = elements.commands.find(ele => ele.name.nativeElement.innerText === CommandNames.Random);
+    expect(randomCommandElement).toBeTruthy();
+
+    CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.random = false;
+    fixture.detectChanges();
+
+    elements = getElements();
+    randomCommandElement = elements.commands.find(ele => ele.name.nativeElement.innerText === CommandNames.Random);
+    expect(randomCommandElement).toBeFalsy();
+  });
+
   it('should display command arguments in alphabetical order', () => {
     const help = helpModel({
       commands: [
         {
-          name: 'test',
+          name: CommandNames.Random,
           description: 'test',
           arguments: [
             { name: 'Z', description: 'test' },
@@ -189,15 +210,15 @@ describe('HelpComponent', () => {
     fixture.detectChanges();
 
     const elements = getElements();
-    expect(elements.commands[0].arguments[0].name.nativeNode.innerText).toEqual(`${CONSTANTS.COMMAND.PARAM_PREFIX}X`);
-    expect(elements.commands[0].arguments[1].name.nativeNode.innerText).toEqual(`${CONSTANTS.COMMAND.PARAM_PREFIX}Y`);
-    expect(elements.commands[0].arguments[2].name.nativeNode.innerText).toEqual(`${CONSTANTS.COMMAND.PARAM_PREFIX}Z`);
+    expect(elements.commands[0].arguments[0].name.nativeNode.innerText).toEqual(`${CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}X`);
+    expect(elements.commands[0].arguments[1].name.nativeNode.innerText).toEqual(`${CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}Y`);
+    expect(elements.commands[0].arguments[2].name.nativeNode.innerText).toEqual(`${CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}Z`);
   });
 
   it('should display command arguments help info when no arguments provided', () => {
     const help = helpModel({
       commands: [
-        { name: 'test', description: '', arguments: null }
+        { name: CommandNames.Random, description: '', arguments: null }
       ]
     });
 

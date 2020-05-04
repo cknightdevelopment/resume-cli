@@ -1,4 +1,5 @@
 import { DebugElement } from '@angular/core';
+import { CONSTANTS } from 'src/app/models/constants';
 
 /**
  * Button events
@@ -143,6 +144,17 @@ export function convertPropertyToGetterSetter<T>(obj: any, propertyName: keyof T
     get() { return this[backingPropertyName]; },
     set(value: any) { this[backingPropertyName] = value; },
   });
+}
+
+export function enableAllCommands() {
+  CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.random = true;
+  CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.help = true;
+  CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.education = true;
+  CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.skills = true;
+  CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.links = true;
+  CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.workhistory = true;
+  CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.issue = true;
+  CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS.contact = true;
 }
 
 function getHTMLElement(el: DebugElement | HTMLElement | Document): HTMLElement {

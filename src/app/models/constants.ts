@@ -1,4 +1,5 @@
-import { HelpModel, IssueModel, InitHelpTypes } from './resume/resume-data.model';
+import { HelpModel, IssueModel } from './resume/resume-data.model';
+import { CommandNames } from './command/command-names.model';
 
 export const CONSTANTS = {
   KEY_CODES: {
@@ -11,8 +12,18 @@ export const CONSTANTS = {
   CLI_OPTIONS: {
     NAME: 'resume',
     INIT_HELP: true,
+    ACTIVE_COMMANDS: {
+      [CommandNames.Random]: false,
+      [CommandNames.Help]: false,
+      [CommandNames.Education]: false,
+      [CommandNames.Skills]: false,
+      [CommandNames.Links]: false,
+      [CommandNames.WorkHistory]: false,
+      [CommandNames.Issue]: false,
+      [CommandNames.Contact]: false,
+    }
   },
-  COMMAND: {
+  COMMAND_SYNTAX: {
     PARAM_PREFIX: '--',
     PARAM_KEY_VALUE_SEPARATOR: '=',
     PARAM_VALUE_SPACE_SURROUNDER: '"',
@@ -91,5 +102,9 @@ export const CONSTANTS = {
         description: 'View my work history'
       }
     ]
-  } as HelpModel
+  } as HelpModel,
+  ERROR_MESSAGES: {
+    // tslint:disable-next-line: max-line-length
+    GET_RESUME_DATA: (resumeDataUrl: string) => `Doh! Error while trying to get resume data from "${resumeDataUrl}". Please make sure this address is publicly accessible. Serenity NOW!!!`
+  }
 };
