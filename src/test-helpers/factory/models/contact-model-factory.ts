@@ -5,6 +5,7 @@ import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 export function contactModel(override?: Partial<ContactModel>): ContactModel {
   return _mergeWith({
     email: 'test email',
-    phone: 'test phone'
+    phone: 'test phone',
+    address: 'test address'
   } as ContactModel, override, replaceArrayCustomizer);
 }

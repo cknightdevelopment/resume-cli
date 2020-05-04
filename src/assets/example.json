@@ -18,11 +18,11 @@
     {
       "name": "JFK High School",
       "url": "https://www.berklee.edu",
-      "logo": "assets/images/berklee.png",
+      "logoUrl": "assets/images/berklee.png",
+      "logoHeight": "36px",
       "location": "Boston, MA",
       "start": "August 2006",
       "end": "May 2009",
-      "degree": "Music Business & Management",
       "highlights": [
         "Summa Cum Laude",
         "Dean’s List every semester"
@@ -151,6 +151,7 @@
   ],
   "contact": {
     "email": "chris02115@gmail.com",
-    "phone": "+1 (626) 660-5524"
+    "phone": "+1 (626) 660-5524",
+    "address": "123 Main St"
   }
 }

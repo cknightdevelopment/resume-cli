@@ -26,6 +26,10 @@ describe('ContactComponent', () => {
       phone: {
         link: output.query(By.css('.contact-phone a')),
         icon: output.query(By.css('.contact-phone a i'))
+      },
+      address: {
+        span: output.query(By.css('.contact-address span')),
+        icon: output.query(By.css('.contact-address span i'))
       }
     };
   }
@@ -64,7 +68,8 @@ describe('ContactComponent', () => {
   it('should display output for contact', () => {
     const contact = contactModel({
       email: 'test@email.com',
-      phone: '1234567890'
+      phone: '1234567890',
+      address: '123 Main Street'
     });
 
     mockCommandFacade.commandData.contact$.next({ contact });
@@ -84,10 +89,16 @@ describe('ContactComponent', () => {
     const phoneIconClasses = elements.phone.icon.nativeElement.classList;
     expect(phoneIconClasses).toContain('fas');
     expect(phoneIconClasses).toContain('fa-phone');
+
+    expect(elements.address.span.nativeElement.innerText).toEqual(contact.address);
+
+    const addressIconClasses = elements.address.icon.nativeElement.classList;
+    expect(addressIconClasses).toContain('fas');
+    expect(addressIconClasses).toContain('fa-map-marker-alt');
   });
 
   it('should not display phone when no phone provided', () => {
-    const contact = contactModel({ email: 'test@email.com', phone: null });
+    const contact = contactModel({ email: 'test@email.com', phone: null, address: '123 Main St' });
 
     mockCommandFacade.commandData.contact$.next({ contact });
     fixture.detectChanges();
@@ -95,10 +106,11 @@ describe('ContactComponent', () => {
     const elements = getElements();
     expect(elements.email.link).toBeTruthy();
     expect(elements.phone.link).toBeFalsy();
+    expect(elements.address.span).toBeTruthy();
   });
 
   it('should not display email when no email provided', () => {
-    const contact = contactModel({ email: null, phone: '1234567890' });
+    const contact = contactModel({ email: null, phone: '1234567890', address: '123 Main St' });
 
     mockCommandFacade.commandData.contact$.next({ contact });
     fixture.detectChanges();
@@ -106,5 +118,18 @@ describe('ContactComponent', () => {
     const elements = getElements();
     expect(elements.email.link).toBeFalsy();
     expect(elements.phone.link).toBeTruthy();
+    expect(elements.address.span).toBeTruthy();
+  });
+
+  it('should not display address when no address provided', () => {
+    const contact = contactModel({ email: 'test@email.com', phone: '1234567890', address: null });
+
+    mockCommandFacade.commandData.contact$.next({ contact });
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.email.link).toBeTruthy();
+    expect(elements.phone.link).toBeTruthy();
+    expect(elements.address.span).toBeFalsy();
   });
 });

@@ -79,7 +79,10 @@ describe('TerminalComponent', () => {
       CONSTANTS.CLI_OPTIONS.INIT_HELP = true;
       fixture.detectChanges();
 
-      expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated(createCommandText(CommandNames.Help)));
+      expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated({
+        text: createCommandText(CommandNames.Help),
+        skipHistory: true
+      }));
       expect(localStorage.setItem).toHaveBeenCalledWith(
         CONSTANTS.STORAGE_KEYS.HELP_INIT(),
         JSON.stringify(true)
@@ -122,7 +125,7 @@ describe('TerminalComponent', () => {
 
       fixture.detectChanges();
 
-      expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated(commandText));
+      expect(mockCommandFacade.dispatch).toHaveBeenCalledWith(new CommandInitiated({text: commandText, skipHistory: false }));
     });
 
     describe('history$', () => {

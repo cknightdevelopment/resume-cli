@@ -34,12 +34,17 @@ export const enum ProcessingState {
 export class ErrorState {
   readonly isError = true;
 
-  constructor(public errorMessage?: string) {}
+  constructor(public errorMessage?: string) { }
 }
 
 export interface InitializedCommand {
   text: string;
   initializedOn: Date;
+}
+
+export interface CommandInitiatedPayload {
+  text: string;
+  skipHistory?: boolean;
 }
 
 export const intitalState: CommandState = {
@@ -58,20 +63,24 @@ export function reducer(state = intitalState, action: CommandAction): CommandSta
       };
     case CommandActionTypes.CommandInitiated:
       const newCommand = {
-        text: action.payload,
+        text: action.payload.text,
         initializedOn: new Date()
       } as InitializedCommand;
 
-      let newCommandForHistory = newCommand.text ? [newCommand] : [];
+      let newCommandForHistory = [];
 
-      if (newCommand.text && state.history && state.history.length) {
-        const sortedHistory = state.history.slice().sort((a, b) => {
-          return b.initializedOn > a.initializedOn ? 1 : -1;
-        });
-        const isImmediateRepeat = ciEquals(sortedHistory[0].text, newCommand.text);
+      if (newCommand.text && !action.payload.skipHistory) {
+        newCommandForHistory.push(newCommand);
 
-        if (isImmediateRepeat) {
-          newCommandForHistory = [];
+        if (newCommand.text && state.history && state.history.length) {
+          const sortedHistory = state.history.slice().sort((a, b) => {
+            return b.initializedOn > a.initializedOn ? 1 : -1;
+          });
+          const isImmediateRepeat = ciEquals(sortedHistory[0].text, newCommand.text);
+
+          if (isImmediateRepeat) {
+            newCommandForHistory = [];
+          }
         }
       }
 

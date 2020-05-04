@@ -54,7 +54,7 @@ describe('NGRX Reducers: Command', () => {
         initializedOn: new Date()
       } as InitializedCommand;
 
-      expect(reducer(commandState, new CommandInitiated('resume test'))).toEqual({
+      expect(reducer(commandState, new CommandInitiated({ text: 'resume test' }))).toEqual({
         ...commandState,
         initializedCommand: command,
         history: [command]
@@ -70,14 +70,21 @@ describe('NGRX Reducers: Command', () => {
         initializedOn: new Date()
       } as InitializedCommand;
 
-      expect(reducer(commandState, new CommandInitiated('2')).history).toEqual([...prevHistory, command]);
+      expect(reducer(commandState, new CommandInitiated({ text: '2' })).history).toEqual([...prevHistory, command]);
     });
 
     it('should not add to history array when command text is empty', () => {
       const prevHistory = [{ text: '1', initializedOn: new Date() }];
       commandState.history = prevHistory;
 
-      expect(reducer(commandState, new CommandInitiated('')).history).toEqual(prevHistory);
+      expect(reducer(commandState, new CommandInitiated({ text: '' })).history).toEqual(prevHistory);
+    });
+
+    it('should not add to history array when command specifies to skip history', () => {
+      const prevHistory = [{ text: '1', initializedOn: new Date() }];
+      commandState.history = prevHistory;
+
+      expect(reducer(commandState, new CommandInitiated({ text: '2', skipHistory: true })).history).toEqual(prevHistory);
     });
 
     it('should add to history array when command text is a non-immediate duplicate', () => {
@@ -92,7 +99,7 @@ describe('NGRX Reducers: Command', () => {
       // adjust the new 'Date()' in the reducer to return 01/03/2019
       jasmine.clock().mockDate(new Date(2019, 0, 3));
 
-      expect(reducer(commandState, new CommandInitiated('1')).history).toEqual([...prevHistory, command]);
+      expect(reducer(commandState, new CommandInitiated({ text: '1' })).history).toEqual([...prevHistory, command]);
     });
 
     it('should not add to history array when command text is an immediate duplicate regardless of array index order ' +
@@ -101,7 +108,7 @@ describe('NGRX Reducers: Command', () => {
         const prevHistory = [{ text: 'Jan2', initializedOn: new Date(2019, 0, 2) }, { text: 'Jan1', initializedOn: new Date(2019, 0, 1) }];
         commandState.history = prevHistory;
 
-        expect(reducer(commandState, new CommandInitiated('Jan2')).history).toEqual(prevHistory);
+        expect(reducer(commandState, new CommandInitiated({ text: 'Jan2' })).history).toEqual(prevHistory);
       });
 
     it('should handle when history is falsy', () => {
@@ -112,7 +119,7 @@ describe('NGRX Reducers: Command', () => {
         initializedOn: new Date()
       } as InitializedCommand;
 
-      expect(reducer(commandState, new CommandInitiated('1')).history).toEqual([command]);
+      expect(reducer(commandState, new CommandInitiated({ text: '1' })).history).toEqual([command]);
     });
   });
 

@@ -6,5 +6,8 @@
     <div class="contact-phone" *ngIf="data?.contact?.phone">
       <a href="tel:{{data.contact.phone}}"><i class="fas fa-phone"></i>{{data.contact.phone}}</a>
     </div>
+    <div class="contact-address" *ngIf="data?.contact?.address">
+      <span><i class="fas fa-map-marker-alt"></i>{{data.contact.address}}</span>
+    </div>
   </div>
 </app-terminal-output>

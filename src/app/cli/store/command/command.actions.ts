@@ -3,7 +3,7 @@ import { RandomInputParams } from 'src/app/models/command/input/random-input-par
 import { RandomCommandExecutedModel } from 'src/app/models/command/executed/random-command-executed.model';
 import { EducationInputParams } from 'src/app/models/command/input/education-input-params.model';
 import { EducationExecutedModel } from 'src/app/models/command/executed/education-executed.model';
-import { InitializedCommand } from './command.reducers';
+import { InitializedCommand, CommandInitiatedPayload } from './command.reducers';
 import { SkillsInputParams } from 'src/app/models/command/input/skills-input-params.model';
 import { SkillsExecutedModel } from 'src/app/models/command/executed/skills-executed.model';
 import { LinksInputParams } from 'src/app/models/command/input/links-input-params.model';
@@ -54,7 +54,7 @@ export class CommandEffectsInit implements Action {
 
 export class CommandInitiated implements Action {
   readonly type = CommandActionTypes.CommandInitiated;
-  constructor(public payload: string) {}
+  constructor(public payload: CommandInitiatedPayload) {}
 }
 
 export class CommandExecutedFail implements Action {

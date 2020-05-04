@@ -1,18 +1,18 @@
 <app-terminal-output *ngIf="data?.education?.length">
   <div class="education-item" *ngFor="let edu of data.education">
-    <img [src]="edu.logo" [alt]="edu.name" height="36px" />
+    <img *ngIf="edu.logoUrl" [src]="edu.logoUrl" [alt]="edu.name" [attr.height]="edu.logoHeight || ''" />
     <div class="mt10">
       <div class="education-item--top-level">
-        <a class="education-item--link" [href]="edu.url" target="_blank">{{edu.name}}</a>
+        <a *ngIf="edu.url" class="education-item--name" [href]="edu.url" target="_blank">{{edu.name}}</a>
+        <span *ngIf="!edu.url" class="education-item--name">{{edu.name}}</span>
         <span class="education-item--location">{{edu.location}}</span>
         <span class="education-item--dates">{{edu.start}} - {{edu.end}}</span>
       </div>
-      <ul class="education-item--highlights">
-        <li>{{edu.degree}}</li>
+      <ul class="education-item--highlights" *ngIf="edu.highlights?.length">
         <li *ngFor="let highlight of edu.highlights">{{highlight}}</li>
       </ul>
     </div>
-    <div *ngIf="edu.other" class="education-item--other">
+    <div *ngIf="edu.other?.length" class="education-item--other">
       Additional Information
       <ul>
         <li *ngFor="let item of edu.other">{{item}}</li>

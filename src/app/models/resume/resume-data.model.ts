@@ -28,14 +28,14 @@ export interface CustomizableResumeDataModel extends Omit<ResumeDataModel, 'issu
 
 export interface EducationModel {
   name: string;
-  url: string;
-  logo: string;
+  url?: string;
+  logoUrl?: string;
+  logoHeight?: string;
   location: string;
   start: string;
   end: string;
-  degree: string;
-  highlights: string[];
-  other: string[];
+  highlights?: string[];
+  other?: string[];
 }
 
 export interface SkillSetModel {
@@ -66,6 +66,7 @@ export interface WorkHistoryModel {
 export class ContactModel {
   email: string;
   phone: string;
+  address: string;
 }
 
 export class IssueModel {

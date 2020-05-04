@@ -52,13 +52,13 @@ export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
     );
 
     if (CONSTANTS.CLI_OPTIONS.INIT_HELP) {
-      this.initiateCommand(createCommandText(CommandNames.Help));
+      this.initiateCommand(createCommandText(CommandNames.Help), true);
       localStorage.setItem(CONSTANTS.STORAGE_KEYS.HELP_INIT(), JSON.stringify(true));
     }
   }
 
-  initiateCommand(text: string) {
-    this.commandFacade.dispatch(new CommandInitiated(text));
+  initiateCommand(text: string, skipHistory: boolean = false) {
+    this.commandFacade.dispatch(new CommandInitiated({ text, skipHistory }));
   }
 
   clear() {

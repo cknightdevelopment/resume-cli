@@ -155,7 +155,7 @@ describe('NGRX Effects: Command', () => {
     });
 
     it('should set local storage command history with valid history items', () => {
-      actions$ = cold('a', { a: new CommandInitiated('test') });
+      actions$ = cold('a', { a: new CommandInitiated({ text: 'test' }) });
 
       effects.commandInitiated$.subscribe(x => {
         expect(localStorage.setItem).toHaveBeenCalledWith(CONSTANTS.STORAGE_KEYS.HISTORY(), JSON.stringify([
@@ -164,8 +164,15 @@ describe('NGRX Effects: Command', () => {
       });
     });
 
+    it('should ignore commands initiated that specify to skip history', () => {
+      actions$ = cold('a', { a: new CommandInitiated({ text: 'test', skipHistory: true }) });
+
+      const expected = cold('-');
+      expect(effects.commandInitiated$).toBeObservable(expected);
+    });
+
     it('should filter out command history items that are falsy, have invalid command text, or invalid initialized on date', () => {
-      actions$ = cold('a', { a: new CommandInitiated('test') });
+      actions$ = cold('a', { a: new CommandInitiated({ text: 'test' }) });
       mockCommandFacade.data.history.push({ text: 'test2', initializedOn: null });
       mockCommandFacade.data.history.push({ text: '', initializedOn: mockCommandFacade.date });
       mockCommandFacade.data.history.push(null);

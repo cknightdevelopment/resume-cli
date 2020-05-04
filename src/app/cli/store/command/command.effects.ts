@@ -2,7 +2,7 @@ import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line: max-line-length
 import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecutedSuccess, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, LinksExecuted, IssueExecuted, IssueExecutedSuccess, ContactExecuted, ContactExecutedSuccess, HelpExecuted, HelpExecutedSuccess } from './command.actions';
-import { withLatestFrom, map, tap } from 'rxjs/operators';
+import { withLatestFrom, map, tap, filter } from 'rxjs/operators';
 import { CommandService } from 'src/app/core/command/command.service';
 import { CommandFacade } from './command.facade';
 import { ResumeFacade } from 'src/app/store/resume/resume.facade';
@@ -47,6 +47,7 @@ export class CommandEffects {
 
   @Effect({ dispatch: false }) commandInitiated$ = this.actions$.pipe(
     ofType<CommandInitiated>(CommandActionTypes.CommandInitiated),
+    filter(action => !action.payload.skipHistory),
     withLatestFrom(this.commandFacade.history$),
     tap(([action, history]) => {
       // whenever history changes, update the local storage

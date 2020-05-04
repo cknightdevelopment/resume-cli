@@ -21,9 +21,13 @@ describe('EducationComponent', () => {
     return output
       ? {
         logo: output.query(By.css('.education-item img')),
+        nameLink: output.query(By.css('.education-item a.education-item--name')),
+        nameSpan: output.query(By.css('.education-item span.education-item--name')),
         location: output.query(By.css('.education-item--location')),
         dates: output.query(By.css('.education-item--dates')),
+        highlightsContainer: output.query(By.css('.education-item--highlights')),
         highlights: output.queryAll(By.css('.education-item--highlights li')),
+        otherContainer: output.query(By.css('.education-item--other')),
         other: output.queryAll(By.css('.education-item--other ul li')),
       }
       : null;
@@ -67,16 +71,68 @@ describe('EducationComponent', () => {
     fixture.detectChanges();
 
     const elements = getElements();
-    expect(elements.logo.nativeElement.getAttribute('src')).toEqual(edu.logo);
+    expect(elements.logo.nativeElement.getAttribute('src')).toEqual(edu.logoUrl);
     expect(elements.logo.nativeElement.getAttribute('alt')).toEqual(edu.name);
+    expect(elements.logo.nativeElement.getAttribute('height')).toEqual(edu.logoHeight);
     expect(elements.location.nativeElement.innerText).toEqual(edu.location);
     expect(elements.dates.nativeElement.innerText).toEqual(`${edu.start} - ${edu.end}`);
-    expect(elements.highlights[0].nativeElement.innerText).toEqual(edu.degree);
     edu.highlights.forEach((highlight, i) => {
-      expect(elements.highlights[i + 1].nativeElement.innerText).toEqual(highlight);
+      expect(elements.highlights[i].nativeElement.innerText).toEqual(highlight);
     });
     edu.other.forEach((o, i) => {
       expect(elements.other[i].nativeElement.innerText).toEqual(o);
     });
+  });
+
+  it('should not display logo if not provided', () => {
+    const edu = factory.educationModel({ logoUrl: null });
+    mockCommandFacade.commandData.education$.next({ education: [edu] });
+
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.logo).toBeFalsy();
+  });
+
+  it('should not display name span if url is provided', () => {
+    const edu = factory.educationModel({ url: 'http://college.com' });
+    mockCommandFacade.commandData.education$.next({ education: [edu] });
+
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.nameLink).toBeTruthy();
+    expect(elements.nameSpan).toBeFalsy();
+  });
+
+  it('should not display name link if url is not provided', () => {
+    const edu = factory.educationModel({ url: null });
+    mockCommandFacade.commandData.education$.next({ education: [edu] });
+
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.nameLink).toBeFalsy();
+    expect(elements.nameSpan).toBeTruthy();
+  });
+
+  it('should not display highlights section if not provided', () => {
+    const edu = factory.educationModel({ highlights: [] });
+    mockCommandFacade.commandData.education$.next({ education: [edu] });
+
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.highlightsContainer).toBeFalsy();
+  });
+
+  it('should not display other section if not provided', () => {
+    const edu = factory.educationModel({ other: [] });
+    mockCommandFacade.commandData.education$.next({ education: [edu] });
+
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.otherContainer).toBeFalsy();
   });
 });
