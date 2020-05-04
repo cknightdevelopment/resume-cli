@@ -9,4 +9,9 @@
   .education-item--other {
     margin-left: 20px;
   }
+
+  &:not(:first-of-type) {
+    border-top: 1px dotted white;
+    padding-top: 10px;
+  }
 }

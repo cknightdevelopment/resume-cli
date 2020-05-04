@@ -1,157 +1,116 @@
 {
   "options": {
-    "cliName": "costanza",
-    "initHelp": "always"
+    "cliName": "gump",
+    "initHelp": "first"
   },
   "facts": [
-    "My secret ATM code was \"Bosco\"",
-    "My parents are Frank and Estelle",
-    "Sometimes I tell people that I'm an architect",
-    "I would drape myself in velvet if it was social acceptable",
-    "I bought a car previouslt owned by Jon Voight",
-    "I developed back problems because of my oversized wallet",
-    "I won a \"contest\"",
-    "My favorite author is Art Vandelay, who wrote \"Venetian Blinds\"",
-    "I once ate an eclair out of the trash can"
+    "I taught Elvis Presley how to dance",
+    "I had braces on my legs when I was a kid",
+    "I drank 15 Dr Peppers in one day",
+    "I have met the president 3 times",
+    "I can assemble a M14 rifle really quickly",
+    "My friend Bubba taught me all about shrimpin'",
+    "Most important thing I learned in Vietnam was to take care of your feet",
+    "I went to the People's Republic of China during the Ping-Pong Diplomacy period",
+    "The Watergate scandal was discovered by a call I made to the hotel front desk",
+    "I have run across the United States several times",
+    "My son's name is also Forrest"
   ],
   "education": [
     {
-      "name": "JFK High School",
-      "url": "https://www.berklee.edu",
-      "logoUrl": "assets/images/berklee.png",
-      "logoHeight": "36px",
-      "location": "Boston, MA",
-      "start": "August 2006",
-      "end": "May 2009",
+      "name": "Greenbow High School",
+      "location": "Greenbow, AL",
+      "start": "Fall 1958",
+      "end": "Spring 1962",
       "highlights": [
-        "Summa Cum Laude",
-        "Dean’s List every semester"
+        "Graduated",
+        "Found a seat on the school bus",
+        "Recruited by Univeristy of Alabama to play football"
       ],
       "other": [
-        "Worked as a tour guide at the college for two years"
+        "Had a best friend named Jenny"
+      ]
+    },
+    {
+      "name": "University of Alabama",
+      "url": "https://www.ua.edu/",
+      "logoUrl": "https://www.ua.edu/assets/img/ua-square-logo-100x100.png",
+      "logoHeight": "100px",
+      "location": "Tuscaloosa, AL",
+      "start": "Fall 1962",
+      "end": "Spring 1966",
+      "highlights": [
+        "Played football as a kick returner",
+        "All-American Football team member (1963)"
+      ],
+      "other": [
+        "Visited Jenny at her all girl's college"
       ]
     }
   ],
   "skills": [
     {
-      "title": "Languages",
+      "title": "Skills",
       "maxRating": 5,
       "ratings": [
-        { "name": "JavaScript", "rating": 5 },
-        { "name": "TypeScript", "rating": 5 },
-        { "name": "HTML", "rating": 4.5 },
-        { "name": "CSS", "rating": 4.5 },
-        { "name": "LESS/SCSS", "rating": 4.5 },
-        { "name": "C#", "rating": 4 },
-        { "name": "SQL", "rating": 3.5 }
+        { "name": "Running", "rating": 4 },
+        { "name": "Weapon assembly", "rating": 3.5 },
+        { "name": "Shrimp fishing", "rating": 5 },
+        { "name": "Grass cutting", "rating": 4 },
+        { "name": "Ping pong", "rating": 5 }
       ]
     },
     {
-      "title": "Frameworks & Libraries",
+      "title": "Other",
       "maxRating": 5,
       "ratings": [
-        { "name": "Angular", "rating": 5 },
-        { "name": "AngularJS", "rating": 4.5 },
-        { "name": "Node", "rating": 4 },
-        { "name": "Express", "rating": 4 },
-        { "name": "Native Script", "rating": 4 },
-        { "name": "Docker", "rating": 3.5 },
-        { "name": "ASP.NET MVC", "rating": 4.5 },
-        { "name": ".NET Core", "rating": 4 }
-      ]
-    },
-    {
-      "title": "Other Technical Skills",
-      "maxRating": 5,
-      "ratings": [
-        { "name": "Git", "rating": 5 },
-        { "name": "Slack", "rating": 5 },
-        { "name": "VS Code", "rating": 5 },
-        { "name": "Zoom", "rating": 5 },
-        { "name": "Postman", "rating": 4 },
-        { "name": "MS Office", "rating": 4.5 },
-        { "name": "Terminal", "rating": 4 },
-        { "name": "CI/CD", "rating": 4 }
-      ]
-    },
-    {
-      "title": "Non-Technical Skills",
-      "maxRating": 5,
-      "ratings": [
-        { "name": "Cooperation", "rating": 5 },
-        { "name": "Taking Ownership", "rating": 5 },
-        { "name": "Working Remotely", "rating": 5 },
-        { "name": "Continuous Learning", "rating": 4.5 },
-        { "name": "Curiosity", "rating": 4.5 },
-        { "name": "Mentoring", "rating": 4 }
+        { "name": "IQ", "rating": 0.5 },
+        { "name": "Bladder control", "rating": 1 },
+        { "name": "Making conversation", "rating": 4.5 }
       ]
     }
   ],
   "links": [
-    { "title": "GitHub", "icon": "fab fa-github", "url": "https://github.com/cknightdevelopment" },
-    { "title": "Stack Overflow", "icon": "fab fa-stack-overflow", "url": "https://stackoverflow.com/users/1359239/chris-knight" },
-    { "title": "YouTube", "icon": "fab fa-youtube", "url": "https://www.youtube.com/channel/UCpnEzs1pVZ7k5FaAPAeDBdA" },
-    { "title": "Blog", "icon": "fas fa-blog", "url": "https://knightcodes.com/" },
-    { "title": "Resume Download", "icon": "far fa-file", "url": "https://www.dropbox.com/s/5h2f0bg2z4ux3ia/Chris%20Knight%20Resume.docx?dl=1" }
+    { "title": "Learn about Ping Pong", "icon": "fas fa-table-tennis", "url": "https://en.wikipedia.org/wiki/Table_tennis" },
+    { "title": "Fruit company I invested in", "icon": "fab fa-apple", "url": "https://www.apple.com/" },
+    { "title": "'Run' to this link", "icon": "fas fa-running", "url": "https://www.runnersworld.com/" }
   ],
   "workHistory": [
     {
-      "employer": "Affinitiv",
-      "position": "Senior Software Engineer",
-      "start": "October 2015",
-      "end": "January 2020",
+      "employer": "Greenbow City of Fathers",
+      "position": "Groundskeeper",
+      "start": "1979",
+      "end": "Present",
       "details": [
-        "Worked on a distributed team of over 250 engineers on a CMS system for car dealerships. Worked primarily in JavaScript, TypeScript, CSS, HTML, Angular, Node, C#, and SQL.",
-        "Member of core team for green field project to build a new mobile-first web application for dealership employees to manage customer data. Built application in Angular and making use of the Nrwl ecosystem libraries, mono-repo pattern, and implemented NgRx patterns for the application developers to extend. Designed and developed a large set of custom user controls to be used throughout the application by multiple teams, which had over 97% unit test coverage. Trained other teams on Angular best practices, coding standards, etc.",
-        "Lead engineer on a project to create a custom data access layer (“DAL”) for our applications to retrieve data from our SQL database. The DAL would be auto generated after inspection of the SQL schema, procedures, etc. The generated DAL included request/response models, methods to call stored procedures, scalar function, and table valued functions, re-try logic, logging, concurrent queries, etc.  We also developed utilities for team members to update their local databases based off of database changes checked into Git, and generation of update scripts for deployments. This DAL became the primary method at the company to interact with the database.",
-        "Lead a development effort in building a re-usable utility library to be used across all projects at Auto Loop. This library included hundreds of decoupled methods that were non-domain specific, allowing them to be used for common tasks and procedures regardless of the project type. This library had a very high percentage of test coverage utilizing unit tests, which were required to pass upon checking in commits."
+        "Cut grass on a Snapper ridind mower.",
+        "And 'cause I was gazillionaire and I liked doing it so much, I cut that grass for free"
       ]
     },
     {
-      "employer": "Public Storage",
-      "position": "Senior Software Engineer",
-      "start": "January 2014",
-      "end": "October 2015",
+      "employer": "Independent",
+      "position": "Runner",
+      "start": "1976",
+      "end": "1979",
       "details": [
-        "Developed a single page web application for tracking and managing statutory license permits for all Public Storage locations. This web application was built using AngularJS, Bootstrap, and Underscore on the front-end, utilizing a RESTful Web API web service layer and a SQL Server 2012 database. This project also included a set of nightly jobs to notify managers of details concerning license renewal and expiration.",
-        "Developed a universal RESTful web service to be utilized across several applications within the business, including a public facing website, call center, IVR system, and in-store CRM system. Previously each system had its own independent set of web services, leading to duplicated code and longer development cycles. This new service received tens of millions of requests each day and averaged a sub 250ms response time per request. The web service was developed using ASP.NET Web API, .NET Framework 4.5, and Entity Framework using a SQL Server 2012 database."
+        "I just felt like running.",
+        "Helped to inspire the smiley face T-shirt.",
+        "Lead marketing effort for \"5h!t happens\" bumper sticker."
       ]
     },
     {
-      "employer": "Spruce Media, LLC",
-      "position": "Software Engineer",
-      "start": "August 2012",
-      "end": "December 2013",
+      "employer": "Bubba Gump Shrimp",
+      "position": "Shrimp Boat Captain",
+      "start": "1973",
+      "end": "1975",
       "details": [
-        "Worked on the development and maintenance needs of the application code, web-based tools, servers, and databases in our core SaaS products that integrate with the Facebook API ecosystem. This included code maintenance in all layers of the .NET application stack, database optimization, deployments, and general platform stability.",
-        "Developed a transaction logging system to assist in proactive identification of issues and more robust data-gathering, without causing performance degradation. This system sent alerts to both business users and developers informing them of potential issues in the system.",
-        "Contributed in technical efforts involved with issue/bug troubleshooting, identification, and ultimate resolution with the core SaaS products and other supporting systems for both internal and external users. This involved work within a wide spectrum of technologies and platforms, from front end JavaScript coding, to database updates and server issues."
-      ]
-    },
-    {
-      "employer": "Gursey Schneider LLP",
-      "position": "Web Developer",
-      "start": "March 2010",
-      "end": "July 2012",
-      "details": [
-        "Worked as part of a five-member development team on several large-scale web and desktop application projects. This involved the gathering of technical/business requirements, planning, coding, testing, and deployment of custom applications using technologies such as C#, VB, MVC3+, ASP.NET, .NET Framework 3.5+, LINQ, Entity Framework, SQL, HTML/XHTML, CSS, JavaScript, AJAX, jQuery, web services, etc.",
-        "Built a modularized staff availability platform using C#, ASP.NET MVC 4, SQL, jQuery, and the .NET Quartz API. This platform allowed real time availability tracking for the law office partners to determine which staff members were available to work on new cases, and also included the ability to auto-assign cases to staff based on their availability, experience, etc."
-      ]
-    },
-    {
-      "employer": "Experian QAS",
-      "position": "Professional Services Consultant",
-      "start": "May 2009",
-      "end": "February 2010",
-      "details": [
-        "Worked with premier customers to install software in Windows and Linux environments, consulting developers with the coding of custom integrations using the Experian QAS API’s and web services, project management of deployments from a technical standpoint, and offering general technical assistance to clients",
-        "Supported sales account managers and business development managers with the technical aspects of the sales process and partner agreements"
+        "Named my boat \"Jenny\".",
+        "After Hurricane Carmen ran through Bayou La Batres, we were the only boat left. After that, shrimpin' was easy."
       ]
     }
   ],
   "contact": {
-    "email": "chris02115@gmail.com",
-    "phone": "+1 (626) 660-5524",
-    "address": "123 Main St"
+    "email": "runforrestrun@bubbagumpshrimp.com",
+    "phone": "+1 (205) 955-1217",
+    "address": "12 Hickory Lane, Greenbow, AL, 35442"
   }
 }

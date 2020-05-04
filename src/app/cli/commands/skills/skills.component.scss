@@ -3,7 +3,8 @@
   flex-wrap: wrap;
 
   .skill-set-container {
-    flex: 1 0 275px;
+    flex: 0 0 275px;
+    margin-right: 75px;
 
     .skill-set-title {
       margin: 5px 0;
@@ -13,13 +14,13 @@
       display: flex;
       background-color: black;
       padding: 5px 0;
-      align-items: center;
+      align-items: flex-start;
       line-height: 15px;
 
       .skill-name {
         color: white;
         margin-right: 20px;
-        flex: 0 0 100px;
+        flex: 0 0 150px;
       }
 
       .skill-rating-item {
