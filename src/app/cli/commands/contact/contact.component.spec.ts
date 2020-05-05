@@ -19,6 +19,10 @@ describe('ContactComponent', () => {
     const output = fixture.debugElement.query(By.css(`${SELECTORS.TERMINAL_OUTPUT} .contact-container`));
 
     return {
+      name: {
+        span: output.query(By.css('.contact-name span')),
+        icon: output.query(By.css('.contact-name span i'))
+      },
       email: {
         link: output.query(By.css('.contact-email a')),
         icon: output.query(By.css('.contact-email a i'))
@@ -67,6 +71,7 @@ describe('ContactComponent', () => {
 
   it('should display output for contact', () => {
     const contact = contactModel({
+      fullName: 'Test Name',
       email: 'test@email.com',
       phone: '1234567890',
       address: '123 Main Street'
@@ -76,58 +81,77 @@ describe('ContactComponent', () => {
     fixture.detectChanges();
 
     const elements = getElements();
-    expect(elements.email.link.nativeElement.innerText).toEqual(contact.email);
-    expect(elements.email.link.nativeElement.getAttribute('href')).toEqual(`mailto:${contact.email}`);
+
+    const nameIconClasses = elements.name.icon.nativeElement.classList;
+    expect(elements.name.span.nativeElement.innerText).toEqual(contact.fullName);
+    expect(nameIconClasses).toContain('far');
+    expect(nameIconClasses).toContain('fa-user');
 
     const emailIconClasses = elements.email.icon.nativeElement.classList;
+    expect(elements.email.link.nativeElement.innerText).toEqual(contact.email);
+    expect(elements.email.link.nativeElement.getAttribute('href')).toEqual(`mailto:${contact.email}`);
     expect(emailIconClasses).toContain('far');
     expect(emailIconClasses).toContain('fa-envelope');
 
+    const phoneIconClasses = elements.phone.icon.nativeElement.classList;
     expect(elements.phone.link.nativeElement.innerText).toEqual(contact.phone);
     expect(elements.phone.link.nativeElement.getAttribute('href')).toEqual(`tel:${contact.phone}`);
-
-    const phoneIconClasses = elements.phone.icon.nativeElement.classList;
     expect(phoneIconClasses).toContain('fas');
     expect(phoneIconClasses).toContain('fa-phone');
 
-    expect(elements.address.span.nativeElement.innerText).toEqual(contact.address);
-
     const addressIconClasses = elements.address.icon.nativeElement.classList;
+    expect(elements.address.span.nativeElement.innerText).toEqual(contact.address);
     expect(addressIconClasses).toContain('fas');
     expect(addressIconClasses).toContain('fa-map-marker-alt');
   });
 
-  it('should not display phone when no phone provided', () => {
-    const contact = contactModel({ email: 'test@email.com', phone: null, address: '123 Main St' });
+  it('should not display name when no name provided', () => {
+    const contact = contactModel({ fullName: null, email: 'test@email.com', phone: '1234567890', address: '123 Main St' });
 
     mockCommandFacade.commandData.contact$.next({ contact });
     fixture.detectChanges();
 
     const elements = getElements();
+    expect(elements.name.span).toBeFalsy();
+    expect(elements.email.link).toBeTruthy();
+    expect(elements.phone.link).toBeTruthy();
+    expect(elements.address.span).toBeTruthy();
+  });
+
+  it('should not display phone when no phone provided', () => {
+    const contact = contactModel({ fullName: 'Test Name', email: 'test@email.com', phone: null, address: '123 Main St' });
+
+    mockCommandFacade.commandData.contact$.next({ contact });
+    fixture.detectChanges();
+
+    const elements = getElements();
+    expect(elements.name.span).toBeTruthy();
     expect(elements.email.link).toBeTruthy();
     expect(elements.phone.link).toBeFalsy();
     expect(elements.address.span).toBeTruthy();
   });
 
   it('should not display email when no email provided', () => {
-    const contact = contactModel({ email: null, phone: '1234567890', address: '123 Main St' });
+    const contact = contactModel({ fullName: 'Test Name', email: null, phone: '1234567890', address: '123 Main St' });
 
     mockCommandFacade.commandData.contact$.next({ contact });
     fixture.detectChanges();
 
     const elements = getElements();
+    expect(elements.name.span).toBeTruthy();
     expect(elements.email.link).toBeFalsy();
     expect(elements.phone.link).toBeTruthy();
     expect(elements.address.span).toBeTruthy();
   });
 
   it('should not display address when no address provided', () => {
-    const contact = contactModel({ email: 'test@email.com', phone: '1234567890', address: null });
+    const contact = contactModel({ fullName: 'Test Name', email: 'test@email.com', phone: '1234567890', address: null });
 
     mockCommandFacade.commandData.contact$.next({ contact });
     fixture.detectChanges();
 
     const elements = getElements();
+    expect(elements.name.span).toBeTruthy();
     expect(elements.email.link).toBeTruthy();
     expect(elements.phone.link).toBeTruthy();
     expect(elements.address.span).toBeFalsy();

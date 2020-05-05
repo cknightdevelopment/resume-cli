@@ -1,5 +1,8 @@
 <app-terminal-output>
   <div class="contact-container">
+    <div class="contact-name" *ngIf="data?.contact?.fullName">
+      <span><i class="far fa-user"></i>{{data.contact.fullName}}</span>
+    </div>
     <div class="contact-email" *ngIf="data?.contact?.email">
       <a href="mailto:{{data.contact.email}}"><i class="far fa-envelope"></i>{{data.contact.email}}</a>
     </div>

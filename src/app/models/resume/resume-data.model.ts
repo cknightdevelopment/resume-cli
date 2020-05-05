@@ -64,6 +64,7 @@ export interface WorkHistoryModel {
 }
 
 export class ContactModel {
+  fullName: string;
   email: string;
   phone: string;
   address: string;

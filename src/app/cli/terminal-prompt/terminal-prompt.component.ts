@@ -117,9 +117,4 @@ export class TerminalPromptComponent implements OnInit {
   private resetHistoryPosition() {
     this.historyOrdinal = null;
   }
-
-  private triggerResize() {
-    this.ngZone.onStable.pipe(take(1))
-      .subscribe(() => this.autosize.resizeToFitContent(true));
-  }
 }
