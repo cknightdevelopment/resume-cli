@@ -33,7 +33,7 @@ class MockResumeService {
     cliName: 'test',
     initHelp: InitHelpTypes.Always
   } as CliOptionsModel;
-  facts = [
+  random = [
     'Resume does Crossfit.',
     'Resume went to music school for bass guitar.',
     'Resume loves stand up comedy.',
@@ -53,7 +53,7 @@ class MockResumeService {
 
     return of({
       options: this.options,
-      facts: this.facts,
+      random: this.random,
       education: this.edu,
       skills: this.skills,
       links: this.links,
@@ -105,7 +105,7 @@ describe('NGRX Effects: Resume', () => {
 
     const expected = cold('a', {
       a: new LoadResumeDataSuccess({
-        facts: resumeSvc.facts,
+        facts: resumeSvc.random,
         education: resumeSvc.edu,
         skills: resumeSvc.skills,
         links: resumeSvc.links,
@@ -126,7 +126,7 @@ describe('NGRX Effects: Resume', () => {
     actions$ = cold('a', { a: new LoadResumeData() });
     const expected = cold('a', {
       a: new LoadResumeDataSuccess({
-        facts: resumeSvc.facts,
+        facts: resumeSvc.random,
         education: resumeSvc.edu,
         skills: resumeSvc.skills,
         links: resumeSvc.links,
@@ -147,7 +147,7 @@ describe('NGRX Effects: Resume', () => {
     actions$ = cold('a', { a: new LoadResumeData() });
     const expected = cold('a', {
       a: new LoadResumeDataSuccess({
-        facts: resumeSvc.facts,
+        facts: resumeSvc.random,
         education: resumeSvc.edu,
         skills: resumeSvc.skills,
         links: resumeSvc.links,

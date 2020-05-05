@@ -52,7 +52,7 @@ export class ResumeEffects {
     ),
     tap(data => this.updateConstantsCliOptions(data)),
     map(data => new LoadResumeDataSuccess({
-      facts: data.facts,
+      facts: data.random,
       education: data.education,
       skills: data.skills,
       links: data.links,
@@ -65,7 +65,7 @@ export class ResumeEffects {
 
   private updateConstantsCliOptions(data: CustomizableResumeDataModel): void {
     CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS = {
-      [CommandNames.Random]: data && !!data.facts && !!data.facts.length,
+      [CommandNames.Random]: data && !!data.random && !!data.random.length,
       [CommandNames.Education]: data && data.education && !!data.education.length,
       [CommandNames.Skills]: data && data.skills && !!data.skills.length,
       [CommandNames.Links]: data && data.links && !!data.links.length,

@@ -2,7 +2,7 @@ import { CommandNames } from '../command/command-names.model';
 
 export interface ResumeDataModel {
   options: CliOptionsModel;
-  facts: string[];
+  random: string[];
   education: EducationModel[];
   skills: SkillSetModel[];
   links: LinkModel[];

@@ -31,7 +31,7 @@ describe('ResumeService', () => {
   });
 
   it('should get data from from provided url', () => {
-    const response = { facts: ['Fact1', 'Fact2'] } as ResumeDataModel;
+    const response = { random: ['Fact1', 'Fact2'] } as ResumeDataModel;
     const resumeDataUrl = 'http://resume.com/data.json';
 
     resumeSvc.getData(resumeDataUrl).subscribe(data => expect(data).toEqual(response));
