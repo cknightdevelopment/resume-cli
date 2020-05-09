@@ -46,12 +46,12 @@ export const CONSTANTS = {
   HELP: {
     sourceCodeUrl: 'https://github.com/cknightdevelopment/resume',
     buildStatus: {
-      linkUrl: 'https://travis-ci.org/cknightdevelopment/resume',
-      imgUrl: 'https://travis-ci.org/cknightdevelopment/resume.svg?branch=master'
+      linkUrl: 'https://travis-ci.org/cknightdevelopment/resume-cli',
+      imgUrl: 'https://travis-ci.org/cknightdevelopment/resume-cli.svg?branch=master'
     },
     coverageStatus: {
-      linkUrl: 'https://coveralls.io/github/cknightdevelopment/resume?branch=master',
-      imgUrl: 'https://coveralls.io/repos/github/cknightdevelopment/resume/badge.svg?branch=master'
+      linkUrl: 'https://coveralls.io/github/cknightdevelopment/resume-cli?branch=master',
+      imgUrl: 'https://coveralls.io/repos/github/cknightdevelopment/resume-cli/badge.svg?branch=master'
     },
     commands: [
       {

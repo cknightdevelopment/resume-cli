@@ -1,4 +1,4 @@
 # Resume CLI
 
-[![Build Status](https://travis-ci.org/cknightdevelopment/resume.svg?branch=master)](https://travis-ci.org/cknightdevelopment/resume) [![Coverage Status](https://coveralls.io/repos/github/cknightdevelopment/resume/badge.svg?branch=master)](https://coveralls.io/github/cknightdevelopment/resume?branch=master)
+[![Build Status](https://travis-ci.org/cknightdevelopment/resume-cli.svg?branch=master)](https://travis-ci.org/cknightdevelopment/resume-cli) [![Coverage Status](https://coveralls.io/repos/github/cknightdevelopment/resume-cli/badge.svg?branch=master)](https://coveralls.io/github/cknightdevelopment/resume-cli?branch=master)
 
