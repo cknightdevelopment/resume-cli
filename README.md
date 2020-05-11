@@ -38,7 +38,7 @@ https://www.resumecli.com?resumeDataUrl=https://www.resumecli.com/assets/example
 
 ## <a id="schema"></a> JSON Schema
 
-The easiest way to construct your JSON data is to download our sample file and update it with your own information. If you need more granular detail on the JSON schema you can download our JSON schema file.
+The easiest way to construct your JSON data is to download our [sample file](https://github.com/cknightdevelopment/resume-cli/blob/master/src/assets/example.json) and update it with your own information. If you need more granular detail on the JSON schema you can download our [JSON schema file](https://github.com/cknightdevelopment/resume-cli/blob/master/resume-data-schema.json).
 
 Pretty much all of the JSON properties should be self-explainable, but here are a few helpful tips:
 
