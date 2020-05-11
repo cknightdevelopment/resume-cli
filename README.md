@@ -15,7 +15,7 @@ https://resumecli.com
 
 ## <a id="overview"></a> Overview
 
-Technology professionals need to have a resume that stands out among the crowd. Resume CLI can be one step toward that goal by providing a command line interface (CLI) version of your resume, which employers and hiring managers can use to learn more about you. In addition to your traditional resume you supply to companies, Resume CLI is a fun and interactive way for you to stand out among the other applicants. Users can run the following commands to learn more about you:
+Technology professionals need to have a resume that stands out among the crowd. Resume CLI can be one step toward that goal by providing an online command line interface (CLI) version of your resume, which employers and hiring managers can use to learn more about you. In addition to your traditional resume you supply to companies, Resume CLI is a fun and interactive way for you to stand out among the other applicants. Users can run the following commands to learn more about you:
 
 - `contact` - Find ways to contact you
 - `education` - Learn about your education
