@@ -1,7 +1,7 @@
 <app-terminal-output *ngIf="data?.links">
   <div class="links-container">
     <div *ngFor="let link of data?.links" class="link-container">
-      <i [ngClass]="link.icon"></i>
+      <i [ngClass]="link.iconClass"></i>
       <a [href]="link.url" target="_blank">{{link.title}}</a>
     </div>
   </div>

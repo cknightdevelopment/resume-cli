@@ -1,0 +1,221 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/CustomizableResumeDataModel",
+  "definitions": {
+      "CustomizableResumeDataModel": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+              "options": {
+                  "$ref": "#/definitions/CliOptionsModel"
+              },
+              "random": {
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  }
+              },
+              "education": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/EducationModel"
+                  }
+              },
+              "skills": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/SkillSetModel"
+                  }
+              },
+              "links": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/LinkModel"
+                  }
+              },
+              "workHistory": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/WorkHistoryModel"
+                  }
+              },
+              "contact": {
+                  "$ref": "#/definitions/ContactModel"
+              }
+          }
+      },
+      "CliOptionsModel": {
+          "type": "object",
+          "properties": {
+              "cliName": {
+                  "type": "string",
+                  "default": "resume"
+              },
+              "initHelp": {
+                  "$ref": "#/definitions/InitHelpTypes"
+              }
+          },
+          "additionalProperties": false
+      },
+      "InitHelpTypes": {
+          "type": "string",
+          "enum": [
+              "always",
+              "never",
+              "first"
+          ],
+          "default": "always"
+      },
+      "EducationModel": {
+          "type": "object",
+          "properties": {
+              "name": {
+                  "type": "string"
+              },
+              "url": {
+                  "type": "string"
+              },
+              "logoUrl": {
+                  "type": "string"
+              },
+              "logoHeight": {
+                  "type": "string"
+              },
+              "location": {
+                  "type": "string"
+              },
+              "start": {
+                  "type": "string"
+              },
+              "end": {
+                  "type": "string"
+              },
+              "highlights": {
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  }
+              },
+              "other": {
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  }
+              }
+          },
+          "required": [
+              "name",
+              "location",
+              "start",
+              "end"
+          ],
+          "additionalProperties": false
+      },
+      "SkillSetModel": {
+          "type": "object",
+          "properties": {
+              "title": {
+                  "type": "string"
+              },
+              "maxRating": {
+                  "type": "number"
+              },
+              "ratings": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/SkillRatingModel"
+                  }
+              }
+          },
+          "required": [
+              "title",
+              "maxRating",
+              "ratings"
+          ],
+          "additionalProperties": false
+      },
+      "SkillRatingModel": {
+          "type": "object",
+          "properties": {
+              "name": {
+                  "type": "string"
+              },
+              "rating": {
+                  "type": "number"
+              }
+          },
+          "required": [
+              "name",
+              "rating"
+          ],
+          "additionalProperties": false
+      },
+      "LinkModel": {
+          "type": "object",
+          "properties": {
+              "title": {
+                  "type": "string"
+              },
+              "url": {
+                  "type": "string"
+              },
+              "iconClass": {
+                  "type": "string"
+              }
+          },
+          "required": [
+              "title",
+              "url"
+          ],
+          "additionalProperties": false
+      },
+      "WorkHistoryModel": {
+          "type": "object",
+          "properties": {
+              "employer": {
+                  "type": "string"
+              },
+              "position": {
+                  "type": "string"
+              },
+              "start": {
+                  "type": "string"
+              },
+              "end": {
+                  "type": "string"
+              },
+              "details": {
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  }
+              }
+          },
+          "required": [
+              "employer",
+              "position",
+              "start",
+              "end"
+          ],
+          "additionalProperties": false
+      },
+      "ContactModel": {
+          "type": "object",
+          "properties": {
+              "fullName": {
+                  "type": "string"
+              },
+              "email": {
+                  "type": "string"
+              },
+              "phone": {
+                  "type": "string"
+              },
+              "address": {
+                  "type": "string"
+              }
+          },
+          "additionalProperties": false
+      }
+  }
+}

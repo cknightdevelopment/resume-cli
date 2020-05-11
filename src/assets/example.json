@@ -1,7 +1,7 @@
 {
   "options": {
     "cliName": "gump",
-    "initHelp": "first"
+    "initHelp": "always"
   },
   "random": [
     "I taught Elvis Presley how to dance",
@@ -71,9 +71,9 @@
     }
   ],
   "links": [
-    { "title": "Learn about Ping Pong", "icon": "fas fa-table-tennis", "url": "https://en.wikipedia.org/wiki/Table_tennis" },
-    { "title": "Fruit company I invested in", "icon": "fab fa-apple", "url": "https://www.apple.com/" },
-    { "title": "'Run' to this link", "icon": "fas fa-running", "url": "https://www.runnersworld.com/" }
+    { "title": "Learn about Ping Pong", "iconClass": "fas fa-table-tennis", "url": "https://en.wikipedia.org/wiki/Table_tennis" },
+    { "title": "Fruit company I invested in", "iconClass": "fab fa-apple", "url": "https://www.apple.com/" },
+    { "title": "'Run' to this link", "iconClass": "fas fa-running", "url": "https://www.runnersworld.com/" }
   ],
   "workHistory": [
     {

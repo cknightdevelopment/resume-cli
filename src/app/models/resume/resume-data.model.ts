@@ -1,29 +1,27 @@
-import { CommandNames } from '../command/command-names.model';
-
 export interface ResumeDataModel {
-  options: CliOptionsModel;
-  random: string[];
-  education: EducationModel[];
-  skills: SkillSetModel[];
-  links: LinkModel[];
-  workHistory: WorkHistoryModel[];
-  contact: ContactModel;
+  options?: CliOptionsModel;
+  random?: string[];
+  education?: EducationModel[];
+  skills?: SkillSetModel[];
+  links?: LinkModel[];
+  workHistory?: WorkHistoryModel[];
+  contact?: ContactModel;
   issue: IssueModel;
   help: HelpModel;
 }
 
+export interface CustomizableResumeDataModel extends Omit<ResumeDataModel, 'issue' | 'help'> {
+}
+
 export interface CliOptionsModel {
-  cliName: string;
-  initHelp: InitHelpTypes;
+  cliName?: string;
+  initHelp?: InitHelpTypes;
 }
 
 export enum InitHelpTypes {
   Always = 'always',
   Never = 'never',
   First = 'first'
-}
-
-export interface CustomizableResumeDataModel extends Omit<ResumeDataModel, 'issue' | 'help'> {
 }
 
 export interface EducationModel {
@@ -52,7 +50,7 @@ export interface SkillRatingModel {
 export interface LinkModel {
   title: string;
   url: string;
-  icon: string;
+  iconClass?: string;
 }
 
 export interface WorkHistoryModel {
@@ -60,14 +58,14 @@ export interface WorkHistoryModel {
   position: string;
   start: string;
   end: string;
-  details: string[];
+  details?: string[];
 }
 
 export class ContactModel {
-  fullName: string;
-  email: string;
-  phone: string;
-  address: string;
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
 }
 
 export class IssueModel {

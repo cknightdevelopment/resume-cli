@@ -4,7 +4,7 @@ import { replaceArrayCustomizer } from 'src/test-helpers/factory-helpers';
 
 export function linkModel(override?: Partial<LinkModel>): LinkModel {
   return _mergeWith({
-    icon: 'test icon',
+    iconClass: 'test icon class',
     title: 'test title',
     url: 'test url'
   } as LinkModel, override, replaceArrayCustomizer);

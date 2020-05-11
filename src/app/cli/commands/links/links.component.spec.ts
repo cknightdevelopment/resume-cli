@@ -64,8 +64,8 @@ describe('LinksComponent', () => {
 
   it('should display output for links', () => {
     const links = [
-      linkModel({ icon: 'icon1', title: 'title1', url: 'url1' }),
-      linkModel({ icon: 'icon2', title: 'title2', url: 'url2' })
+      linkModel({ iconClass: 'icon1', title: 'title1', url: 'url1' }),
+      linkModel({ iconClass: 'icon2', title: 'title2', url: 'url2' })
     ];
 
     mockCommandFacade.commandData.links$.next({ links });
@@ -74,7 +74,7 @@ describe('LinksComponent', () => {
     const elements = getElements();
     expect(elements.length).toEqual(2);
     elements.forEach((x, i) => {
-      expect(x.icon.nativeElement.classList).toContain(links[i].icon);
+      expect(x.icon.nativeElement.classList).toContain(links[i].iconClass);
       expect(x.link.nativeElement.getAttribute('href')).toEqual(links[i].url);
       expect(x.link.nativeElement.innerText).toEqual(links[i].title);
     });
