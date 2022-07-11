@@ -18,7 +18,7 @@ import { LoadResumeDataSuccess } from 'src/app/store/resume/resume.actions';
 class MockCommandService {
   facts = ['Fact1', 'Fact2'];
 
-  getRandomFacts(): string[] {
+  getRandomFacts(count: number, allFacts: string[], usedFacts: string[]): string[] {
     return this.facts;
   }
 }

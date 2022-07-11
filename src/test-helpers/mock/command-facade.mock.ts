@@ -8,6 +8,7 @@ import { WorkHistoryExecutedModel } from 'src/app/models/command/executed/work-h
 import { ContactExecutedModel } from 'src/app/models/command/executed/contact-executed.model';
 import { IssueExecutedModel } from 'src/app/models/command/executed/issue-executed.model';
 import { HelpExecutedModel } from 'src/app/models/command/executed/help-executed.model';
+import { CommandAction } from 'src/app/cli/store/command/command.actions';
 
 export class MockCommandFacade {
   initializedCommand$ = new Subject<InitializedCommand>();
@@ -23,5 +24,5 @@ export class MockCommandFacade {
     help$: new Subject<HelpExecutedModel>()
   };
 
-  dispatch() {}
+  dispatch(action: CommandAction) {}
 }

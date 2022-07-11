@@ -1,4 +1,4 @@
-import { Actions, Effect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line: max-line-length
 import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecutedSuccess, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, LinksExecuted, IssueExecuted, IssueExecutedSuccess, ContactExecuted, ContactExecutedSuccess, HelpExecuted, HelpExecutedSuccess } from './command.actions';
@@ -21,7 +21,7 @@ export class CommandEffects {
     private commandSvc: CommandService
   ) { }
 
-  @Effect() resumeDataLoaded$ = this.actions$.pipe(
+  resumeDataLoaded$ = createEffect(() => this.actions$.pipe(
     ofType<LoadResumeDataSuccess>(ResumeActionTypes.LoadResumeDataSuccess),
     map(() => {
       let history = [] as InitializedCommand[];
@@ -43,9 +43,9 @@ export class CommandEffects {
       }
       return new CommandEffectsInit(history);
     }),
-  );
+  ));
 
-  @Effect({ dispatch: false }) commandInitiated$ = this.actions$.pipe(
+  commandInitiated$ = createEffect(() => this.actions$.pipe(
     ofType<CommandInitiated>(CommandActionTypes.CommandInitiated),
     filter(action => !action.payload.skipHistory),
     withLatestFrom(this.commandFacade.history$),
@@ -60,9 +60,9 @@ export class CommandEffects {
 
       localStorage.setItem(CONSTANTS.STORAGE_KEYS.HISTORY(), JSON.stringify(storageHistory));
     })
-  );
+  ), { dispatch: false });
 
-  @Effect() random$ = this.actions$.pipe(
+  random$ = createEffect(() => this.actions$.pipe(
     ofType<RandomExecuted>(CommandActionTypes.RandomExecuted),
     withLatestFrom(this.resumeFacade.facts$, this.commandFacade.usedFacts$),
     map(([action, allFacts, usedFacts]) => {
@@ -72,61 +72,61 @@ export class CommandEffects {
 
       return new RandomExecutedSuccess({ facts: result });
     })
-  );
+  ));
 
-  @Effect() education$ = this.actions$.pipe(
+  education$ = createEffect(() => this.actions$.pipe(
     ofType<EducationExecuted>(CommandActionTypes.EducationExecuted),
     withLatestFrom(this.resumeFacade.education$),
     map(([action, education]) => {
       return new EducationExecutedSuccess({ education });
     })
-  );
+  ));
 
-  @Effect() skills$ = this.actions$.pipe(
+  skills$ = createEffect(() => this.actions$.pipe(
     ofType<EducationExecuted>(CommandActionTypes.SkillsExecuted),
     withLatestFrom(this.resumeFacade.skills$),
     map(([action, skills]) => {
       return new SkillsExecutedSuccess({ skills });
     })
-  );
+  ));
 
-  @Effect() links$ = this.actions$.pipe(
+  links$ = createEffect(() => this.actions$.pipe(
     ofType<LinksExecuted>(CommandActionTypes.LinksExecuted),
     withLatestFrom(this.resumeFacade.links$),
     map(([action, links]) => {
       return new LinksExecutedSuccess({ links });
     })
-  );
+  ));
 
-  @Effect() workHistory$ = this.actions$.pipe(
+  workHistory$ = createEffect(() => this.actions$.pipe(
     ofType<WorkHistoryExecuted>(CommandActionTypes.WorkHistoryExecuted),
     withLatestFrom(this.resumeFacade.workHistory$),
     map(([action, workHistory]) => {
       return new WorkHistoryExecutedSuccess({ workHistory });
     })
-  );
+  ));
 
-  @Effect() issue$ = this.actions$.pipe(
+  issue$ = createEffect(() => this.actions$.pipe(
     ofType<IssueExecuted>(CommandActionTypes.IssueExecuted),
     withLatestFrom(this.resumeFacade.issue$),
     map(([action, issue]) => {
       return new IssueExecutedSuccess({ issue: { url: issue.url, title: action.payload.title } });
     })
-  );
+  ));
 
-  @Effect() contact$ = this.actions$.pipe(
+  contact$ = createEffect(() => this.actions$.pipe(
     ofType<ContactExecuted>(CommandActionTypes.ContactExecuted),
     withLatestFrom(this.resumeFacade.contact$),
     map(([action, contact]) => {
       return new ContactExecutedSuccess({ contact });
     })
-  );
+  ));
 
-  @Effect() help$ = this.actions$.pipe(
+  help$ = createEffect(() => this.actions$.pipe(
     ofType<HelpExecuted>(CommandActionTypes.HelpExecuted),
     withLatestFrom(this.resumeFacade.help$),
     map(([action, help]) => {
       return new HelpExecutedSuccess({ help });
     })
-  );
+  ));
 }
