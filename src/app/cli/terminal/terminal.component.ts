@@ -21,7 +21,7 @@ import { InitHelpTypes } from 'src/app/models/resume/resume-data.model';
   encapsulation: ViewEncapsulation.None
 })
 export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
-  @ViewChild('resumeTerminal', { static: false }) private terminalElement: ElementRef;
+  @ViewChild('resumeTerminal') private terminalElement: ElementRef;
   commands: TerminalCommandOutputParam[] = [];
   history$: Observable<InitializedCommand[]>;
 

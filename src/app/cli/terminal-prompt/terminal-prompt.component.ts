@@ -16,7 +16,7 @@ import { InitializedCommand } from '../store/command/command.reducers';
 })
 export class TerminalPromptComponent implements OnInit {
   @ViewChild('terminalInput', { static: true }) terminalInput: ElementRef;
-  @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   @Input() styles: TerminalNgStyle;
   @Input() history: InitializedCommand[];
