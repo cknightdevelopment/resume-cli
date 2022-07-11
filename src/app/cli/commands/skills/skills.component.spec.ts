@@ -56,7 +56,7 @@ describe('SkillsComponent', () => {
     component = fixture.componentInstance;
 
     component.params = {};
-    mockCommandFacade = TestBed.get(CommandFacade);
+    mockCommandFacade = TestBed.inject(CommandFacade) as any;
     dispatchSpy = spyOn(mockCommandFacade, 'dispatch');
 
     fixture.detectChanges();

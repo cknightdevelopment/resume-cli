@@ -24,8 +24,8 @@ describe('NGRX Facade: Resume', () => {
       ]
     });
 
-    mockStore = TestBed.get(Store);
-    facade = TestBed.get(ResumeFacade);
+    mockStore = TestBed.inject(Store) as any;
+    facade = TestBed.inject(ResumeFacade) as any;
   });
 
   it('should dispatch actions', () => {

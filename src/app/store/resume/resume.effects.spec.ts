@@ -81,9 +81,9 @@ describe('NGRX Effects: Resume', () => {
       ],
     });
 
-    effects = TestBed.get(ResumeEffects);
-    resumeSvc = TestBed.get(ResumeService);
-    router = TestBed.get(Router);
+    effects = TestBed.inject(ResumeEffects) as any;
+    resumeSvc = TestBed.inject(ResumeService) as any;
+    router = TestBed.inject(Router) as any;
     spyOn(resumeSvc, 'getData').and.callThrough();
   });
 

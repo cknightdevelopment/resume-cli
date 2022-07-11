@@ -45,7 +45,7 @@ describe('CommandParserService', () => {
       ]
     });
 
-    parserSvc = TestBed.get(CommandParserService);
+    parserSvc = TestBed.inject(CommandParserService) as any;
     enableAllCommands();
   });
 

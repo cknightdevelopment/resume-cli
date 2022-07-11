@@ -22,8 +22,8 @@ describe('NGRX Facade: Terminal', () => {
       ]
     });
 
-    mockStore = TestBed.get(Store);
-    facade = TestBed.get(TerminalFacade);
+    mockStore = TestBed.inject(Store) as any;
+    facade = TestBed.inject(TerminalFacade) as any;
   });
 
   it('should dispatch actions', () => {

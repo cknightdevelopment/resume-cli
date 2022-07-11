@@ -39,7 +39,7 @@ describe('RandomCommandComponent', () => {
     component = fixture.componentInstance;
 
     component.params = { count: 3 };
-    mockCommandFacade = TestBed.get(CommandFacade);
+    mockCommandFacade = TestBed.inject(CommandFacade) as any;
     dispatchSpy = spyOn(mockCommandFacade, 'dispatch');
 
     fixture.detectChanges();
