@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UnsubscribeOnDestroy } from './unsubscribe-on-destroy';
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
+import { UnsubscribeOnDestroyDirective } from './unsubscribe-on-destroy';
+import { waitForAsync, TestBed, ComponentFixture } from '@angular/core/testing';
 import { Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-root',
   template: ''
 })
-export class MockComponent extends UnsubscribeOnDestroy implements OnInit {
+export class MockComponent extends UnsubscribeOnDestroyDirective implements OnInit {
   obs$ = new Subject();
   isObsComplete = false;
 
@@ -23,7 +23,7 @@ describe('UnsubscribeOnDestroy', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         MockComponent

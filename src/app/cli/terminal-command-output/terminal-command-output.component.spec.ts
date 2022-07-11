@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TerminalCommandOutputComponent } from './terminal-command-output.component';
 import { By } from '@angular/platform-browser';
@@ -38,7 +38,7 @@ describe('TerminalCommandOutputComponent', () => {
     };
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         MockModule

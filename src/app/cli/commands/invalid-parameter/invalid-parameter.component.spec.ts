@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InvalidParameterComponent } from './invalid-parameter.component';
 import { TestModule } from 'src/test-helpers/test.modules';
@@ -16,7 +16,7 @@ describe('InvalidParameterComponent', () => {
     };
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       declarations: [ InvalidParameterComponent ]

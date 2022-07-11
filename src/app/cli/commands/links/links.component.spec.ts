@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MockCommandFacade } from 'src/test-helpers/mock/command-facade.mock';
 import { By } from '@angular/platform-browser';
@@ -31,7 +31,7 @@ describe('LinksComponent', () => {
     return output && result;
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [

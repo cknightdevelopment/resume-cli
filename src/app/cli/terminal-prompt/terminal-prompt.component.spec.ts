@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TerminalPromptComponent } from './terminal-prompt.component';
 import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
@@ -21,7 +21,7 @@ describe('TerminalPromptComponent', () => {
     };
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       declarations: [TerminalPromptComponent]
