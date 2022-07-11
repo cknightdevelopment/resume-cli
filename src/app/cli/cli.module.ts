@@ -65,9 +65,6 @@ const commandComponents = [
   providers: [
     TerminalFacade,
     CommandFacade
-  ],
-  entryComponents: [
-    ...commandComponents
   ]
 })
 export class CliModule { }

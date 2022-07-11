@@ -20,9 +20,6 @@ class MockCommandComponent implements CommandComponent<MockCommandComponent> {
 
 @NgModule({
   declarations: [MockCommandComponent],
-  entryComponents: [
-    MockCommandComponent,
-  ],
   imports: [
     CommonModule
   ]
