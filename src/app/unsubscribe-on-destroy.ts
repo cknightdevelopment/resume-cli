@@ -1,6 +1,7 @@
-import { OnDestroy } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
+@Directive()
 export abstract class UnsubscribeOnDestroy implements OnDestroy {
   private destroySub$ = new Subject<void>();
   public destroy$: Observable<void>;
