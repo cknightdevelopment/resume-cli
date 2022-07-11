@@ -46,8 +46,8 @@ export const CONSTANTS = {
   HELP: {
     sourceCodeUrl: 'https://github.com/cknightdevelopment/resume',
     buildStatus: {
-      linkUrl: 'https://travis-ci.org/cknightdevelopment/resume-cli',
-      imgUrl: 'https://travis-ci.org/cknightdevelopment/resume-cli.svg?branch=master'
+      linkUrl: 'https://app.travis-ci.com/cknightdevelopment/resume-cli',
+      imgUrl: 'https://app.travis-ci.com/cknightdevelopment/resume-cli.svg?branch=master'
     },
     coverageStatus: {
       linkUrl: 'https://coveralls.io/github/cknightdevelopment/resume-cli?branch=master',
