@@ -18,8 +18,8 @@ describe('ResumeService', () => {
       ]
     });
 
-    resumeSvc = TestBed.get(ResumeService);
-    httpMock = TestBed.get(HttpTestingController);
+    resumeSvc = TestBed.inject(ResumeService) as any;
+    httpMock = TestBed.inject(HttpTestingController) as any;
   });
 
   afterEach(() => {

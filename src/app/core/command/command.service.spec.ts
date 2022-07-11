@@ -16,7 +16,7 @@ describe('CommandService', () => {
       ]
     });
 
-    commandSvc = TestBed.get(CommandService);
+    commandSvc = TestBed.inject(CommandService) as any;
   });
 
   it('should be created', () => {

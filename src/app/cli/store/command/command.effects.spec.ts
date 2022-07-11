@@ -78,10 +78,10 @@ describe('NGRX Effects: Command', () => {
       ],
     });
 
-    effects = TestBed.get(CommandEffects);
-    mockCommandSvc = TestBed.get(CommandService);
-    mockCommandFacade = TestBed.get(CommandFacade);
-    mockResumeFacade = TestBed.get(ResumeFacade);
+    effects = TestBed.inject(CommandEffects) as any;
+    mockCommandSvc = TestBed.inject(CommandService) as any;
+    mockCommandFacade = TestBed.inject(CommandFacade) as any;
+    mockResumeFacade = TestBed.inject(ResumeFacade) as any;
   });
 
   it('should be created', () => {

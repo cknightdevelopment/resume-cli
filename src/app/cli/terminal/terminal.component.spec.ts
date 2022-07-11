@@ -67,8 +67,8 @@ describe('TerminalComponent', () => {
     fixture = TestBed.createComponent(TerminalComponent);
     component = fixture.componentInstance;
     promptComponent = fixture.debugElement.query(By.directive(TerminalPromptComponent)).componentInstance;
-    mockCommandFacade = TestBed.get(CommandFacade);
-    mockCommandParserSvc = TestBed.get(CommandParserService);
+    mockCommandFacade = TestBed.inject(CommandFacade) as any;
+    mockCommandParserSvc = TestBed.inject(CommandParserService) as any;
 
     spyOn(mockCommandFacade, 'dispatch');
     spyOn(localStorage, 'setItem');

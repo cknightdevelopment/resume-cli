@@ -27,8 +27,8 @@ describe('NGRX Facade: Command', () => {
       ]
     });
 
-    mockStore = TestBed.get(Store);
-    facade = TestBed.get(CommandFacade);
+    mockStore = TestBed.inject(Store) as any;
+    facade = TestBed.inject(CommandFacade) as any;
   });
 
   it('should dispatch actions', () => {

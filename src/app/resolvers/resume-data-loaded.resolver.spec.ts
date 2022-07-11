@@ -22,8 +22,8 @@ describe('ResumeDataLoadedResolver', () => {
       ],
     });
 
-    resolver = TestBed.get(ResumeDataLoadedResolver);
-    resumeFacade = TestBed.get(ResumeFacade);
+    resolver = TestBed.inject(ResumeDataLoadedResolver) as any;
+    resumeFacade = TestBed.inject(ResumeFacade) as any;
   });
 
   it('should resolve and complete subscription once help data is available', () => {
