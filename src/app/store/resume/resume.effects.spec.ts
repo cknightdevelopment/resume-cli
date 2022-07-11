@@ -99,7 +99,7 @@ describe('NGRX Effects: Resume', () => {
     const preEventExpected = cold('-');
 
     expect(effects.loadStaticData$).toBeObservable(preEventExpected);
-    expect(resumeSvc.getData).not.toHaveBeenCalledWith();
+    expect(resumeSvc.getData).not.toHaveBeenCalledWith(undefined);
 
     router.emitResolveStartEvent();
 

@@ -26,7 +26,7 @@ export function toReplayEventEmitter<T>(
   options: ReplayEventEmitterOptions = defaultOptions
 ): void {
   const replaySubject = new ReplaySubject<T>(options.buffer);
-  // tslint:disable-next-line: no-string-literal
+  // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
   replaySubject['emit'] = replaySubject.next;
   component[key] = replaySubject as any;
 }

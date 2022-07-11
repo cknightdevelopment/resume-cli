@@ -54,7 +54,7 @@ describe('command text util', () => {
 
     it('should return full command when when command and arguments are provided', () => {
       expect(createCommandText('test', { key: 'value' })).toEqual(
-        // tslint:disable-next-line: max-line-length
+        // eslint-disable-next-line max-len
         `${CONSTANTS.CLI_OPTIONS.NAME} test ${CONSTANTS.COMMAND_SYNTAX.PARAM_PREFIX}key${CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR}value`
       );
     });

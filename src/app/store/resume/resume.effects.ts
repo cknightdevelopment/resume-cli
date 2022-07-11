@@ -1,4 +1,4 @@
-import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
+import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map, mergeMap, tap, filter, catchError } from 'rxjs/operators';
 import { LoadResumeData, LoadResumeDataSuccess, ResumeActionTypes } from './resume.actions';
@@ -15,13 +15,12 @@ export class ResumeEffects {
   constructor(private actions$: Actions, private resumeDataSvc: ResumeService, private router: Router) {
   }
 
-  @Effect()
-  init$ = this.actions$.pipe(
+  init$ = createEffect(() => this.actions$.pipe(
     ofType(ROOT_EFFECTS_INIT),
     map(() => new LoadResumeData())
-  );
+  ));
 
-  @Effect() loadStaticData$ = this.actions$.pipe(
+ loadStaticData$ = createEffect(() => this.actions$.pipe(
     ofType(ResumeActionTypes.LoadResumeData),
     mergeMap(() => {
       return this.router.events.pipe(
@@ -39,7 +38,7 @@ export class ResumeEffects {
 
       return this.resumeDataSvc.getData(resumeDataUrl).pipe(
         catchError(err => {
-          // tslint:disable-next-line: max-line-length
+          // eslint-disable-next-line max-len
           const message = CONSTANTS.ERROR_MESSAGES.GET_RESUME_DATA(resumeDataUrl);
 
           alert(message);
@@ -61,7 +60,7 @@ export class ResumeEffects {
       issue: CONSTANTS.ISSUE,
       help: CONSTANTS.HELP
     }))
-  );
+  ));
 
   private updateConstantsCliOptions(data: CustomizableResumeDataModel): void {
     CONSTANTS.CLI_OPTIONS.ACTIVE_COMMANDS = {

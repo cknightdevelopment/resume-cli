@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Action } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { CommandEffects } from './command.effects';
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecuted, SkillsExecutedSuccess, LinksExecuted, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, ContactExecuted, ContactExecutedSuccess, IssueExecuted, IssueExecutedSuccess, HelpExecuted, HelpExecutedSuccess } from './command.actions';
 import { CommandService } from 'src/app/core/command/command.service';
 import * as factory from 'src/test-helpers/factory/models';
@@ -18,7 +18,7 @@ import { LoadResumeDataSuccess } from 'src/app/store/resume/resume.actions';
 class MockCommandService {
   facts = ['Fact1', 'Fact2'];
 
-  getRandomFacts(): string[] {
+  getRandomFacts(count: number, allFacts: string[], usedFacts: string[]): string[] {
     return this.facts;
   }
 }

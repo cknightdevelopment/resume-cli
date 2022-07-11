@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '..';
 import { CommandAction } from './command.actions';
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { selectHistory, selectInitializedCommand, selectRandomExecutionData, selectUsedFacts, selectEducationExecutionData, selectSkillsExecutionData, selectLinksExecutionData, selectWorkHistoryExecutionData, selectContactExecutionData, selectIssueExecutionData, selectHelpExecutionData } from './command.selectors';
 
 @Injectable()

@@ -43,7 +43,7 @@ describe('UnknownCommandComponent', () => {
     const elements = getElements();
     expect(elements.output.nativeElement.classList).toContain('command-output-text--error');
     expect(elements.output.nativeElement.innerText).toEqual(
-      // tslint:disable-next-line: max-line-length
+      // eslint-disable-next-line max-len
       `${CONSTANTS.CLI_OPTIONS.NAME}: 'testcommand' is not a ${CONSTANTS.CLI_OPTIONS.NAME} command. See '${CONSTANTS.CLI_OPTIONS.NAME} ${CommandNames.Help}'.`
     );
   });

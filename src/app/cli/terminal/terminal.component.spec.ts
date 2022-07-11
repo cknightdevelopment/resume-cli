@@ -26,7 +26,7 @@ class MockCommandParserService {
     params: { test: 123 } as any
   };
 
-  parseCommand(): ParsedCommandInput {
+  parseCommand(command: string): ParsedCommandInput {
     return MockCommandParserService.parsedCommandToReturn;
   }
 }

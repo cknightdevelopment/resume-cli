@@ -1,4 +1,4 @@
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { Component, OnInit, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy, Input, Output, EventEmitter, ViewEncapsulation, HostListener } from '@angular/core';
 import { CONSTANTS } from 'src/app/models/constants';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
