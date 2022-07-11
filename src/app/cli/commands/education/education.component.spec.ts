@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestModule } from 'src/test-helpers/test.modules';
 import { By } from '@angular/platform-browser';
@@ -33,7 +33,7 @@ describe('EducationComponent', () => {
       : null;
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [

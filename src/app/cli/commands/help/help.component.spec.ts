@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HelpComponent } from './help.component';
 import { TestModule } from 'src/test-helpers/test.modules';
@@ -44,7 +44,7 @@ describe('HelpComponent', () => {
     };
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [

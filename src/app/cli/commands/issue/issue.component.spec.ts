@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockCommandFacade } from 'src/test-helpers/mock/command-facade.mock';
 import { By } from '@angular/platform-browser';
 import { SELECTORS } from 'src/test-helpers/common-selectors';
@@ -15,7 +15,7 @@ describe('IssueComponent', () => {
   let dispatchSpy: jasmine.Spy;
   let mockCommandFacade: MockCommandFacade;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [

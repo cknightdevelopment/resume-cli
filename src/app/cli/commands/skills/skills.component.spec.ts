@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkillsComponent } from './skills.component';
 import { MockCommandFacade } from 'src/test-helpers/mock/command-facade.mock';
@@ -39,7 +39,7 @@ describe('SkillsComponent', () => {
     return output && result;
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [

@@ -4,7 +4,7 @@ import { CommandFacade } from '../store/command/command.facade';
 import { CommandInitiated } from '../store/command/command.actions';
 import { takeUntil, filter, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { InitializedCommand } from '../store/command/command.reducers';
-import { UnsubscribeOnDestroy } from 'src/app/unsubscribe-on-destroy';
+import { UnsubscribeOnDestroyDirective } from 'src/app/unsubscribe-on-destroy';
 import { Observable } from 'rxjs';
 import { CommandParserService } from 'src/app/core/command/command-parser/command-parser.service';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
@@ -20,7 +20,7 @@ import { InitHelpTypes } from 'src/app/models/resume/resume-data.model';
   styleUrls: ['./terminal.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
+export class TerminalComponent extends UnsubscribeOnDestroyDirective implements OnInit {
   @ViewChild('resumeTerminal') private terminalElement: ElementRef;
   commands: TerminalCommandOutputParam[] = [];
   history$: Observable<InitializedCommand[]>;
