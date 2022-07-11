@@ -3,7 +3,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 
 
-const selectCli = createFeatureSelector<AppState, CliState>('cli');
+const selectCli = createFeatureSelector<CliState>('cli');
 
 const selectCommand = createSelector(
   selectCli,

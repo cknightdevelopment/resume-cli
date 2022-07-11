@@ -4,7 +4,7 @@ import { TerminalState } from './terminal.reducers';
 import { AppState } from 'src/app/store';
 
 
-export const selectCli = createFeatureSelector<AppState, CliState>('cli');
+export const selectCli = createFeatureSelector<CliState>('cli');
 
 export const selectTerminal = createSelector(
   selectCli,
