@@ -1,4 +1,4 @@
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { isValidNumberString, isPositiveInteger, ciEquals, ciIncludes, getRandomArrayIndex, updateItemIndex, isValidDate, uuidv4 } from './util';
 import { uniq as _uniq } from 'lodash';
 

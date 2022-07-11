@@ -302,7 +302,7 @@ export class CommandParserService {
 
         mergedString = mergedString
           // remove leading quote after equal sign
-          // tslint:disable-next-line: max-line-length
+          // eslint-disable-next-line max-len
           .replace(`${CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR}${CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER}`, CONSTANTS.COMMAND_SYNTAX.PARAM_KEY_VALUE_SEPARATOR)
           // substring to not include the trailing quote
           .substring(0, mergedString.length - 2);
@@ -315,7 +315,7 @@ export class CommandParserService {
           // replace any escaped quotes with simple quotes
           .replace(new RegExp(/\\/, 'g'), uuid)
           .replace(
-            // tslint:disable-next-line: max-line-length
+            // eslint-disable-next-line max-len
             new RegExp(`${uuid}${CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER}`, 'g'), CONSTANTS.COMMAND_SYNTAX.PARAM_VALUE_SPACE_SURROUNDER
           )
           .replace(new RegExp(uuid, 'g'), '\\')

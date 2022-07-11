@@ -67,9 +67,9 @@ function getRandomInteger(min: number, max: number): number {
 
 export function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    // tslint:disable: one-variable-per-declaration
-    // tslint:disable: no-bitwise
-    // tslint:disable: triple-equals
+    /* eslint-disable one-var */
+    /* eslint-disable no-bitwise */
+    /* eslint-disable eqeqeq */
     const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });

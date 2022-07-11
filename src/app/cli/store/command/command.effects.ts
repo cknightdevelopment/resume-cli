@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { CommandActionTypes, RandomExecuted, RandomExecutedSuccess, EducationExecuted, EducationExecutedSuccess, CommandEffectsInit, CommandInitiated, SkillsExecutedSuccess, LinksExecutedSuccess, WorkHistoryExecuted, WorkHistoryExecutedSuccess, LinksExecuted, IssueExecuted, IssueExecutedSuccess, ContactExecuted, ContactExecutedSuccess, HelpExecuted, HelpExecutedSuccess } from './command.actions';
 import { withLatestFrom, map, tap, filter } from 'rxjs/operators';
 import { CommandService } from 'src/app/core/command/command.service';

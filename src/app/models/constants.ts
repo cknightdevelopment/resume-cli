@@ -104,7 +104,7 @@ export const CONSTANTS = {
     ]
   } as HelpModel,
   ERROR_MESSAGES: {
-    // tslint:disable-next-line: max-line-length
+    // eslint-disable-next-line max-len
     GET_RESUME_DATA: (resumeDataUrl: string) => `Doh! Error while trying to get resume data from "${resumeDataUrl}". Please make sure this address is publicly accessible. Serenity NOW!!!`
   }
 };

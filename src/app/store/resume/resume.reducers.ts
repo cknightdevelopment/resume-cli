@@ -1,5 +1,5 @@
 import { ResumeAction, ResumeActionTypes } from './resume.actions';
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel, HelpModel } from 'src/app/models/resume/resume-data.model';
 
 export interface ResumeState {

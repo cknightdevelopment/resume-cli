@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '..';
 import { Observable } from 'rxjs';
 import { ResumeAction } from './resume.actions';
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { selectFacts, selectEducation, selectSkills, selectLinks, selectWorkHistory, selectContact, selectIssue, selectHelp } from './resume.selectors';
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { EducationModel, SkillSetModel, LinkModel, WorkHistoryModel, ContactModel, IssueModel, HelpModel } from 'src/app/models/resume/resume-data.model';
 
 @Injectable()

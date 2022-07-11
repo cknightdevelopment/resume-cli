@@ -38,7 +38,7 @@ describe('UnsubscribeOnDestroy', () => {
   });
 
   it('should complete subscriptions using takeUntil utilizing destoy$ when item is destroyed', () => {
-    // tslint:disable-next-line: no-string-literal
+    // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
     const destroySubUnsubscribeSpy = spyOn(component['destroySub$'], 'unsubscribe');
     expect(component.isObsComplete).toBeFalsy();
     component.ngOnDestroy();

@@ -1,4 +1,4 @@
-// tslint:disable-next-line: max-line-length
+// eslint-disable-next-line max-len
 import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectionStrategy, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { ParsedCommandInput } from 'src/app/models/command/parsed-command-input.model';
 import { TerminalCommandOutputParam } from '../terminal/terminal.component';

@@ -38,7 +38,7 @@ export class ResumeEffects {
 
       return this.resumeDataSvc.getData(resumeDataUrl).pipe(
         catchError(err => {
-          // tslint:disable-next-line: max-line-length
+          // eslint-disable-next-line max-len
           const message = CONSTANTS.ERROR_MESSAGES.GET_RESUME_DATA(resumeDataUrl);
 
           alert(message);
