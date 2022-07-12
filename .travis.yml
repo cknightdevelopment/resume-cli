@@ -13,8 +13,6 @@ cache:
      - ./node_modules
 
 script:
-  # Use Chromium instead of Chrome.
-  #- export CHROME_BIN=chromium-browser
   - xvfb-run -a npm run ci
 
 after_script:
