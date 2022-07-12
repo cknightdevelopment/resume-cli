@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 os: linux
 
 language: node_js
@@ -13,9 +13,6 @@ cache:
      - ./node_modules
 
 script:
-  # Use Chromium instead of Chrome.
-  - export CHROME_BIN=chromium-browser
-  - npm install
   - xvfb-run -a npm run ci
 
 after_script:

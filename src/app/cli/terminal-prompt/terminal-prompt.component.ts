@@ -2,7 +2,6 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy, Input, Output, EventEmitter, ViewEncapsulation, HostListener } from '@angular/core';
 import { CONSTANTS } from 'src/app/models/constants';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { take } from 'rxjs/operators';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { TerminalNgStyle } from 'src/app/models/terminal-ng-style.model';
 import { InitializedCommand } from '../store/command/command.reducers';
@@ -23,16 +22,16 @@ export class TerminalPromptComponent implements OnInit {
   @Output() commandInitiated = new EventEmitter<string>();
   @Output() cleared = new EventEmitter<void>();
 
-  commandCtrl: FormControl;
+  commandCtrl: FormControl<string>;
 
   private historyOrdinal: number = null;
 
-  constructor(private ngZone: NgZone, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
   }
 
   ngOnInit() {
     this.terminalInput.nativeElement.focus();
-    this.commandCtrl = this.fb.control(null);
+    this.commandCtrl = this.fb.control<string>(null);
   }
 
   @HostListener('document:keydown', ['$event'])
