@@ -14,7 +14,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "git push heroku master",
-    "ci": "npm run lint && npm run test:ci && npm run build",
+    "ci": "npm run lint && npm list --depth=0 && npm run test:ci && npm run build",
     "open:github": "open https://github.com/cknightdevelopment/resume",
     "open:ci": "open https://app.travis-ci.com/github/cknightdevelopment/resume-cli",
     "open:coverage": "open https://coveralls.io/github/cknightdevelopment/resume-cli?branch=master"
