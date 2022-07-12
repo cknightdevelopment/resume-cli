@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenail
 os: linux
 
 language: node_js
